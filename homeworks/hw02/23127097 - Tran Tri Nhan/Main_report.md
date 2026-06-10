@@ -247,6 +247,16 @@ Bug screenshots:
 
 # 6. Agent skill
 
+Agent skill is located inside the `agent skills` folder.
+
+In order to use this skill, copy it to project-level skills folders(`.github/skills`, `.claude/skills`, `.agents/skills`) or copy it to personal skills folders(`~/.copilot/skills`, `~/.claude/skills`, `~/.agents/skills`)
+
+More details about agent skills usage in Visual Studio Code can be found at: [Use Agent Skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+
+Demonstration videos:
+
+[Youtube demo video](https://youtu.be/LPnUhkKk2Ik)
+
 # 7. Appendix
 
 ## Appendix A
