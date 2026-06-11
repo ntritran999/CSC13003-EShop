@@ -31,61 +31,62 @@ The below are the completes sets of test cases for each feature that I selected 
 
 ### Pool A: FR-01: Đăng ký tài khoản
 
-| Test ID | Objective                                                                                                 | Input                                                                                                    | Test step                                                                                                          | Expected Result                            | Actual Result | Verdict |
-|---------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------|---------------|---------|
-| TC-01   | Verify that the registration is successful with correct inputs.                                           | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login |               |         |
-| TC-02   | Verify that the registration is rejected when the full name field is empty.                               | Full Name: <br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@<br>          | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Full Name required                  |               |         |
-| TC-03   | Verify that the registration is rejected when the email field is empty.                                   | Full Name: Nguyen Van A<br>Email:<br>Password: Abc1234@<br>Confirm password: Abc1234@                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email required                      |               |         |
-| TC-04   | Verify that the registration is rejected when the email field has invalid format.                         | Full Name: Nguyen Van A<br>Email: abcgmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@       | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid email format                |               |         |
-| TC-05   | Verify that the registration is rejected when the email already exists.                                   | Full Name: Nguyen Van A<br>Email: test@eshop.com<br>Password: Abc1234@<br>Confirm password: Abc1234@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email already exists                |               |         |
-| TC-06   | Verify that the registration is rejected when the password field is empty.                                | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password:<br>Confirm password:                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password required                   |               |         |
-| TC-07   | Verify that the registration is rejected when the password length is less than 8.                         | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1@<br>Confirm password: Abc1@        | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password too short                  |               |         |
-| TC-08   | Verify that the registration is rejected when the password has no uppercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: abc1234@<br>Confirm password: abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing uppercase letter            |               |         |
-| TC-09   | Verify that the registration is rejected when the password has no lowercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: ABC1234@<br>Confirm password: ABC1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing lowercase letter            |               |         |
-| TC-10   | Verify that the registration is rejected when the password has no digits.                                 | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abcdefg@<br>Confirm password: Abcdefg@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing digit                       |               |         |
-| TC-11   | Verify that the registration is rejected when the password has no special character.                      | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345<br>Confirm password: Abc12345  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing special character           |               |         |
-| TC-12   | Verify that the registration is rejected when the password has the special character that is not allowed. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234#<br>Confirm password: Abc1234#  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid special character           |               |         |
-| TC-13   | Verify that the registration is rejected when the confirm password field is empty.                        | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password:           | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Confirm Password required           |               |         |
-| TC-14   | Verify that the registration is rejected when the confirm password field and the password field mismatch. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Passwords do not match              |               |         |
+| Test ID | Objective                                                                                                 | Input                                                                                                    | Test step                                                                                                          | Expected Result                            | Actual Result                        | Verdict |
+|---------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------|---------|
+| TC-01   | Verify that the registration is successful with correct inputs.                                           | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login | There was no confirm password field. | FAILED  |
+| TC-02   | Verify that the registration is rejected when the full name field is empty.                               | Full Name: <br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@<br>          | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Full Name required                  | There was no confirm password field. | FAILED  |
+| TC-03   | Verify that the registration is rejected when the email field is empty.                                   | Full Name: Nguyen Van A<br>Email:<br>Password: Abc1234@<br>Confirm password: Abc1234@                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email required                      | There was no confirm password field. | FAILED  |
+| TC-04   | Verify that the registration is rejected when the email field has invalid format.                         | Full Name: Nguyen Van A<br>Email: abcgmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@       | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid email format                | There was no confirm password field. | FAILED  |
+| TC-05   | Verify that the registration is rejected when the email already exists.                                   | Full Name: Nguyen Van A<br>Email: test@eshop.com<br>Password: Abc1234@<br>Confirm password: Abc1234@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email already exists                | There was no confirm password field. | FAILED  |
+| TC-06   | Verify that the registration is rejected when the password field is empty.                                | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password:<br>Confirm password:                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password required                   | There was no confirm password field. | FAILED  |
+| TC-07   | Verify that the registration is rejected when the password length is less than 8.                         | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1@<br>Confirm password: Abc1@        | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password too short                  | There was no confirm password field. | FAILED  |
+| TC-08   | Verify that the registration is rejected when the password has no uppercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: abc1234@<br>Confirm password: abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing uppercase letter            | There was no confirm password field. | FAILED  |
+| TC-09   | Verify that the registration is rejected when the password has no lowercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: ABC1234@<br>Confirm password: ABC1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing lowercase letter            | There was no confirm password field. | FAILED  |
+| TC-10   | Verify that the registration is rejected when the password has no digits.                                 | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abcdefg@<br>Confirm password: Abcdefg@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing digit                       | There was no confirm password field. | FAILED  |
+| TC-11   | Verify that the registration is rejected when the password has no special character.                      | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345<br>Confirm password: Abc12345  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing special character           | There was no confirm password field. | FAILED  |
+| TC-12   | Verify that the registration is rejected when the password has the special character that is not allowed. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234#<br>Confirm password: Abc1234#  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid special character           | There was no confirm password field. | FAILED  |
+| TC-13   | Verify that the registration is rejected when the confirm password field is empty.                        | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password:           | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Confirm Password required           | There was no confirm password field. | FAILED  |
+| TC-14   | Verify that the registration is rejected when the confirm password field and the password field mismatch. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Passwords do not match              | There was no confirm password field. | FAILED  |
 
 ### Pool B: FR-07: Giỏ hàng (Shopping Cart)
 
-| Test ID | Objective                                                                                                    | Preconditions                              | Input          | Test step                                                                                              | Expected Result                                                        | Actual Result | Verdict |
-|---------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------|----------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|---------------|---------|
-| TC-01   | Verify that  new product is added succesfully to an empty cart.                                              | Cart is empty                              |                | 1. Open the product.<br>2. Set quantity = 1.<br>3. Click add to cart button.                           | Product appears in the cart.<br>Quantity = 1.<br>New cart row created. |               |         |
-| TC-02   | Verify that new row is not created when adding the same product again.                                       | Cart contains a product with quantity = 1. |                | 1. Open the same product again.<br>2. Add quantity = 1.                                                | No new row created.<br>Quantity becomes 2.<br>Total updated.           |               |         |
-| TC-03   | Verify that the product remains if cancel is selected when the product deletion confirmation dialog appears. | Cart contains a product.                   |                | 1. Click the delete product button.<br>2. Confirmation dialog appears.<br>3. Click the cancel button.  | Product remains in the cart.<br>Quantity unchanged.                    |               |         |
-| TC-04   | Verify that the product in the cart is succesfully removed after confirmation.                               | Cart contains a product.                   |                | 1. Click the delete product button.<br>2. Confirmation dialog appears.<br>3. Click the confirm button. | Product is removed from cart.                                          |               |         |
-| TC-05   | Verify that non-integer quantity is rejected.                                                                | Cart contains a product.                   | Quantity = 1.5 | Enter the input data as quantity.                                                                      | Input rejected.                                                        |               |         |
-| TC-06   | Verify that quantity less than 1 is rejected.                                                                | Cart contains a product                    | Quantity = 0   | Enter the input data as quantity.                                                                      | Input rejected.                                                        |               |         |
+| Test ID | Objective                                                                                                    | Preconditions                              | Input          | Test step                                                                                              | Expected Result                                                        | Actual Result                                          | Verdict |
+|---------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------|----------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|--------------------------------------------------------|---------|
+| TC-01   | Verify that  new product is added succesfully to an empty cart.                                              | Cart is empty                              |                | 1. Open the product.<br>2. Set quantity = 1.<br>3. Click add to cart button.                           | Product appears in the cart.<br>Quantity = 1.<br>New cart row created. | Same as expected result.                               | PASSED  |
+| TC-02   | Verify that new row is not created when adding the same product again.                                       | Cart contains a product with quantity = 1. |                | 1. Open the same product again.<br>2. Add quantity = 1.                                                | No new row created.<br>Quantity becomes 2.<br>Total updated.           | New row created.                                       | FAILED  |
+| TC-03   | Verify that the product remains if cancel is selected when the product deletion confirmation dialog appears. | Cart contains a product.                   |                | 1. Click the delete product button.<br>2. Confirmation dialog appears.<br>3. Click the cancel button.  | Product remains in the cart.<br>Quantity unchanged.                    | No confirmation dialog shown.                          | FAILED  |
+| TC-04   | Verify that the product in the cart is succesfully removed after confirmation.                               | Cart contains a product.                   |                | 1. Click the delete product button.<br>2. Confirmation dialog appears.<br>3. Click the confirm button. | Product is removed from cart.                                          | No confirmation dialog shown.                          | FAILED  |
+| TC-05   | Verify that non-integer quantity is rejected.                                                                | Cart contains a product.                   | Quantity = 1.5 | Enter the input data as quantity.                                                                      | Input rejected.                                                        | No input field for quantity when adding a new product. | PASSED  |
+| TC-06   | Verify that quantity less than 1 is rejected.                                                                | Cart contains a product                    | Quantity = 0   | Enter the input data as quantity.                                                                      | Input rejected.                                                        | No input field for quantity when adding a new product. | PASSED  |
+
 
 ### Pool C: FR-12: Kiểm soát truy cập (Access Control)
 
-| Test ID | Objective                                                                         | Preconditions                                                                                           | Input                 | Test step                                                                      | Expected Result                                                                            | Actual Result | Verdict |
-|---------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|---------------|---------|
-| TC-01   | Verify that  access to a protected api is succesful with a valid admin JWT token. | Admin account exists:<br>  admin@eshop.com<br>  role = admin<br>Valid JWT token obtained after login.   | Valid admin JWT token | Send GET request with the valid token included to endpoint /api/admin/users.   | Request succeeds.<br>HTTP 200 OK.<br>Admin resource returned.                              |               |         |
-| TC-02   | Verify that  access to a protected api is rejected if  the JWT token is missing.  |                                                                                                         |                       | Send GET request to endpoint /api/admin/users with no JWT token included.      | Access denied.<br>Authentication error returned.<br>HTTP 401 Unauthorized (or equivalent). |               |         |
-| TC-03   | Verify that  access to a protected api is rejected if  the JWT token is invalid.  |                                                                                                         | Invalid token         | Send GET request with the invalid token included to endpoint /api/admin/users. | Access denied.<br>Invalid token error.<br>HTTP 401 Unauthorized.                           |               |         |
-| TC-04   | Verify that  access to a protected api is rejected if  the role is not 'admin'.   | User account exists:<br>  test@eshop.com<br>  role = user<br>Obtain a valid JWT token for this account. | Valid user JWT token  | Send GET request with the valid token included to endpoint /api/admin/users.   | Access denied.<br>Authorization error.<br>HTTP 403 Forbidden (or equivalent).              |               |         |
+| Test ID | Objective                                                                         | Preconditions                                                                                           | Input                 | Test step                                                                      | Expected Result                                                                            | Actual Result                                                 | Verdict |
+|---------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------|---------|
+| TC-01   | Verify that  access to a protected api is succesful with a valid admin JWT token. | Admin account exists:<br>  admin@eshop.com<br>  role = admin<br>Valid JWT token obtained after login.   | Valid admin JWT token | Send GET request with the valid token included to endpoint /api/admin/users.   | Request succeeds.<br>HTTP 200 OK.<br>Admin resource returned.                              | Same as expected                                              | PASSED  |
+| TC-02   | Verify that  access to a protected api is rejected if  the JWT token is missing.  |                                                                                                         |                       | Send GET request to endpoint /api/admin/users with no JWT token included.      | Access denied.<br>Authentication error returned.<br>HTTP 401 Unauthorized (or equivalent). | Same as expected                                              | PASSED  |
+| TC-03   | Verify that  access to a protected api is rejected if  the JWT token is invalid.  |                                                                                                         | Invalid token         | Send GET request with the invalid token included to endpoint /api/admin/users. | Access denied.<br>Invalid token error.<br>HTTP 401 Unauthorized.                           | Returned HTTP 403 Forbidden.                                  | FAILED  |
+| TC-04   | Verify that  access to a protected api is rejected if  the role is not 'admin'.   | User account exists:<br>  test@eshop.com<br>  role = user<br>Obtain a valid JWT token for this account. | Valid user JWT token  | Send GET request with the valid token included to endpoint /api/admin/users.   | Access denied.<br>Authorization error.<br>HTTP 403 Forbidden (or equivalent).              | Request succeeds.<br>HTTP 200 OK.<br>Admin resource returned. | FAILED  |
 
 ### Pool D: Mobile: Đăng ký tài khoản
 
-| Test ID | Objective                                                                                                 | Input                                                                                                    | Test step                                                                                                          | Expected Result                            | Actual Result | Verdict |
-|---------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------|---------------|---------|
-| TC-01   | Verify that the registration is successful with correct inputs.                                           | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login |               |         |
-| TC-02   | Verify that the registration is rejected when the full name field is empty.                               | Full Name: <br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@<br>          | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Full Name required                  |               |         |
-| TC-03   | Verify that the registration is rejected when the email field is empty.                                   | Full Name: Nguyen Van A<br>Email:<br>Password: Abc1234@<br>Confirm password: Abc1234@                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email required                      |               |         |
-| TC-04   | Verify that the registration is rejected when the email field has invalid format.                         | Full Name: Nguyen Van A<br>Email: abcgmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@       | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid email format                |               |         |
-| TC-05   | Verify that the registration is rejected when the email already exists.                                   | Full Name: Nguyen Van A<br>Email: test@eshop.com<br>Password: Abc1234@<br>Confirm password: Abc1234@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email already exists                |               |         |
-| TC-06   | Verify that the registration is rejected when the password field is empty.                                | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password:<br>Confirm password:                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password required                   |               |         |
-| TC-07   | Verify that the registration is rejected when the password length is less than 8.                         | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1@<br>Confirm password: Abc1@        | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password too short                  |               |         |
-| TC-08   | Verify that the registration is rejected when the password has no uppercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: abc1234@<br>Confirm password: abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing uppercase letter            |               |         |
-| TC-09   | Verify that the registration is rejected when the password has no lowercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: ABC1234@<br>Confirm password: ABC1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing lowercase letter            |               |         |
-| TC-10   | Verify that the registration is rejected when the password has no digits.                                 | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abcdefg@<br>Confirm password: Abcdefg@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing digit                       |               |         |
-| TC-11   | Verify that the registration is rejected when the password has no special character.                      | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345<br>Confirm password: Abc12345  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing special character           |               |         |
-| TC-12   | Verify that the registration is rejected when the password has the special character that is not allowed. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234#<br>Confirm password: Abc1234#  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid special character           |               |         |
-| TC-13   | Verify that the registration is rejected when the confirm password field is empty.                        | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password:           | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Confirm Password required           |               |         |
-| TC-14   | Verify that the registration is rejected when the confirm password field and the password field mismatch. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Passwords do not match              |               |         |
+| Test ID | Objective                                                                                                 | Input                                                                                                    | Test step                                                                                                          | Expected Result                            | Actual Result                        | Verdict |
+|---------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------|---------|
+| TC-01   | Verify that the registration is successful with correct inputs.                                           | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login | There was no confirm password field. | FAILED  |
+| TC-02   | Verify that the registration is rejected when the full name field is empty.                               | Full Name: <br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@<br>          | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Full Name required                  | There was no confirm password field. | FAILED  |
+| TC-03   | Verify that the registration is rejected when the email field is empty.                                   | Full Name: Nguyen Van A<br>Email:<br>Password: Abc1234@<br>Confirm password: Abc1234@                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email required                      | There was no confirm password field. | FAILED  |
+| TC-04   | Verify that the registration is rejected when the email field has invalid format.                         | Full Name: Nguyen Van A<br>Email: abcgmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@       | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid email format                | There was no confirm password field. | FAILED  |
+| TC-05   | Verify that the registration is rejected when the email already exists.                                   | Full Name: Nguyen Van A<br>Email: test@eshop.com<br>Password: Abc1234@<br>Confirm password: Abc1234@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Email already exists                | There was no confirm password field. | FAILED  |
+| TC-06   | Verify that the registration is rejected when the password field is empty.                                | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password:<br>Confirm password:                    | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password required                   | There was no confirm password field. | FAILED  |
+| TC-07   | Verify that the registration is rejected when the password length is less than 8.                         | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1@<br>Confirm password: Abc1@        | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Password too short                  | There was no confirm password field. | FAILED  |
+| TC-08   | Verify that the registration is rejected when the password has no uppercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: abc1234@<br>Confirm password: abc1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing uppercase letter            | There was no confirm password field. | FAILED  |
+| TC-09   | Verify that the registration is rejected when the password has no lowercase characters.                   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: ABC1234@<br>Confirm password: ABC1234@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing lowercase letter            | There was no confirm password field. | FAILED  |
+| TC-10   | Verify that the registration is rejected when the password has no digits.                                 | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abcdefg@<br>Confirm password: Abcdefg@  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing digit                       | There was no confirm password field. | FAILED  |
+| TC-11   | Verify that the registration is rejected when the password has no special character.                      | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345<br>Confirm password: Abc12345  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Missing special character           | There was no confirm password field. | FAILED  |
+| TC-12   | Verify that the registration is rejected when the password has the special character that is not allowed. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234#<br>Confirm password: Abc1234#  | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Invalid special character           | There was no confirm password field. | FAILED  |
+| TC-13   | Verify that the registration is rejected when the confirm password field is empty.                        | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password:           | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Confirm Password required           | There was no confirm password field. | FAILED  |
+| TC-14   | Verify that the registration is rejected when the confirm password field and the password field mismatch. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Error: Passwords do not match              | There was no confirm password field. | FAILED  |
 
 # 3. Boundary Value Analysis
 
@@ -99,20 +100,20 @@ The below are the completes sets of BVA test cases for each feature that I selec
 
 ### Pool A: FR-01: Đăng ký tài khoản
 
-| Test ID  | Objective                                                                 | Input                                                                                                     | Test step                                                                                                          | Expected Result                                           | Actual Result | Verdict |
-|----------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|---------------|---------|
-| BVA-TC01 | Verify that the registration is rejected when the password length is 7.   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc123@<br>Confirm password: Abc123@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration rejected<br>Password length validation error |               |         |
-| BVA-TC02 | Verify that the registration is successful when the password length is 8. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@   | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                |               |         |
-| BVA-TC03 | Verify that the registration is successful when the password length is 9. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                |               |         |
+| Test ID  | Objective                                                                 | Input                                                                                                     | Test step                                                                                                          | Expected Result                                           | Actual Result                        | Verdict |
+|----------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|--------------------------------------|---------|
+| BVA-TC01 | Verify that the registration is rejected when the password length is 7.   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc123@<br>Confirm password: Abc123@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration rejected<br>Password length validation error | There was no confirm password field. | FAILED  |
+| BVA-TC02 | Verify that the registration is successful when the password length is 8. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@   | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                | There was no confirm password field. | FAILED  |
+| BVA-TC03 | Verify that the registration is successful when the password length is 9. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                | There was no confirm password field. | FAILED  |
 
 ### Pool B: FR-07: Giỏ hàng (Shopping Cart)
 
-| Test ID  | Objective                                                           | Preconditions                             | Input        | Test step                                         | Expected Result                                               | Actual Result | Verdict |
-|----------|---------------------------------------------------------------------|-------------------------------------------|--------------|---------------------------------------------------|---------------------------------------------------------------|---------------|---------|
-| BVA-TC01 | Verify that the adding product is rejected when quantity is 0.      | Product page is opened                    | Quantity = 0 | 1. Enter quantity<br>2. Click add to cart button. | System rejects the quantity.<br>Product is not added to cart. |               |         |
-| BVA-TC02 | Verify that the adding product is successful when quantity is 1.    | Product page is opened                    | Quantity = 1 | 1. Enter quantity<br>2. Click add to cart button. | Product added successfully.<br>Quantity displayed as 1.       |               |         |
-| BVA-TC03 | Verify that the adding product is successful when quantity is 2.    | Product page is opened                    | Quantity = 2 | 1. Enter quantity<br>2. Click add to cart button. | Product added successfully.<br>Quantity displayed as 2.       |               |         |
-| BVA-TC04 | Verify that the UI does not allow to decrease the quantity below 1. | Cart contains a product with quantity = 1 |              | Click '-' button once.                            | Quantity remains 1.                                           |               |         |
+| Test ID  | Objective                                                           | Preconditions                             | Input        | Test step                                         | Expected Result                                               | Actual Result                                          | Verdict |
+|----------|---------------------------------------------------------------------|-------------------------------------------|--------------|---------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------|---------|
+| BVA-TC01 | Verify that the adding product is rejected when quantity is 0.      | Product page is opened                    | Quantity = 0 | 1. Enter quantity<br>2. Click add to cart button. | System rejects the quantity.<br>Product is not added to cart. | No input field for quantity when adding a new product. | PASSED  |
+| BVA-TC02 | Verify that the adding product is successful when quantity is 1.    | Product page is opened                    | Quantity = 1 | 1. Enter quantity<br>2. Click add to cart button. | Product added successfully.<br>Quantity displayed as 1.       | No input field for quantity when adding a new product. | PASSED  |
+| BVA-TC03 | Verify that the adding product is successful when quantity is 2.    | Product page is opened                    | Quantity = 2 | 1. Enter quantity<br>2. Click add to cart button. | Product added successfully.<br>Quantity displayed as 2.       | No input field for quantity when adding a new product. | PASSED  |
+| BVA-TC04 | Verify that the UI does not allow to decrease the quantity below 1. | Cart contains a product with quantity = 1 |              | Click '-' button once.                            | Quantity remains 1.                                           | No '-' button shown.                                   | FAILED  |
 
 
 ### Pool C: FR-12: Kiểm soát truy cập (Access Control)
@@ -121,16 +122,149 @@ Boundary Value Analysis for this feature is inapplicable because FR-12 contains 
 
 ### Pool D: Mobile: Đăng ký tài khoản
 
-| Test ID  | Objective                                                                 | Input                                                                                                     | Test step                                                                                                          | Expected Result                                           | Actual Result | Verdict |
-|----------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|---------------|---------|
-| BVA-TC01 | Verify that the registration is rejected when the password length is 7.   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc123@<br>Confirm password: Abc123@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration rejected<br>Password length validation error |               |         |
-| BVA-TC02 | Verify that the registration is successful when the password length is 8. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@   | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                |               |         |
-| BVA-TC03 | Verify that the registration is successful when the password length is 9. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                |               |         |
+| Test ID  | Objective                                                                 | Input                                                                                                     | Test step                                                                                                          | Expected Result                                           | Actual Result                        | Verdict |
+|----------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|--------------------------------------|---------|
+| BVA-TC01 | Verify that the registration is rejected when the password length is 7.   | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc123@<br>Confirm password: Abc123@     | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration rejected<br>Password length validation error | There was no confirm password field. | FAILED  |
+| BVA-TC02 | Verify that the registration is successful when the password length is 8. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc1234@<br>Confirm password: Abc1234@   | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                | There was no confirm password field. | FAILED  |
+| BVA-TC03 | Verify that the registration is successful when the password length is 9. | Full Name: Nguyen Van A<br>Email: newuser@gmail.com<br>Password: Abc12345@<br>Confirm password: Abc12345@ | 1. Fill the Full Name, Email, Password and Confirm password fields with input data.<br>2. Hit the register button. | Registration successful, redirect to Login                | There was no confirm password field. | FAILED  |
 
 # 4. AI gap analysis
 
+Because I did not add any additional test cases to the test suites for the features, there was no analysis that was done for this section. However, I confirmed that I carefully reviewed all the outputs provided by the AI and wrote a detailed audit, attached in the appendix.
+
 # 5. Bug report
 
-- Screenshots:
+## 01: No confirm password field on register page.
+
+Bug: There were no confirm password fields on both frontend web and frontend mobile.
+
+I can reproduce by following these steps:
+1. Start the frontend web by `npm run dev` or frontend mobile by `npx expo start`.
+2. Go to the EShop site(for web) or open the EShop app(for mobile).
+3. Go to register page.
+
+**Expected result**: Confirm password field is shown along with other input fields.
+
+**Actual result**: No confirm password field is found.
+
+Bug screenshots:
+- Web:
+
+![](./images/bug01-screenshot01.png)
+
+- Mobile:
+
+![](./images/bug01-screenshot02.png)
+
+## 02: New row created when adding same product to shopping cart.
+
+Bug: When adding the same product again to the shopping cart, new row is created instead of increasing quantity of the old row.
+
+I can reproduce by following these steps:
+1. Start the frontend web by `npm run dev`.
+2. Login with the default user account.
+3. Add 'iPhone 15 Pro Max' product to the cart.
+4. Add the same product again.
+5. Go to the shopping cart.
+
+**Expected result**: No new row is created, quantity increases.
+
+**Actual result**:  A new row is created with quantity equals 1.
+
+Bug screenshots:
+
+![](./images/bug02-screenshot01.png)
+
+## 03: No confirmation dialog when deleting a product in shopping cart.
+
+Bug: No confirmation dialog when deleting a product in shopping cart.
+
+I can reproduce by following these steps:
+1. Start the frontend web by `npm run dev`.
+2. Login with the default user account.
+3. Add 'iPhone 15 Pro Max' product to the cart.
+4. Go to the shopping cart.
+5. Click remove product button.
+
+**Expected result**: Confirmation dialog displays.
+
+**Actual result**: No confirmation dialog is shown. 
+
+## 04: No minus button to decrease product quantity in shopping cart.
+
+Bug: There is no minus button ('-') to decrease product quantity in shopping cart.
+
+I can reproduce by following these steps:
+1. Start the frontend web by `npm run dev`.
+2. Login with the default user account.
+3. Add 'iPhone 15 Pro Max' product to the cart.
+4. Go to the shopping cart.
+
+**Expected result**: There is a '-' button next to the quantity value of the product.
+
+**Actual result**: No '-' button found. 
+
+Bug screenshots:
+
+![](./images/bug04-screenshot01.png)
+
+## 05: Incorrect HTTP code returned for requests to admin endpoint with invalid JWT token.
+
+Bug:  Incorrect HTTP code returned for requests to admin endpoint with invalid JWT token.
+
+I can reproduce by following these steps:
+1. Start server by `node server.js`
+2. Open postman 
+3. Send GET request to endpoint /api/admin/users with invalid bearer token.
+
+**Expected result**:  Access is denied. HTTP 401 status is returned.
+
+**Actual result**: Access is denied. HTTP 403 status is returned.
+
+Bug screenshots:
+
+![](./images/bug05-screenshot01.png)
+
+## 06: Admin resource is accessible with requests of role 'user'.
+
+Bug: When sending a request with a valid JWT token of role 'user', then request is not rejected.
+
+I can reproduce by following these steps:
+1. Start server by `node server.js`
+2. Open postman 
+3. Send POST request to endpoint /api/login with default user account to get user token.
+4. Send GET request to endpoint /api/admin/users with user token.
+
+**Expected result**: Access denied. HTTP 403 Forbidden returned.
+
+**Actual result**: Request is successful. Admin resource is returned.
+
+Bug screenshots:
+
+![](./images/bug06-screenshot01.png)
+
+![](./images/bug06-screenshot02.png)
 
 # 6. Agent skill
+
+Agent skill is located inside the `agent skills` folder.
+
+In order to use this skill, copy it to project-level skills folders(`.github/skills`, `.claude/skills`, `.agents/skills`) or copy it to personal skills folders(`~/.copilot/skills`, `~/.claude/skills`, `~/.agents/skills`)
+
+More details about agent skills usage in Visual Studio Code can be found at: [Use Agent Skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+
+Demonstration videos:
+
+[Youtube demo video](https://youtu.be/LPnUhkKk2Ik)
+
+# 7. Appendix
+
+## Appendix A
+
+[AI Audit Report](./[AI-02]%20-%20FIT@HCMUS%20-%20AI%20Audit%20Report.md)
+
+[AI Critique](./AI_critique.md)
+
+## Appendix B
+
+[Self-assessment & Test summary report](./README.md)
