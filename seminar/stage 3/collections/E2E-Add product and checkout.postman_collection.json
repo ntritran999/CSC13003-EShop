@@ -383,7 +383,7 @@
 		},
 		{
 			"key": "baseUrl",
-			"value": ""
+			"value": "localhost:3000"
 		}
 	]
 }
