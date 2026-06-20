@@ -12,5 +12,8 @@
   "type": "module",
   "devDependencies": {
     "@pact-foundation/pact": "^16.5.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }

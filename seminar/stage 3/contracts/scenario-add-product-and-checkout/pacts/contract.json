@@ -1,0 +1,56 @@
+{
+  "consumer": {
+    "name": "MyConsumer"
+  },
+  "interactions": [
+    {
+      "description": "a request for adding products to cart",
+      "request": {
+        "method": "POST",
+        "path": "/api/cart",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+            "id": 1,
+            "name": "iPhone 15 Pro Max",
+            "price": 30000000,
+            "quantity": 2
+        }
+      },
+      "response": {
+        "body": {
+          "message": ""
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200,
+        "matchingRules": {
+            "body": {
+                "$.message": {
+                    "matchers": [
+                      { "match": "type" }
+                    ]
+                }
+            }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "16.5.0"
+    },
+    "pactRust": {
+      "ffi": "0.5.4",
+      "models": "1.3.11"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "MyProvider"
+  }
+}
