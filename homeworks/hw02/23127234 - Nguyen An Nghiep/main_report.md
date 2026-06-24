@@ -204,7 +204,66 @@ During the test design audit, the AI missed critical execution steps and exhibit
 
 + Inherent Feature Complexity (Categorical Logic): Software states represent discrete, categorical logic (e.g., an order is either pending or shipping; there is no 1.5 state). Because generative AI is designed to fulfill user requests, instructing it to "execute Step 2: BVA" on FR-10 forced the tool to try and please the user by applying a continuous-range technique to a feature that inherently rejects it, leading to a logical clash.
 # 4. Bug Report
+## 4.1 OTP of forgetting password is only 4 digit instead of 6
+- Step:
+  1. Submit email.
 
+- Expected result: The website returns 6 digits password
+- Bug:  The website returns 4 digits password
+- Bug screenshot:
+![](./images/bug-fr3-1.png)
+
+## 4.2 Does not check OTP, website always announce invalid password even pass is valid
+- Step:
+  1. Submit email.
+  2. Enter the wrong OTP
+  3. Enter the valid password (Test1234#)
+
+- Expected result: The website alert wrong OTP
+- Bug: The website alert invalid password
+- Bug screenshot:
+![](./images/bug-fr3-2.png)
+
+## 4.3 Does not have place to enter confirm new password
+- Step:
+  1. Submit email.
+  2. Enter the valid OTP
+  3. Enter the valid password (Test1234#)
+
+- Expected result: Have textplace holder for confirm password
+- Bug: Does not have textplace holder for confirm password
+- Bug screenshot:
+![](./images/bug-fr3-3.png)
+## 4.4 Admin can not cancel the shipping order
+- Step:
+  1. Login as admin
+  2. Click cancel button for shipping order
+
+- Expected result: Shipping order change to canceled
+- Bug: Does not have cancel button for shipping order
+- Bug screenshot:
+![](./images/bug-fr10-1.png)
+## 4.5 User can cancel the shipping order
+- Step:
+  1. Login as user
+  2. Click cancel button for shipping order
+
+- Expected result: Does not have cancel button
+- Bug: Have cancel button
+- Bug screenshot:
+![](./images/bug-fr10-2.png)
+
+## 4.6 Create product with price is smaller than 1
+- Step:
+  1. Login as admin
+  2. Enter product's name
+  3. Enter 0 for price
+  4. Confirm creating product
+
+- Expected result: Website alert price must be larger than 0
+- Bug: It creates a new product with price is 0
+- Bug screenshot:
+![](./images/bug-fr15-1.png)
 
 # 5. Agent Skill
 
