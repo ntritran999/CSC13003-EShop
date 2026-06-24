@@ -266,9 +266,13 @@ During the test design audit, the AI missed critical execution steps and exhibit
 ![](./images/bug-fr15-1.png)
 
 # 5. Agent Skill
-
+- I create and use AI agent skill by implement SKILL.md which is located in agent folder. To be more specific, I combine 2 prompt(domain testing + boundary value analysis in [AI-02] - AI Audit Report.md) to create the whole pipeline for this skill.
+- I have read and use the format from https://code.visualstudio.com/docs/agent-customization/agent-skills (claude + copilot)
+- Demo video: [Agent skill demo](https://youtu.be/THaJFzKegCQ)
 
 
 # 6. Appendices (AI-document and promptlog, etc...)
-
+- [[AI-02] AI Audit Report]([AI-02]%20-%20FIT@HCMUS%20-%20AI%20Audit%20Report.md)
+- [AI Critique](AI_critique.md)
+- [Self-assessment & Test summary report](./README.md)
 
