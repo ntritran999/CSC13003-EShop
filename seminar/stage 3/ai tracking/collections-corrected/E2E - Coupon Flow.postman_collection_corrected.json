@@ -1,0 +1,429 @@
+{
+  "info": {
+    "_postman_id": "cb8572a6-32fb-4802-9a25-8951a3f6de8a",
+    "name": "EShop - Coupon E2E Flow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45118778"
+  },
+  "item": [
+    {
+      "name": "Admin Login",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"adminToken\");",
+              "pm.collectionVariables.unset(\"userToken\");",
+              "pm.collectionVariables.unset(\"couponId\");",
+              "pm.collectionVariables.unset(\"couponCode\");",
+              "pm.collectionVariables.unset(\"couponToDeleteId\");",
+              "pm.collectionVariables.unset(\"couponToDeleteCode\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response has token\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"token\");",
+              "    pm.collectionVariables.set(\"adminToken\", json.token);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Create Coupon",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var randomCode = \"SAVE\" + pm.variables.replaceIn(\"{{$randomInt}}\");",
+              "pm.collectionVariables.set(\"couponCode\", randomCode);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "pm.test(\"Coupon created successfully\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"id\");",
+              "    pm.collectionVariables.set(\"couponId\", json.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"{{couponCode}}\",\n  \"type\": \"percent\",\n  \"discount_value\": 10,\n  \"min_order_amount\": 0,\n  \"expired_at\": \"2027-12-31\",\n  \"max_uses_per_user\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/coupons",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "coupons"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin View Coupon List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response is an array\", function () {",
+              "    pm.expect(pm.response.json()).to.be.an(\"array\");",
+              "});",
+              "pm.test(\"Created coupon exists in list\", function () {",
+              "    var coupons = pm.response.json();",
+              "    var expectedCode = pm.collectionVariables.get(\"couponCode\");",
+              "    var found = coupons.some(function(c) { return c.code === expectedCode; });",
+              "    pm.expect(found).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/coupons",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "coupons"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response has userToken and user ID\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.collectionVariables.set(\"userToken\", jsonData.token);",
+              "    if(jsonData.user && jsonData.user.id) {",
+              "        pm.collectionVariables.set(\"userId\", jsonData.user.id);",
+              "    } else {",
+              "        pm.collectionVariables.set(\"userId\", 1);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Apply Coupon",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Coupon applied successfully\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"discount_amount\");",
+              "    pm.expect(jsonData).to.have.property(\"final_amount\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{userToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"{{couponCode}}\",\n  \"total_amount\": 500000,\n  \"user_id\": {{userId}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/apply-coupon",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "apply-coupon"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Create Another Coupon",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var randomDelCode = \"DEL\" + pm.variables.replaceIn(\"{{$randomInt}}\");",
+              "pm.collectionVariables.set(\"couponToDeleteCode\", randomDelCode);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "pm.test(\"Second coupon created successfully\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"id\");",
+              "    pm.collectionVariables.set(\"couponToDeleteId\", json.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"{{couponToDeleteCode}}\",\n  \"type\": \"percent\",\n  \"discount_value\": 20,\n  \"min_order_amount\": 0,\n  \"expired_at\": \"2027-12-31\",\n  \"max_uses_per_user\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/coupons",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "coupons"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Delete That Coupon",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200 or 204\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+              "});",
+              "pm.test(\"Coupon deleted successfully\", function () {",
+              "    if (pm.response.code === 200) {",
+              "        var json = pm.response.json();",
+              "        pm.expect(json).to.exist;",
+              "    } else {",
+              "        pm.expect(pm.response.code).to.eql(204);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/coupons/{{couponToDeleteId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "coupons", "{{couponToDeleteId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Verify Deleted Coupon Disappears",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const sleepDelay = 2000;",
+              "const start = Date.now();",
+              "while (Date.now() - start < sleepDelay) {",
+              "    // blocking loop",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Deleted coupon no longer exists in list\", function () {",
+              "    var coupons = pm.response.json();",
+              "    var expectedDeletedCode = pm.collectionVariables.get(\"couponToDeleteCode\");",
+              "    var found = coupons.some(function(c) { return c.code === expectedDeletedCode; });",
+              "    pm.expect(found).to.be.false;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache",
+            "description": "THÊM: Tránh tình trạng Server trả về kết quả Cache cũ"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/coupons",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "coupons"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "couponId",
+      "value": ""
+    },
+    {
+      "key": "couponCode",
+      "value": ""
+    },
+    {
+      "key": "couponToDeleteId",
+      "value": ""
+    },
+    {
+      "key": "couponToDeleteCode",
+      "value": ""
+    }
+  ]
+}

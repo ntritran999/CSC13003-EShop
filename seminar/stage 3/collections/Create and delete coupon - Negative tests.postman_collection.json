@@ -1,0 +1,139 @@
+{
+  "info": {
+    "_postman_id": "d1a2b3c4-5678-90ef-ghij-klmnopqrstuv",
+    "name": "E2E - Coupon Flow (Negative Tests)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45118778"
+  },
+  "item": [
+    {
+      "name": "Admin Login (Positive)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Token is saved to collection variables\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.token).to.exist;",
+              "    pm.collectionVariables.set(\"adminToken\", jsonData.token);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Create Coupon - Missing Required Fields (Negative)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400 or 422 (Validation Error)\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "",
+              "pm.test(\"Response should contain error message\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.any.keys('error', 'message', 'errors');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"percent\",\n  \"discount_value\": 15\n  // Cố tình bỏ trống 'code', 'expired_at' và các trường bắt buộc khác\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/coupons",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "coupons"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin Delete Coupon - Invalid ID (Negative)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404 (Not Found)\", function () {",
+              "    // Hệ thống không thể tìm thấy coupon ID 99999999 để xóa",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/coupons/99999999",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "coupons", "99999999"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
