@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "cb8572a6-32fb-4802-9a25-8951a3f6de8a",
+    "_postman_id": "6fc09515-3105-4a74-9f51-c38e28d56c1a",
     "name": "E2E - Coupon Flow Manage",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45118778"
@@ -41,8 +41,13 @@
         },
         "url": {
           "raw": "{{baseUrl}}/api/login",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "login"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
         }
       },
       "response": []
@@ -97,8 +102,14 @@
         },
         "url": {
           "raw": "{{baseUrl}}/api/admin/coupons",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "admin", "coupons"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "coupons"
+          ]
         }
       },
       "response": []
@@ -132,8 +143,13 @@
         ],
         "url": {
           "raw": "{{baseUrl}}/api/coupons",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "coupons"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "coupons"
+          ]
         }
       },
       "response": []
@@ -177,8 +193,13 @@
         },
         "url": {
           "raw": "{{baseUrl}}/api/login",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "login"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
         }
       },
       "response": []
@@ -222,8 +243,13 @@
         },
         "url": {
           "raw": "{{baseUrl}}/api/apply-coupon",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "apply-coupon"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "apply-coupon"
+          ]
         }
       },
       "response": []
@@ -267,8 +293,14 @@
         },
         "url": {
           "raw": "{{baseUrl}}/api/admin/coupons",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "admin", "coupons"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "coupons"
+          ]
         }
       },
       "response": []
@@ -298,8 +330,15 @@
         ],
         "url": {
           "raw": "{{baseUrl}}/api/admin/coupons/{{couponToDeleteId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "admin", "coupons", "{{couponToDeleteId}}"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "coupons",
+            "{{couponToDeleteId}}"
+          ]
         }
       },
       "response": []
@@ -329,8 +368,13 @@
         ],
         "url": {
           "raw": "{{baseUrl}}/api/coupons",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "coupons"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "coupons"
+          ]
         }
       },
       "response": []
@@ -339,38 +383,31 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3000",
-      "type": "string"
+      "value": "http://localhost:3000"
     },
     {
       "key": "adminToken",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "couponCode",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "couponId",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "userToken",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "userId",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "couponToDeleteId",
-      "value": "",
-      "type": "string"
+      "value": ""
     }
   ]
 }
