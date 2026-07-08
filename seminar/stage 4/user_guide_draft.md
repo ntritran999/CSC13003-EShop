@@ -60,15 +60,23 @@ The scenario chosen for this section is the end-to-end flow for creating a new c
 
 **Steps**:
 - Run *Admin Login* request. This request saves the admin authorization token to the `adminToken` variable, allowing the rest of the requests to admin APIs to run correctly.
+  ![](./images/login-firsttest.png)
 - Run *Admin Create Coupon* request. The `couponCode` variable is generated randomly to avoid getting duplicated code.
 - Run *Admin View Coupon List* request to review the created coupon.
 - Run *User Login* request. This request saves the user authorization token to the `userToken` variable and sets the `userId` variable, which will then be used to apply the coupon.
 - Run *User Apply Coupon* request with using `userId` and `couponCode` saved from previous requests.
+  ![](./images/coupon-firsttest1.png)
+
+  ![](./images/coupon-firsttest2.png)
 - Run *Admin Create Another Coupon* request. This sets the `couponToDeleteId` variable.
 - Run *Admin Delete Coupon* request to delete the `couponToDeleteId` coupon.
 - Run *Admin Verify Deleted Coupon* request to confirm that the coupon is deleted.
 
 The above steps can also be run all at once using collection runner.
+
+![](./images/collection-runner.png)
+
+![](./images/collection-runner-result.png)
 
 ## 4. Advanced Usage
 
@@ -88,15 +96,19 @@ Postman also support CI/CD configuration for automated collection runs. You can 
 
 Depending on your setups, you can choose which collection and environment you want to run on CI/CD, along with the CI/CD provider and operating system for CI/CD. Regardless of what options are picked, you must provide a Postman API key to log in to Postman CLI. The API key can be generated directly inside the Postman desktop app, or you can go to the browser and log in Postman with your account, then create the API key. Remember that you can only view the key once, so if you forget then you will have to create a new one.
 
+![](./images/cicd1.png)
+
+![](./images/cicd2.png)
+
 For our E2E coupon collection, we decided to use Github Actions as the CI/CD provider. The workflow skeleton was copied from Postman dashboard, then modified to include steps to install dependencies and start the EShop backend. We also changed the generated workflow from running on push, meaning that the collection would run on CI/CD for every commit pushed to main branch, to running manually(useful for later demonstration). For the API key, we created a secret key in our EShop's Github repository and copied the key value to it.
 
 ### Postman's AI assistant
 
 Postman includes a chat interface for its AI assistant, similar to ChatGPT or Claude. You can use it to create collections, design API endpoints or write documentations.
 
-On free account, Postman limits the AI usage to 50 AI credits per month, which is plenty if you only intend to use it to scaffold collections based on your API specifications.
+For our reproduction of the E2E coupon flow using Postman's AI, we gave it the entire api specification of EShop, then told it to recreate the collection, along with the test scripts. We also specified the correct admin account and demanded the AI to use collection variables. The AI then returned a collection similar to what was written manually, with an extra request to verify the coupon status after the user applying the coupon. The generated collection was later modified to fix some errors like incorrect user credentials or wrong field names in the request body.
 
-Although Postman's AI is fast when generating collections, a review is always needed to ensure the collection is executable and tests written for API follow the business logics correctly, especially when the API specification given to the AI lacks details about the expected output of each requests. Section **6. Failure Modes** will provide more insights on this issue.
+Although Postman's AI is fast when generating collections, a reviewing step is necessary to ensure the collection is executable and tests written for API follow the business logics correctly, especially when the API specification given to the AI lacks details about the expected output of each requests. Section **6. Failure Modes** will provide more insights on this issue.
 
 ## 5. Troubleshooting
 
