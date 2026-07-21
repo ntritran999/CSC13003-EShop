@@ -1,0 +1,25 @@
+I. Preparation.
+- Import the coupon collection before the live demo.
+
+II. Live demo:
+1. Postman demo:
+- Demo on end-to-end coupon scenario
+- Steps:
+  - Manually run the login request, then explain that we would normally copy and paste the access token to the following requests -> this is tedious and error-prone.
+  - Show the blank variable fields, explain that these will be filled automatically after the run.
+  - Show that the variables are marked as red(unresolved) and explain how they are going to be set.
+  - Show some scripts in the requests to explain how to chain the requests.
+  - Run the collection
+  - Check the variables to see that they are all filled.
+  - Demonstrate failure mode number 3.
+
+2. GitHub Actions(CI) demo:
+- Show where to create the GitHub Actions CI workflow with Postman.
+- Manually run the CI workflow on GitHub website.
+
+3. AI tool demo:
+- Rebuild the collection using Postman's AI.
+- Quickly compare the AI-generated collection with the manual collection.
+- Quickly spot the hallucinations from the generation.
+
+4. Conclusion
