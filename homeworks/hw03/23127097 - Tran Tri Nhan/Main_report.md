@@ -4,7 +4,7 @@
 <p align='center'><img src='./images/logo.png' width=50% height=50%></p>
 
 <h3 align='center'>SOFTWARE TESTING</h3>
-<h4 align='center'>HW02 – Domain Testing on EShop</h4>
+<h4 align='center'>HW03 – GUI & Usability Testing on EMS (Event Management System)</h4>
 
 <br>
 <br>
