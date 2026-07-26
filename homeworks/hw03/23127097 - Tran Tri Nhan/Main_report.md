@@ -329,6 +329,44 @@
 ![](./images/bug%20images/Screenshot%202026-07-25%20190308.png)
 ![](./images/bug%20images/Screenshot%202026-07-25%20190323.png)
 
+# Task 3
+
+## Screen: (A1) Events list with status filters and notification dots
+
+| ID | OS | Browser | Device Class | Result | Notes |
+| --- | --- | --- | --- | --- | --- |
+| 01 | Windows | Chrome | Desktop | Passed | |
+| 02 | Windows | Firefox | Desktop | Passed | |
+| 03 | Windows | Edge | Desktop | Passed | |
+| 04 | Windows | Opera | Desktop | Passed | |
+| 05 | macOS | Safari | Desktop | Passed | |
+| 06 | Android | Chrome | Phone | Failed | Unresponsive, broken layout on mobile web view. ([Screenshot](./images/task%203/Android_Chrome_Phone_A1.png)) |
+| 07 | Android | Firefox | Tablet | Passed | |
+
+## Screen: (A2) Add/Edit Event form — image upload + Rich-Text + date/time validation
+
+| ID | OS | Browser | Device Class | Result | Notes |
+| --- | --- | --- | --- | --- | --- |
+| 01 | Windows | Chrome | Desktop | Passed | |
+| 02 | Windows | Firefox | Desktop | Passed | |
+| 03 | Windows | Edge | Desktop | Passed | |
+| 04 | Windows | Opera | Desktop | Passed | |
+| 05 | macOS | Safari | Desktop | Passed | |
+| 06 | Android | Chrome | Phone | Failed | Unresponsive, broken layout on mobile web view. ([Screenshot](./images/task%203/Android_Chrome_Phone_A2.png)) |
+| 07 | Android | Firefox | Tablet | Passed | |
+
+## Screen: (A3) Registration & Roles configuration panel — Max Slots / Waitlist / additional role
+
+| ID | OS | Browser | Device Class | Result | Notes |
+| --- | --- | --- | --- | --- | --- |
+| 01 | Windows | Chrome | Desktop | Passed | |
+| 02 | Windows | Firefox | Desktop | Passed | |
+| 03 | Windows | Edge | Desktop | Passed | |
+| 04 | Windows | Opera | Desktop | Passed | |
+| 05 | macOS | Safari | Desktop | Passed | |
+| 06 | Android | Chrome | Phone | Failed | Unresponsive, broken layout on mobile web view. ([Screenshot](./images/task%203/Android_Chrome_Phone_A3.png)) |
+| 07 | Android | Firefox | Tablet | Passed | |
+
 # Appendices
 
 ## Appendix A
