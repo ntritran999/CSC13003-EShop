@@ -250,3 +250,16 @@
 | **05** | iOS | Apple Safari | Mobile Phone | WebKit | FAILED | Unresponsive, broken layout on mobile web view. ([Screenshot](./images/Task3/iOS_Safari_Phone_B4.png)) |
 | **06** | iOS | Chrome Mobile | Mobile Phone | WebKit | FAILED | Unresponsive, broken layout on mobile web view. ([Screenshot](./images/Task3/iOS_Safari_Phone_B4.png)) |
 | **07** | Android | Chrome Mobile | Tablet | Blink | PASSED |  |
+
+
+# Appendices
+
+## Appendix A
+
+[AI Audit Report](./[AI-02]%20-%20AI%20Audit%20Report.md)
+
+[AI Critique](./AI_critique.md)
+
+## Appendix B
+
+[Self-assessment & Test summary report](./README.md)
