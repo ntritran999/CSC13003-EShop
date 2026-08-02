@@ -1,0 +1,12 @@
+Data ID,Full name,Email,Password
+DT01,Nguyen Van A,newuser@gmail.com,Abc1234@
+DT02,,newuser@gmail.com,Abc1234@
+DT03,Nguyen Van A,,Abc1234@
+DT04,Nguyen Van A,abcgmail.com,Abc1234@
+DT05,Nguyen Van A,test@eshop.com,Abc1234@
+DT06,Nguyen Van A,newuser@gmail.com,
+DT07,Nguyen Van A,newuser@gmail.com,Abc1@
+DT08,Nguyen Van A,newuser@gmail.com,abc1234@
+DT09,Nguyen Van A,newuser@gmail.com,ABC1234@
+DT10,Nguyen Van A,newuser@gmail.com,Abcdefg@
+DT11,Nguyen Van A,newuser@gmail.com,Abc12345
