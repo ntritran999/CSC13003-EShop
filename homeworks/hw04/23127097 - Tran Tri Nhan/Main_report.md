@@ -42,7 +42,20 @@ Test cases:
 
 Test cases:
 
-
+| Test ID | Objective                                                         | Steps                                                                                                                                                                                | Expected Result                                                                                            |
+|---------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| TC-01   | Verify shopping cart page has correct columns                     | 1. Click 'Thêm vào giỏ' button on the first item<br>2. Click 'Giỏ hàng' button<br>3. Observe the columns                                                                             | The columns include: 'Sản phẩm', 'Đơn giá', 'Số lượng'(with '+' and '-' buttons), 'Thành tiền', 'Thao tác' |
+| TC-02   | Verify shopping cart not add new row when adding the same product | 1. Click 'Thêm vào giỏ' button on the first item<br>2. Click 'Thêm vào giỏ' button on the first item again<br>3. Click 'Giỏ hàng' button<br>4. Observe the rows in the shopping cart | Only one row appears in the cart                                                                           |
+| TC-03   | Verify a back-to-home button exists on shopping cart page         | 1. Click 'Giỏ hàng' button                                                                                                                                                           | There is a link back to home page with message: 'Tiếp tục mua sắm'                                         |
+| TC-04   | Verify total amount has correct label                             | 1. Click 'Thêm vào giỏ' button on the first item<br>2. Click 'Giỏ hàng' button<br>3. Observe the label of total amount                                                               | The label is 'Tổng cộng', not 'Tổng tạm tính'                                                              |
+| TC-05   | Verify empty cart has clear message                               | 1. Click 'Giỏ hàng' button<br>2. Observe the empty cart                                                                                                                              | Message 'Giỏ hàng của bạn đang trống' is displayed                                                         |
+| TC-06   | Verify reject non-integer quantity                                | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item does not appear in cart                                                                           |
+| TC-07   | Verify reject negative quantity                                   | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item does not appear in cart                                                                           |
+| TC-08   | Verify reject zero quantity                                       | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item does not appear in cart                                                                           |
+| TC-09   | Verify accept quantity equals 1                                   | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item appears in cart with 'Số lượng' equals 1                                                          |
+| TC-10   | Verify accept quantity equals 2                                   | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item appears in cart with 'Số lượng' equals 2                                                          |
+| TC-11   | Verify reject non-numeric quantity                                | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item does not appear in cart                                                                           |
+| TC-12   | Verify accept quantity equals 10000000                            | 1. Click 'Xem chi tiết' button on the first item<br>2. Insert the quantity data to 'Số lượng' field<br>3. Click 'Thêm vào giỏ hàng' button twice<br>4. Click 'Giỏ hàng' button       | The item appears in cart with 'Số lượng' equals 10000000                                                   |
 
 ### Pool C: FR-14: Category management (CRUD)
 
@@ -83,11 +96,42 @@ Assertion pattern used for this feature:
 - toHaveText()
 - toBeVisible()
 
+### FR-07
+
+| Test ID | Status |
+|---------|--------|
+| TC-01   | FAILED |
+| TC-02   | FAILED |
+| TC-03   | PASSED |
+| TC-04   | FAILED |
+| TC-05   | PASSED |
+| TC-06   | FAILED |
+| TC-07   | FAILED |
+| TC-08   | FAILED |
+| TC-09   | PASSED |
+| TC-10   | PASSED |
+| TC-11   | FAILED |
+| TC-12   | PASSED |
+
+The failed test cases were added as bugs to the bug report document.
+
+Assertion pattern used for this feature:
+- toContainText()
+- toBeVisible()
+- toHaveCount()
+- toHaveText()
+
+Test case TC-11 could not be automated because `fill` function could not type text. Manual execution by typing letter 'e' directly into the input field on frontend web worked.
+
 ## AI analysis
 
 ### FR-01
 
 While the generated assertions used css locators, which can be vulnerable to changes in the UIs, it is acceptable because the current frontend implementation lacks support for more resilient locators like `getByLabel()`. One thing I dislike about the script is that there are too many if-else conditions. This can be troublesome when the number of test cases grows and more conditions are added. A better the way to write the script could be parsing the data first, then group test cases base on the conditions into separate `test.describe()` blocks, rather than relying on if-else branching. However, because the number of test cases for this feature in HW04 is small, the current script is acceptable as-is.
+
+### FR-07
+
+When iterating through the data-driven test cases, the script completely ignored the name of the item. While this did not affect the final test result, the script should utilize all the given data to create less fragile assertions. By also asserting for the item name, the tests would be able to spot when an incorrect item is added even if the quantity value is sound.
 
 # Appendices
 
