@@ -180,6 +180,10 @@ When iterating through the data-driven test cases, the script completely ignored
 
 Again, the generated data-driven tests could really benefit from being grouped separately instead of depending on conditional checking. However, this time, the AI did slightly better by using switch-case style instead of if-else, which made the tests look way more readable compared to FR-01's.
 
+# Task 2
+
+[Youtube link](https://youtu.be/g0wg3OpMZVU)
+
 # Appendices
 
 ## Appendix A
