@@ -63,12 +63,29 @@ In HW02, I chose FR-12: Access control for Pool C, but that FR cannot be used fo
 
 Test cases:
 
+| Test ID | Objective                                             | Steps                                                                                                                                                | Expected Result                                                                                |
+|---------|-------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| TC-01   | Verify admin can view categories                      | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Observe the category list                                                         | The page shows a list of categories, each row has a name and a delete button                   |
+| TC-02   | Verify admin can delete a category                    | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Click 'Xóa' button on the first row<br>4. Confirm the deletion(if dialog appears) | The first row is removed                                                                       |
+| TC-03   | Verify delete button has a confirmation dialog        | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Click 'Xóa' button on the first row                                               | A confirmation dialog appears                                                                  |
+| TC-04   | Verify admin can create a new category                | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name                                                       |
+| TC-05   | Verify admin can create a category name in Vietnamese | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name                                                       |
+| TC-06   | Verify category name can contain numbers and symbols  | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name                                                       |
+| TC-07   | Verify category name can contain special characters   | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name                                                       |
+| TC-08   | Verify reject empty category name                     | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | No new row is created                                                                          |
+| TC-09   | Verify reject white-space category name               | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | No new row is created                                                                          |
+| TC-10   | Verify reject duplicate category name                 | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | No new row is created                                                                          |
+| TC-11   | Verify truncate long category name                    | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name truncated(showing ellipsis) instead of fully rendered |
+| TC-12   | Verify santitize category name                        | 1. Login as admin<br>2. Click 'Danh mục' on the left sidebar<br>3. Enter the test data into the category name field.<br>4. Hit 'Thêm mới' button.    | A new row is created with the input name displayed as-is, instead of being rendered as HTML    |
 
 
 ## Execution
 
 - Used Playwright default configuration for projects to run on 3 major browsers (Chrome, Firefox, Webkit).
 - Added HTML as a reporter to Playwright configuration, along with the `title` option for HTML reporter.
+- [Test scripts link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw04/23127097%20-%20Tran%20Tri%20Nhan/playwright/tests)
+- [Test data link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw04/23127097%20-%20Tran%20Tri%20Nhan/playwright/test-data)
+- [HTML reports link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw04/23127097%20-%20Tran%20Tri%20Nhan/playwright/test-report)
 
 ### FR-01
 
@@ -123,6 +140,32 @@ Assertion pattern used for this feature:
 
 Test case TC-11 could not be automated because `fill` function could not type text. Manual execution by typing letter 'e' directly into the input field on frontend web worked.
 
+### FR-14
+
+| Test ID | Status |
+|---------|--------|
+| TC-01   | PASSED |
+| TC-02   | PASSED |
+| TC-03   | FAILED |
+| TC-04   | PASSED |
+| TC-05   | PASSED |
+| TC-06   | PASSED |
+| TC-07   | PASSED |
+| TC-08   | FAILED |
+| TC-09   | FAILED |
+| TC-10   | FAILED |
+| TC-11   | FAILED |
+| TC-12   | PASSED |
+
+Assertion pattern used for this feature:
+- toBeVisible()
+- toBeGreaterThan()
+- toHaveCount()
+- toHaveText()
+- toBeTruthy()
+- toContainText()
+- toBe()
+
 ## AI analysis
 
 ### FR-01
@@ -132,6 +175,10 @@ While the generated assertions used css locators, which can be vulnerable to cha
 ### FR-07
 
 When iterating through the data-driven test cases, the script completely ignored the name of the item. While this did not affect the final test result, the script should utilize all the given data to create less fragile assertions. By also asserting for the item name, the tests would be able to spot when an incorrect item is added even if the quantity value is sound.
+
+### FR-14
+
+Again, the generated data-driven tests could really benefit from being grouped separately instead of depending on conditional checking. However, this time, the AI did slightly better by using switch-case style instead of if-else, which made the tests look way more readable compared to FR-01's.
 
 # Appendices
 
