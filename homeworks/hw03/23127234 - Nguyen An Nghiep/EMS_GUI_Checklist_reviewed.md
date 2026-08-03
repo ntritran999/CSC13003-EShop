@@ -53,3 +53,4 @@
 | GUI-049 | Body text on the same page with the same hierarchy have the same color | IA-01 | Nielsen Consistency & standards; Norman Consistency; Shneiderman Strive for consistency | | |
 | GUI-050 | Date/time input fields display an accessible interactive calendar pop-up, allowing direct date/time selection, highlighting weekend, current/selected dates | IA-02 | Nielsen Recognition rather than recall, Nielsen Error Prevention. | | |
 | GUI-051 | Users can use the Tab key to sequentially move the focus through the items on the navigation bar (menu/sidebar) and use the Enter key to access them without being trapped (keyboard trap). | IA-03 | Nielsen Flexibility and efficiency of use | | |
+
