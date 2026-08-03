@@ -118,7 +118,7 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 
 ---
 
-### Bug 06:
+# Bug 06:
 
 **Description:** System allows creating coupons with a negative minimum order amount (`NEGMIN`).
 
@@ -146,7 +146,7 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 
 ---
 
-### Bug 07:
+# Bug 07:
 
 **Description:** System allows creating coupons with a percentage discount value exceeding 100% (`OVER150`).
 
@@ -171,3 +171,20 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 **Screenshots:** System successfully rendered the `OVER150` coupon with `150%` discount in the coupon list.
 
 ![](./images/bugs/bug07.png)
+
+# Bug 8:
+
+**Description:** Non-admin user token is accepted by the coupon creation API instead of being rejected with an authorization error.
+
+**Steps:**
+
+- Send a `POST` request to the coupon creation API endpoint using a regular (non-admin) user authorization token.
+- Observe the API response status code.
+
+**Expected result:** The system should reject the request and return an authorization error status code `401` (Unauthorized) or `403` (Forbidden).
+
+**Actual result:** The system accepts the request and returns a `200` (OK) status code (`createRes.status()` was `200`, which failed the assertion `expect([401, 403]).toContain(createRes.status())`).
+
+**Screenshots:** Playwright test report showing failed test case `TC-COUPON-ADM-14` at line 351 in `tests/coupon-admin.spec.ts`.
+
+![](./images/bugs/bug08.png)

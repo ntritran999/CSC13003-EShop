@@ -195,4 +195,18 @@ Similar to FR-02, the AI performed well in the initial setup by generating stron
 
 Overall, the AI performed well in establishing the initial test framework similar to previous features, successfully covering primary UI workflows like form submissions and tab navigation; however, its generated script remains flawed as it missed several required test cases from the CSV specification and failed to properly validate currency displays, incorrectly flagging valid VND formatted numbers with comma or dot separators as failures due to rigid string assertions instead of flexible regex handling.
 
+# Task 2
+
+[Youtube link](https://youtu.be/QAVuiVncIZc)
+
 # Appendices
+
+## Appendix A
+
+[AI Audit Report](./[AI-02]%20-%20AI%20Audit%20Report.md)
+
+[AI Critique](./AI_critique.md)
+
+## Appendix B
+
+[Self-assessment & Test summary report](./README.md)
