@@ -1,0 +1,23 @@
+# Bug & Usability Findings Log
+
+Every row corresponds to a genuine observation. A `null` form-submission timestamp means the finding is recorded but has not yet been submitted to the Google Form.
+
+| ID | Scenario/Screen | Checklist ID(s) | Type | Description | Steps/Heuristic | Expected result | Actual result | Severity | Suggested fix | Screenshot ref | Form-submission timestamp |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| D-BUG-001 | D1 - Create Support Request | GUI-003 | Visual layout | Labels and fields are vertically cramped. | Open D1 and inspect the label/input alignment. | Labels and fields have clear, consistent spacing. | Input fields sit directly below their labels. | Low | Apply consistent vertical spacing between labels and controls. | [Evidence](./images/task1b/D1/err_d1_3.png) | 11:31 AM - 4/8/2026 |
+| D-BUG-002 | D1 - Create Support Request | GUI-008 | Usability | The Request type dropdown icon lacks a tooltip. | Open D1, then hover or focus the dropdown icon. | The icon has a visible label or tooltip. | No label or tooltip is displayed. | Low | Add an accessible name and hover/focus tooltip. | [Evidence](./images/task1b/D1/err_d1_8.png) | 11:32 AM - 4/8/2026 |
+| D-BUG-003 | D1 - Create Support Request | GUI-020 | Usability | The attachment preview cannot show the full image. | Select a valid image, then inspect or open its preview. | The complete image can be inspected before submission. | Only a cropped thumbnail is shown with no full-size view. | Low | Use a contained thumbnail and provide a full-size preview. | [Evidence](./images/task1b/D1/err_d1_20.png) | 11:34 AM - 4/8/2026 |
+| D-BUG-004 | D1 - Create Support Request | GUI-027 | Functional/usability | Unsaved request data is lost after Back/Return. | Enter request data, navigate back, then reopen D1. | Data is retained or a discard warning is shown. | The entered data is cleared without warning. | Medium | Preserve a draft or confirm before discarding changes. | [Evidence](./images/task1b/D1/err_d1_27.png) | 11:36 AM - 4/8/2026 |
+| D-BUG-005 | D1 - Create Support Request | GUI-031 | Usability | A selected attachment cannot be dragged or reordered. | Add an image, then try to drag or reorder it. | A visible drag handle allows reordering. | No usable drag handle is available and dragging does not reorder the image. | Low | Add a visible drag handle and accessible reorder controls. | [Evidence](./images/task1b/D1/err_d1_31.png) | 11:38 AM - 4/8/2026 |
+| D-BUG-006 | D1 - Create Support Request | GUI-051 | Accessibility/usability | The file uploader has no visible keyboard focus. | Use Tab to move focus to the uploader. | A visible focus border identifies the focused control. | The uploader shows no visible focus border. | Medium | Add a clear `:focus-visible` outline. | [Evidence](./images/task1b/D1/err_d1_51.png) | 11:39 AM - 4/8/2026 |
+| D-BUG-007 | D3 - Support Requests List | GUI-002 | Visual consistency | Date labels use inconsistent emphasis. | Open D3 and compare Category, From date, and To date labels. | All filter labels use consistent visual emphasis. | From date and To date use a lighter weight than Category. | Low | Apply the same label typography to every filter control. | [Evidence](./images/task1b/D3/err_d3_2.png) | 11:40 AM - 4/8/2026 |
+| D-BUG-008 | D4 - Request Detail | GUI-027 | Functional/usability | Unsaved response text is lost after Back/Return. | Enter response text, navigate away, then return to D4. | Text is retained or a discard warning is shown. | The response text is cleared without warning. | Medium | Preserve the response draft or confirm before discarding it. | [Evidence](./images/task1b/D4/err_d4_28.png) | 1:41 AM - 4/8/2026 |
+| T3-BUG-001 | Task 3 - D3/D4, Android Chrome Phone | Compatibility | Responsive layout | The admin interface overflows horizontally and hides the Collapse control. | Open D3 and D4 on an Android Chrome phone and locate the sidebar Collapse control. | The interface fits the phone viewport and Collapse is reachable without horizontal scrolling. | Horizontal scrolling is required to reach the Collapse control on both screens. | Medium | Make the admin sidebar responsive, prevent page-level horizontal overflow, and keep Collapse within the viewport. | [D3 evidence](./images/task3/Android_Chrome_Phone_D3.png); [D4 evidence](./images/task3/Android_Chrome_Phone_D4.png) | 4:35 PM - 4/8/2026 |
+
+## Reconciliation
+
+- Unique findings in this file: 9.
+- Google Form submissions: 8.
+- Task 1 findings: 8.
+- Task 3 findings: 1 (covering 2 failed compatibility executions).
+- Counts reconciled on: 2026-08-04.

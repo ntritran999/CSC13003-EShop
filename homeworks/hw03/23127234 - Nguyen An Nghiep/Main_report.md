@@ -277,67 +277,58 @@ Task 2 was not performed. No participant identities, contacts, observations, rec
 # 6. Task 3 - Cross-browser and cross-platform testing
 
 ## 6.1 Method
-
-- Execution date: your value.
-- Tool/device source: your value.
 - Email overlay: `23127234@student.hcmus.edu.vn`.
-- Each screenshot must show the EMS URL, email overlay, OS, browser, and device class/name.
 - Evidence directory: `images/task3/`.
-- A failure note must name the visible defect, not merely say that the design is poor.
 
 ## 6.2 D1 - Create Support Request
 
 | ID | OS | Browser | Device class | Result | Note/Defect ID | Screenshot |
 |---|---|---|---|---|---|---|
-| 01 | Windows | Chrome | Desktop | your value | your value | `images/task3/T3_D1_Windows_Chrome_Desktop.png` |
-| 02 | Windows | Edge | Desktop | your value | your value | `images/task3/T3_D1_Windows_Edge_Desktop.png` |
-| 03 | Windows | Firefox | Desktop | your value | your value | `images/task3/T3_D1_Windows_Firefox_Desktop.png` |
-| 04 | Windows | Opera | Desktop | your value | your value | `images/task3/T3_D1_Windows_Opera_Desktop.png` |
-| 05 | iOS | Safari | Phone | your value | your value | `images/task3/T3_D1_iOS_Safari_Phone.png` |
-| 06 | Android | Chrome | Phone | your value | your value | `images/task3/T3_D1_Android_Chrome_Phone.png` |
-| 07 | Android | Firefox | Tablet | your value | your value | `images/task3/T3_D1_Android_Firefox_Tablet.png` |
+| 01 | Windows | Chrome | Desktop | Passed | | `images/task3/Windows_Chrome_Desktop_D1.png` |
+| 02 | Windows | Edge | Desktop | Passed |  | `images/task3/Windows_Edge_Desktop_D1.png` |
+| 03 | Windows | Firefox | Desktop | Passed |  | `images/task3/Windows_Firefox_Desktop_D1.png` |
+| 04 | Windows | Opera | Desktop | Passed | | `images/task3/Windows_Opera_Desktop_D1.png` |
+| 05 | iOS | Safari | Phone | Passed | | `images/task3/iOS_Safari_Phone_D1.jpg` |
+| 06 | Android | Chrome | Phone | Passed | | `images/task3/Android_Chrome_Phone_D1.png` |
+| 07 | Android | Firefox | Tablet | Passed | | `images/task3/Android_Firefox_Tablet_D1.png` |
 
 ## 6.3 D3 - Support Requests List
 
 | ID | OS | Browser | Device class | Result | Note/Defect ID | Screenshot |
 |---|---|---|---|---|---|---|
-| 01 | Windows | Chrome | Desktop | your value | your value | `images/task3/T3_D3_Windows_Chrome_Desktop.png` |
-| 02 | Windows | Edge | Desktop | your value | your value | `images/task3/T3_D3_Windows_Edge_Desktop.png` |
-| 03 | Windows | Firefox | Desktop | your value | your value | `images/task3/T3_D3_Windows_Firefox_Desktop.png` |
-| 04 | Windows | Opera | Desktop | your value | your value | `images/task3/T3_D3_Windows_Opera_Desktop.png` |
-| 05 | iOS | Safari | Phone | your value | your value | `images/task3/T3_D3_iOS_Safari_Phone.png` |
-| 06 | Android | Chrome | Phone | your value | your value | `images/task3/T3_D3_Android_Chrome_Phone.png` |
-| 07 | Android | Firefox | Tablet | your value | your value | `images/task3/T3_D3_Android_Firefox_Tablet.png` |
+| 01 | Windows | Chrome | Desktop | Passed | | `images/task3/Windows_Chrome_Desktop_D3.png` |
+| 02 | Windows | Edge | Desktop | Passed | | `images/task3/Windows_Edge_Desktop_D3.png` |
+| 03 | Windows | Firefox | Desktop | Passed | | `images/task3/Windows_Firefox_Desktop_D3.png` |
+| 04 | Windows | Opera | Desktop | Passed | | `images/task3/Windows_Opera_Desktop_D3.png` |
+| 05 | iOS | Safari | Phone | Passed | | `images/task3/iOS_Safari_Phone_D3.jpg` |
+| 06 | Android | Chrome | Phone | Failed | Break UI (must scroll to see button Collapse) | `images/task3/Android_Chrome_Phone_D3.png` |
+| 07 | Android | Firefox | Tablet | Passed | | `images/task3/Android_Firefox_Tablet_D3.png` |
 
 ## 6.4 D4 - Request Detail and Resolution
 
 | ID | OS | Browser | Device class | Result | Note/Defect ID | Screenshot |
 |---|---|---|---|---|---|---|
-| 01 | Windows | Chrome | Desktop | your value | your value | `images/task3/T3_D4_Windows_Chrome_Desktop.png` |
-| 02 | Windows | Edge | Desktop | your value | your value | `images/task3/T3_D4_Windows_Edge_Desktop.png` |
-| 03 | Windows | Firefox | Desktop | your value | your value | `images/task3/T3_D4_Windows_Firefox_Desktop.png` |
-| 04 | Windows | Opera | Desktop | your value | your value | `images/task3/T3_D4_Windows_Opera_Desktop.png` |
-| 05 | iOS | Safari | Phone | your value | your value | `images/task3/T3_D4_iOS_Safari_Phone.png` |
-| 06 | Android | Chrome | Phone | your value | your value | `images/task3/T3_D4_Android_Chrome_Phone.png` |
-| 07 | Android | Firefox | Tablet | your value | your value | `images/task3/T3_D4_Android_Firefox_Tablet.png` |
+| 01 | Windows | Chrome | Desktop | Passed | | `images/task3/Windows_Chrome_Desktop_D4.png` |
+| 02 | Windows | Edge | Desktop | Passed | | `images/task3/Windows_Edge_Desktop_D4.png` |
+| 03 | Windows | Firefox | Desktop | Passed | | `images/task3/Windows_Firefox_Desktop_D4.png` |
+| 04 | Windows | Opera | Desktop | Passed | | `images/task3/Windows_Opera_Desktop_D4.png` |
+| 05 | iOS | Safari | Phone | Passed | | `images/task3/iOS_Safari_Phone_D4.jpg` |
+| 06 | Android | Chrome | Phone | Failed | Break UI (must scroll to see button Collapse) | `images/task3/Android_Chrome_Phone_D4.png` |
+| 07 | Android | Firefox | Tablet | Passed | | `images/task3/Android_Firefox_Tablet_D4.png` |
 
 ## 6.5 Compatibility summary
 
 | Metric | Value |
 |---|---:|
 | Planned cells | 21 |
-| Executed cells | your value |
-| Passed | your value |
-| Failed | your value |
-| Unique compatibility findings | your value |
+| Executed cells | 21 |
+| Passed | 19 |
+| Failed | 2 |
+| Unique compatibility findings | 1 |
 
 # 7. Bug and usability findings reconciliation
 
 - Aggregated log: [Bug & Usability Findings Log](./Bug%20%26%20Usability%20Findings%20Log.md).
-- Total unique findings in report: your value.
-- Total unique findings in aggregated log: your value.
-- Total Google Form submissions: your value.
-- Reconciliation result: your value.
 
 # 8. Agent Skill
 
@@ -347,13 +338,7 @@ Task 2 was not performed. No participant identities, contacts, observations, rec
 - Validation command/result: your value.
 - Demonstration video: your value.
 
-# 9. AI usage
-
-- AI tools used: your value.
-- Complete interaction log: [AI Audit Report](./AI_Audit_Report.md).
-- AI critique: [AI Critique](./AI_critique.md).
-
-# 10. Conclusion
+# 9. Conclusion
 
 The tested Scenario D support lifecycle produced `your value` Passed results, `your value` Failed results, and `your value` N/A results across 153 checklist executions. Cross-platform testing executed `your value` of 21 planned cells and identified `your value` unique compatibility findings. The highest-priority observed risk was `your value`. Task 2 was not performed and no user-study data was fabricated.
 
