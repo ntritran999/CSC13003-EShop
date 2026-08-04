@@ -334,21 +334,11 @@ Task 2 was not performed. No participant identities, contacts, observations, rec
 
 - Skill name: `ems-gui-test`.
 - Source: [SKILL.md](./skills/ems-gui-test/SKILL.md).
-- Purpose: prepare and validate checklist execution, evidence references, compatibility coverage, and findings-log completeness without inventing results.
-- Validation command/result: your value.
-- Demonstration video: your value.
-
-# 9. Conclusion
-
-The tested Scenario D support lifecycle produced `your value` Passed results, `your value` Failed results, and `your value` N/A results across 153 checklist executions. Cross-platform testing executed `your value` of 21 planned cells and identified `your value` unique compatibility findings. The highest-priority observed risk was `your value`. Task 2 was not performed and no user-study data was fabricated.
+- Purpose: Designs and executes reusable GUI checklist testing, heuristic evaluation, five-person usability testing, and cross-platform compatibility matrices for EMS screens and workflows. Use when the input contains an EMS flow description and related screenshots and Claude must generate a standards-based GUI checklist, plan or document real test execution across at least three screens, analyze genuine participant results, identify evidence-backed findings, or produce a compatibility report without inventing observations, users, metrics, or screenshots.
+- Demonstration video: https://youtu.be/kbvjK2NBPBA.
 
 # Appendices
-
-- Appendix A - [Execution instructions](./instruction_hw3.md)
-- Appendix B - [Shared checklist](./EMS_GUI_Checklist_reviewed.md)
-- Appendix C - [Reference sources](./GUI_Checklist_Reference_Sources.md)
-- Appendix D - [Shared AI prompts](./GUI_Checklist_AI_Prompts.md)
-- Appendix E - [AI Audit Report](./AI_Audit_Report.md)
-- Appendix F - [AI Critique](./AI_critique.md)
-- Appendix G - [README and self-assessment](./README.md)
-- Appendix H - [Git log](./git-log.txt)
+- Appendix A - [Shared checklist](./EMS_GUI_Checklist_reviewed.md)
+- Appendix B - [AI Audit Report](<./[AI-02] - FIT@HCMUS - AI Audit Report.md>)
+- Appendix C - [AI Critique](./AI_critique.md)
+- Appendix D - [README and self-assessment](./README.md)
