@@ -59,8 +59,6 @@ Screenshots: Lowercase coupon characters are not allowed.
 
 ![](./images/bugs/bug03.png)
 
-Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và hình ảnh thực tế từ test case **`ZERODISC`** (Mã giảm giá với mức giảm $0\%$), dưới đây là báo cáo Bug chuẩn chỉnh dành cho lỗi này:
-
 ---
 
 # Bug 04:
@@ -92,7 +90,7 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 ---
 # Bug 05:
 
-**Description:** System allows creating coupons with a negative discount value (`NEGDISC`).
+**Description:** System allows creating coupons with a negative discount value.
 
 **Steps:**
 
@@ -120,7 +118,7 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 
 # Bug 06:
 
-**Description:** System allows creating coupons with a negative minimum order amount (`NEGMIN`).
+**Description:** System allows creating coupons with a negative minimum order amount.
 
 **Steps:**
 
@@ -148,7 +146,7 @@ Dựa trên mẫu báo cáo lỗi (Bug Report format) bạn đã cung cấp và 
 
 # Bug 07:
 
-**Description:** System allows creating coupons with a percentage discount value exceeding 100% (`OVER150`).
+**Description:** System allows creating coupons with a percentage discount value exceeding 100%.
 
 **Steps:**
 
