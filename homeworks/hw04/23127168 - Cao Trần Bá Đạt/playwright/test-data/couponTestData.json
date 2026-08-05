@@ -1,0 +1,84 @@
+[
+  {
+    "id": "TC-COUPON-01",
+    "type": "Positive",
+    "couponCode": "SAVE10",
+    "totalAmount": 300000,
+    "loggedIn": true,
+    "expectedOutcome": "success",
+    "expectedDiscount": "30.000",
+    "expectedFinal": "270.000"
+  },
+  {
+    "id": "TC-COUPON-02",
+    "type": "Positive",
+    "couponCode": "BIGBUY",
+    "totalAmount": 500000,
+    "loggedIn": true,
+    "expectedOutcome": "success",
+    "expectedDiscount": "50.000",
+    "expectedFinal": "450.000"
+  },
+    {
+    "id": "TC-COUPON-03",
+    "type": "Positive",
+    "couponCode": "VIP100",
+    "totalAmount": 300000,
+    "loggedIn": true,
+    "expectedOutcome": "success",
+    "expectedDiscount": "100.000",
+    "expectedFinal": "200.000"
+  },
+  {
+    "id": "TC-COUPON-04",
+    "type": "Negative",
+    "couponCode": "NOTREAL99",
+    "totalAmount": 300000,
+    "loggedIn": true,
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-COUPON-05",
+    "type": "Negative",
+    "couponCode": "EXPIRED",
+    "totalAmount": 150000,
+    "loggedIn": true,
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-COUPON-06",
+    "type": "Negative",
+    "couponCode": "SAVE10",
+    "totalAmount": 200000,
+    "loggedIn": true,
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-COUPON-07",
+    "type": "Negative",
+    "couponCode": "SAVE10",
+    "totalAmount": 300000,
+    "loggedIn": false,
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-COUPON-11",
+    "type": "Edge",
+    "couponCode": "save10",
+    "totalAmount": 300000,
+    "loggedIn": true,
+    "expectedOutcome": "success",
+    "expectedDiscount": "30.000",
+    "expectedFinal": "270.000"
+  },
+  {
+    "id": "TC-COUPON-12",
+    "type": "Edge",
+    "couponCode": " SAVE10 ",
+    "totalAmount": 300000,
+    "loggedIn": true,
+    "expectedOutcome": "success",
+    "expectedDiscount": "30.000",
+    "expectedFinal": "270.000"
+  }
+]

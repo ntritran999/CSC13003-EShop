@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC-LOGIN-01",
+    "type": "Positive",
+    "email": "test@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "success"
+  },
+  {
+    "id": "TC-LOGIN-03",
+    "type": "Negative",
+    "email": "test@eshop.com",
+    "password": "WrongPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-LOGIN-08",
+    "type": "Negative",
+    "email": "notexist@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-LOGIN-12",
+    "type": "Edge-Security",
+    "email": "' OR '1'='1",
+    "password": "anything123",
+    "expectedOutcome": "error"
+  },
+  {
+    "id": "TC-LOGIN-13",
+    "type": "Edge",
+    "email": "TEST@ESHOP.COM",
+    "password": "Test1234!",
+    "expectedOutcome": "success"
+  }
+]
