@@ -1,0 +1,21 @@
+Test ID,Action,Name,Name Length,Price,Category,Expected
+TC_FR15_01,create,HW04 Valid Product,,25000000,first,created
+TC_FR15_02,create,,0,25000000,first,rejected
+TC_FR15_03,create,generated,256,25000000,first,rejected
+TC_FR15_04,create,HW04 Text Price,,abc,first,rejected
+TC_FR15_05,create,HW04 Zero Price,,0,first,rejected
+TC_FR15_06,missing-category,HW04 Missing Category,,25000000,none,category-required
+TC_FR15_07,invalid-category,HW04 Invalid Category,,25000000,99999,invalid-category-blocked
+TC_FR15_08,create,,0,100000,first,rejected
+TC_FR15_09,create,generated,1,100000,first,created
+TC_FR15_10,create,generated,2,100000,first,created
+TC_FR15_11,create,generated,254,100000,first,created
+TC_FR15_12,create,generated,255,100000,first,created
+TC_FR15_13,create,generated,256,100000,first,rejected
+TC_FR15_14,create,HW04 Boundary Zero,,0,first,rejected
+TC_FR15_15,create,HW04 Boundary One,,1,first,created
+TC_FR15_16,create,HW04 Boundary Two,,2,first,created
+TC_FR15_17,view,HW04 View Product,,100000,first,visible
+TC_FR15_18,update-isolation,HW04 Update Product,,100000,first,updated-one
+TC_FR15_19,cancel-edit,HW04 Cancel Edit,,100000,first,unchanged
+TC_FR15_20,delete,HW04 Delete Product,,100000,first,deleted

@@ -1,0 +1,18 @@
+Test ID,Mode,Email,OTP,Password Strategy,Password,Length,Expected
+TC_FR03_01,reset,shared,displayed,literal,Test1234!,,success
+TC_FR03_02,request,missing-23127234@eshop.invalid,none,none,,,unregistered
+TC_FR03_03,reset,shared,12345,literal,Test1234!,,otp-rejected
+TC_FR03_04,reset,shared,999999,literal,Test1234!,,otp-rejected
+TC_FR03_05,reset,shared,displayed,literal,Aa1!bbb,,password-rejected
+TC_FR03_06,reset,shared,displayed,literal,test1234!,,password-rejected
+TC_FR03_07,reset,shared,displayed,literal,TEST1234!,,password-rejected
+TC_FR03_08,reset,shared,displayed,literal,TestPass!,,password-rejected
+TC_FR03_09,reset,shared,displayed,literal,Test12345,,password-rejected
+TC_FR03_10,inspect-confirm,shared,none,none,,,confirm-field
+TC_FR03_12,inspect-otp,shared,displayed,none,,,otp-six-digits
+TC_FR03_13,reset,shared,1234567,literal,Test1234!,,otp-rejected
+TC_FR03_15,reset,shared,displayed,literal,Aa1!bbbb,,success
+TC_FR03_16,reset,shared,displayed,literal,Aa1!bbbbb,,success
+TC_FR03_17,reset,shared,displayed,strong-length,,254,success
+TC_FR03_18,reset,shared,displayed,strong-length,,255,success
+TC_FR03_19,reset,shared,displayed,strong-length,,256,password-rejected

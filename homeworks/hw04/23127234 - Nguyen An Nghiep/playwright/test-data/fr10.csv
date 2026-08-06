@@ -1,0 +1,14 @@
+Test ID,Actor,Start State,Action,Channel,Expected Status,Expected HTTP
+TC_FR10_01,admin,pending,confirm,admin-ui,confirmed,200
+TC_FR10_02,user,pending,cancel,user-ui,canceled,200
+TC_FR10_03,admin,confirmed,ship,admin-ui,shipping,200
+TC_FR10_04,user,confirmed,cancel,user-ui,canceled,200
+TC_FR10_05,admin,shipping,deliver,admin-ui,delivered,200
+TC_FR10_06,admin,shipping,cancel,admin-ui,canceled,200
+TC_FR10_07,user,shipping,cancel,user-ui,shipping,400
+TC_FR10_08,admin,pending,force-shipping,api, pending,400
+TC_FR10_09,admin,confirmed,force-pending,api,confirmed,400
+TC_FR10_10,admin,delivered,force-canceled,api,delivered,400
+TC_FR10_11,admin,canceled,force-pending,api,canceled,400
+TC_FR10_12,admin,canceled,force-delivered,admin-ui,canceled,400
+TC_FR10_13,unauthenticated,pending,confirm,api,pending,401

@@ -1,0 +1,23 @@
+{
+  "name": "23127234-hw04-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright automation workspace for Nguyen An Nghiep's HW04 submission.",
+  "scripts": {
+    "test:list": "set PW_CONFIG_VALIDATE=1&& playwright test --list --pass-with-no-tests",
+    "test:fr03:chromium": "node scripts/run-feature.cjs fr03 chromium",
+    "test:fr03:firefox": "node scripts/run-feature.cjs fr03 firefox",
+    "test:fr03:webkit": "node scripts/run-feature.cjs fr03 webkit",
+    "test:fr10:chromium": "node scripts/run-feature.cjs fr10 chromium",
+    "test:fr10:firefox": "node scripts/run-feature.cjs fr10 firefox",
+    "test:fr10:webkit": "node scripts/run-feature.cjs fr10 webkit",
+    "test:fr15:chromium": "node scripts/run-feature.cjs fr15 chromium",
+    "test:fr15:firefox": "node scripts/run-feature.cjs fr15 firefox",
+    "test:fr15:webkit": "node scripts/run-feature.cjs fr15 webkit"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.0",
+    "@types/node": "26.1.2",
+    "csv-parse": "7.0.1"
+  }
+}
