@@ -19,3 +19,6 @@ TC_FR15_17,view,HW04 View Product,,100000,first,visible
 TC_FR15_18,update-isolation,HW04 Update Product,,100000,first,updated-one
 TC_FR15_19,cancel-edit,HW04 Cancel Edit,,100000,first,unchanged
 TC_FR15_20,delete,HW04 Delete Product,,100000,first,deleted
+TC_FR15_21,unauth-create,HW04 Unauthorized Create,,100000,first,http-401
+TC_FR15_22,user-update,HW04 User Update,,100000,first,http-403
+TC_FR15_23,user-delete,HW04 User Delete,,100000,first,http-403

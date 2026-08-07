@@ -107,17 +107,48 @@ async function loginAdminUi(page: Page): Promise<void> {
   await page.getByPlaceholder("Password").fill(ADMIN_PASSWORD);
   await page.getByRole("button", { name: "Login" }).click();
   await expect(page.getByText("EShop Admin")).toBeVisible();
-  await page.locator("li").nth(4).click();
+  await page.getByText("Đơn hàng", { exact: true }).click();
 }
 
 async function loginUserUi(page: Page): Promise<void> {
   await page.goto(`${WEB_URL}/login`);
-  const textInputs = page.locator('input[type="text"]');
-  await textInputs.first().fill(USER_EMAIL);
-  await textInputs.nth(1).fill(USER_PASSWORD);
-  await page.locator('button[type="submit"]').click();
+  await page
+    .getByText("Username", { exact: true })
+    .locator("..")
+    .locator("input")
+    .fill(USER_EMAIL);
+  await page
+    .getByText("Mật khẩu", { exact: true })
+    .locator("..")
+    .locator("input")
+    .fill(USER_PASSWORD);
+  await page.getByRole("button", { name: "Sign In" }).click();
   await expect(page).toHaveURL(`${WEB_URL}/`);
   await page.goto(`${WEB_URL}/profile`);
+}
+
+function adminActionName(action: string): string {
+  const nameByAction: Record<string, string> = {
+    confirm: "Xác nhận",
+    cancel: "Hủy",
+    ship: "Giao hàng",
+    deliver: "Hoàn thành",
+    "force-delivered": "Đánh dấu Đã giao",
+  };
+  const name = nameByAction[action];
+  if (!name) throw new Error(`Unsupported admin UI action: ${action}`);
+  return name;
+}
+
+function visibleStatusLabel(status: string): string {
+  return (
+    {
+      confirmed: "Đã xác nhận",
+      shipping: "Đang giao",
+      delivered: "Đã giao",
+      canceled: "Đã hủy",
+    }[status] ?? status
+  );
 }
 
 function adminTargetFor(action: string): string {
@@ -179,18 +210,15 @@ test.describe("FR-10 Order State Machine - Run by: 23127234", () => {
               name: `#${orderId}`,
               exact: true,
             }),
-          });
+        });
         await expect(orderRow).toBeVisible();
-        const buttons = orderRow.locator("button");
-
-        if (row.Action === "cancel" && row["Start State"] === "shipping") {
-          expect.soft(await buttons.count()).toBe(2);
-          expect(await readStatus(request, orderId)).toBe(expectedStatus);
-          return;
-        }
 
         if (row.Action === "force-delivered") {
-          const count = await buttons.count();
+          const forbiddenButton = orderRow.getByRole("button", {
+            name: adminActionName(row.Action),
+            exact: true,
+          });
+          const count = await forbiddenButton.count();
           expect.soft(count).toBe(0);
           if (count > 0) {
             const responsePromise = page.waitForResponse(
@@ -198,7 +226,7 @@ test.describe("FR-10 Order State Machine - Run by: 23127234", () => {
                 response.url().includes(`/api/admin/orders/${orderId}/status`) &&
                 response.request().method() === "PUT",
             );
-            await buttons.first().click();
+            await forbiddenButton.click();
             const response = await responsePromise;
             expect.soft(response.status()).toBe(expectedHttp);
           }
@@ -206,31 +234,24 @@ test.describe("FR-10 Order State Machine - Run by: 23127234", () => {
           return;
         }
 
-        const buttonIndex =
-          row.Action === "cancel" &&
-          (row["Start State"] === "pending" ||
-            row["Start State"] === "confirmed")
-            ? 1
-            : 0;
-        await expect(buttons.nth(buttonIndex)).toBeVisible();
+        const actionButton = orderRow.getByRole("button", {
+          name: adminActionName(row.Action),
+          exact: true,
+        });
+        await expect(actionButton).toBeVisible();
         const responsePromise = page.waitForResponse(
           (response) =>
             response.url().includes(`/api/admin/orders/${orderId}/status`) &&
             response.request().method() === "PUT",
         );
-        await buttons.nth(buttonIndex).click();
+        await actionButton.click();
         const response = await responsePromise;
         expect(response.status()).toBe(expectedHttp);
         await expect
           .poll(() => readStatus(request, orderId))
           .toBe(expectedStatus);
         await expect(orderRow.locator("td").nth(4)).toContainText(
-          {
-            confirmed: "Đã xác nhận",
-            shipping: "Đang giao",
-            delivered: "Đã giao",
-            canceled: "Đã hủy",
-          }[expectedStatus] ?? expectedStatus,
+          visibleStatusLabel(expectedStatus),
         );
         return;
       }
@@ -243,9 +264,12 @@ test.describe("FR-10 Order State Machine - Run by: 23127234", () => {
             name: `#${orderId}`,
             exact: true,
           }),
-        });
+      });
       await expect(orderRow).toBeVisible();
-      const cancelButton = orderRow.locator("button");
+      const cancelButton = orderRow.getByRole("button", {
+        name: "Hủy đơn",
+        exact: true,
+      });
 
       if (row["Start State"] === "shipping") {
         const count = await cancelButton.count();

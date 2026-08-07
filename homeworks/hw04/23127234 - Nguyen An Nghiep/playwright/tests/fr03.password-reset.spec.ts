@@ -14,6 +14,7 @@ interface Fr03Row {
   "Password Strategy": "none" | "literal" | "strong-length";
   Password: string;
   Length: string;
+  Requirement: string;
   Expected:
     | "success"
     | "unregistered"
@@ -70,7 +71,11 @@ async function clickAndAcceptDialog(
 
 test.describe("FR-03 Forgot/Reset Password - Run by: 23127234", () => {
   for (const row of rows) {
-    test(`${row["Test ID"]} - ${row.Expected}`, async ({ page }) => {
+    test(`${row["Test ID"]} - ${row.Expected}`, async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: "requirement",
+        description: row.Requirement,
+      });
       const email = row.Email === "shared" ? SHARED_EMAIL : row.Email;
 
       if (row.Mode === "request") {
@@ -117,6 +122,14 @@ test.describe("FR-03 Forgot/Reset Password - Run by: 23127234", () => {
         expect(message).toMatch(/OTP|token/i);
         await expect(page).toHaveURL(/\/forgot-password$/);
       } else if (row.Expected === "password-rejected") {
+        // The current SUT exposes only one generic weak-password dialog and
+        // no rule code. This assertion proves rejection, while the CSV
+        // Requirement annotation records the specific rule under test.
+        testInfo.annotations.push({
+          type: "oracle-limitation",
+          description:
+            "The SUT provides a generic weak-password message, so the UI cannot identify which password rule caused rejection.",
+        });
         expect(message).toMatch(/yếu|yáº¿u|weak/i);
         await expect(page).toHaveURL(/\/forgot-password$/);
       }
