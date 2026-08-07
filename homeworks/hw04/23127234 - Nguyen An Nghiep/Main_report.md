@@ -17,7 +17,7 @@
 | **Full Name** | Nguyen An Nghiep |
 | **Student ID** | 23127234 |
 
----
+
 
 # Task 1
 
@@ -306,11 +306,23 @@ After fixing code:
 
 [Youtube link]()
 
+# Task 3
+The skill should guide an agent through:
+1. Reading a feature requirement and testcase table.
+2. Producing an external data schema.
+3. Inspecting the relevant UI for selectors.
+4. Generating Playwright tests in small groups.
+5. Configuring three browsers and report metadata.
+6. Reviewing selectors, waits, assertions, isolation, and cleanup.
+7. Classifying failures and producing a report checklist.
+
+[Agent skill](./agents/SKILL.md)
+
 # Appendices
 
 ## Appendix A
 
-[AI Audit Report](./[AI-02]%20-%20AI%20Audit%20Report.md)
+[AI Audit Report](<./[AI-02] - FIT@HCMUS - AI Audit Report.md>)
 
 [AI Critique](./AI_critique.md)
 
