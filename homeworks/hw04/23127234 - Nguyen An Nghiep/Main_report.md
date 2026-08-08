@@ -16,6 +16,7 @@
 |:---|:---|
 | **Full Name** | Nguyen An Nghiep |
 | **Student ID** | 23127234 |
+| **Github** | https://github.com/ntritran999/CSC13003-EShop |
 
 
 
@@ -122,12 +123,7 @@ Test cases:
 | Customer frontend | `http://localhost:5173` |
 | Admin frontend | `http://localhost:5174` |
 | Automation | Playwright 1.62.0 with TypeScript |
-| Test data | External CSV parsed with `csv-parse/sync` |
 | Browsers | Chromium, Firefox, WebKit |
-| Execution model | One worker, serial feature-browser runs, zero retries |
-| Evidence policy | Screenshot only on failure; retained trace and video on failure |
-| Reporter | Playwright line reporter and HTML reporter |
-| Report identity | `Run by: 23127234`, feature ID, browser, and ISO timestamp |
 
 The `run-feature.cjs` runner executes one feature on one browser and stores the report under `playwright/test-report/<feature>/<browser>`. All nine required feature-browser combinations were rerun sequentially and completed on 2026-08-07. A nonzero Playwright exit code represents failed assertions against the SUT; the HTML report is still generated.
 
@@ -304,7 +300,7 @@ After fixing code:
 
 # Task 2
 
-[Youtube link]()
+[Youtube link](https://youtu.be/iOSycIAlb-c)
 
 # Task 3
 The skill should guide an agent through:
