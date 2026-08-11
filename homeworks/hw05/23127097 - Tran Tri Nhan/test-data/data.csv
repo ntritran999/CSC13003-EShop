@@ -1,0 +1,21 @@
+email,password,coupon_code,total_amount,shipping_address
+test1@eshop.com,Test1234!,SAVE10,350000,1 Le Loi Q1 TP.HCM
+test2@eshop.com,Test1234!,SAVE10,360000,2 Le Loi Q1 TP.HCM
+test3@eshop.com,Test1234!,SAVE10,379000,3 Le Loi Q1 TP.HCM
+test4@eshop.com,Test1234!,SAVE10,380000,4 Le Loi Q1 TP.HCM
+test5@eshop.com,Test1234!,SAVE10,390000,5 Le Loi Q1 TP.HCM
+test6@eshop.com,Test1234!,SAVE10,400000,6 Le Loi Q1 TP.HCM
+test7@eshop.com,Test1234!,SAVE10,410000,7 Le Loi Q1 TP.HCM
+test8@eshop.com,Test1234!,SAVE10,420000,8 Le Loi Q1 TP.HCM
+test9@eshop.com,Test1234!,SAVE10,430000,9 Le Loi Q1 TP.HCM
+test10@eshop.com,Test1234!,SAVE10,440000,10 Le Loi Q1 TP.HCM
+test11@eshop.com,Test1234!,SAVE10,450000,11 Le Loi Q1 TP.HCM
+test12@eshop.com,Test1234!,SAVE10,460000,12 Le Loi Q1 TP.HCM
+test13@eshop.com,Test1234!,SAVE10,470000,13 Le Loi Q1 TP.HCM
+test14@eshop.com,Test1234!,SAVE10,480000,14 Le Loi Q1 TP.HCM
+test15@eshop.com,Test1234!,SAVE10,490000,15 Le Loi Q1 TP.HCM
+test16@eshop.com,Test1234!,SAVE10,500000,16 Le Loi Q1 TP.HCM
+test17@eshop.com,Test1234!,SAVE10,510000,17 Le Loi Q1 TP.HCM
+test18@eshop.com,Test1234!,SAVE10,520000,18 Le Loi Q1 TP.HCM
+test19@eshop.com,Test1234!,SAVE10,530000,19 Le Loi Q1 TP.HCM
+test20@eshop.com,Test1234!,SAVE10,540000,20 Le Loi Q1 TP.HCM
