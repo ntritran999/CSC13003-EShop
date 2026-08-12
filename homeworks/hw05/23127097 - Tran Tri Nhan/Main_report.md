@@ -88,6 +88,17 @@ For the Listeners(report view), I did not strictly follow the AI's suggestions b
 
 # Task 2
 
+[AI's analysis, suggested performance thresholds and optimization proposals](./ai-generated/jtl-logs-analysis.md)
+
+The AI correctly pointed out the concurrency vs latency correlation and the slowest endpoint. The suggested thresholds given by the AI are accurate and fully supported by the jtl logs. However, the AI suspected that the login request might be slow due to bcrypt hashing, which is incorrect because looking at the logs, the actual slowness came from the initial connection handshakes between the VUs and the server. For example, in the Load test jtl log, on the login request of thread Checkout_Flow_Users 1-1, it spent most of its time for connection(15ms total elasped and 10ms on connection), while its other requests were only around 1-9ms.
+
+Optimization proposals review:
+- SQLite WAL mode: feasible. Reason: Allow multiple read requests and stop them from be blocked while write operation is still going. Can be implemented easily by changing journal mode to WAL.
+- Adding indexes: feasible. Reason: Can be applied to the coupon code column to speed up the response since the apply-coupon request includes this and is called in every transaction in the test plans.
+- Adding a connection pool: hallucinated. Reason: Unfit for the server of EShop, because it uses single-thread instead multiple threads to handle requests.
+- Re-run the load/stress/spike tests at meaningfully higher concurrency and longer duration: feasible. Reason: Numbers of Threads and Duration settings can be easily adjusted to rerun
+- Caching: feasible. Reason: we can choose in-memory caching by using arrays in the backend code to store the products or categories, simple and easy to implement given the scope of the SUT.
+
 # Task 3
 
 # Appendices
