@@ -101,6 +101,14 @@ Optimization proposals review:
 
 # Task 3
 
+Flowchart of the continuous performance-testing model:
+
+![](./images/task3/flowchart.png)
+
+Trade-offs:
+- Cost: This model could introduce token cost because it requires a Large Language Model acting as a judge to decide whether to run performance tests or not(and possibly which features we need to run the tests on) and to flag the possbile performance regressions after the run. 
+- False alarms: If the LLM gets hallucinated while deciding to run performance tests, it might run the tests on the simple features and miss out the critical, sensitive features that would actually require to be tested thoroughly. This further increase the development overhead because it now requires human reviewers to double check the decisions and the final run results.
+
 # Appendices
 
 ## Appendix A
