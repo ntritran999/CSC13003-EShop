@@ -32,7 +32,7 @@ Why this workflow:
 Overall, the plans designed by the AI were reasonable and scoped correctly to the given workflow. The proposed settings for Thread Groups like the number of VUs/threads, ramp-up duration, timers, etc,... were realistic and suitable for specified performance testing scenarios. However, there were some parts or sections of the plan that I found unnecessary or incorrect, so I adjusted these to make the plans more accuracy and simpler.
 
 - In the Stress test plan, the AI suggested using `"user_id": "${__P(user_id,)}"` in the body of apply-coupon request, which would take the parameter at run time from the CLI. Instead, I chose to use JSON extractor in the login request to find the user id because with that, user id can be automatically obtained without having to explicitly include it in the CLI command.
-- In the Spike test plan, I added JSON extraction for the user id in login request and use it in the apply-coupon request instead of defaulting it to 1. I also added the final amount assertion to ensure that it can be extracted later on
+- In the Spike test plan, I added JSON extraction for the user id in login request and use it in the apply-coupon request instead of defaulting it to 1. I also added the final amount assertion in the apply-coupon request to ensure that it can be extracted later on
 
 For the Listeners(report view), I did not strictly follow the AI's suggestions but instead I explicitly chose View Results Tree for Load test plan, Aggregate Report for Stress test and Summary Report for Spike test.
 
