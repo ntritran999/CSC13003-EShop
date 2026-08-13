@@ -18,6 +18,9 @@
 
 # Task 1
 
+[GitHub link for test plans](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw05/23127097%20-%20Tran%20Tri%20Nhan/test-plans)
+[GitHub link for test data](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw05/23127097%20-%20Tran%20Tri%20Nhan/test-data)
+
 ## Workflow Selection
 
 POST /api/login -> GET /api/cart -> POST /api/apply-coupon -> POST /api/checkout
