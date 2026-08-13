@@ -38,8 +38,8 @@
 
 # TASK 1
 
-## 1. LOAD TEST
-**1.1 Test Objective**
+## 1.1 LOAD TEST
+**1.1.1 Test Objective**
 
 * **Purpose:** Evaluate the performance, responsiveness, and stability of the EShop backend under a steady, expected normal user load over a 5-minute duration.
 
@@ -49,7 +49,7 @@
 
 ---
 
-**1.2 Test Scenario Configuration**
+**1.1.2 Test Scenario Configuration**
 
 * **Test Plan File:** `23127168_Load_20260809.jmx`
 
@@ -64,7 +64,7 @@
 
 ---
 
-**1.3 Execution Results & Metrics Summary**
+**1.1.3 Execution Results & Metrics Summary**
 
 | Request Label | Samples | Avg RT (ms) | Min (ms) | Max (ms) | Std. Dev. | Error % | Throughput (RPS) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -76,9 +76,9 @@
 
 ---
 
-## 2. STRESS TEST
+## 1.2 STRESS TEST
 
-**2.1 Test Objective**
+**1.2.1 Test Objective**
 
 * **Purpose:** Determine the system's performance boundaries and stability under beyond-normal heavy workload conditions (100 VUs) over a sustained 5-minute period, evaluating if high load leads to service degradation or failure cascades.
 
@@ -89,7 +89,7 @@
 
 ---
 
-**2.2 Test Scenario Configuration**
+**1.2.2 Test Scenario Configuration**
 
 * **Test Plan File:** `23127168_Stress_20260809.jmx`
 
@@ -112,7 +112,7 @@
 
 ---
 
-**2.3 Execution Results & Metrics Summary**
+**1.2.3 Execution Results & Metrics Summary**
 
 | Request Label | Samples | Avg RT (ms) | Min (ms) | Max (ms) | Std. Dev. | Error % | Throughput (RPS) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -124,9 +124,9 @@
 
 ---
 
-## 3. SPIKE TEST
+## 1.3. SPIKE TEST
 
-**3.1 Test Objective**
+**1.3.1 Test Objective**
 
 * **Purpose:** Evaluate the system's ability to withstand a sudden, extreme surge in traffic over a short timeframe and verify whether the backend recovers cleanly without process crashes or failure cascades.
 
@@ -137,7 +137,7 @@
 
 ---
 
-**3.2 Test Scenario Configuration**
+**1.3.2 Test Scenario Configuration**
 
 * **Test Plan File:** `23127168_Spike_20260809.jmx`
 
@@ -160,7 +160,7 @@
 
 ---
 
-**3.3 Execution Results & Metrics Summary**
+**1.3.3 Execution Results & Metrics Summary**
 
 | Request Label | Samples | Avg RT (ms) | Min (ms) | Max (ms) | Std. Dev. | Error % | Throughput (RPS) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -172,9 +172,9 @@
 
 ---
 
-## 4. HUMAN REVIEW & CRITICAL AI AUDIT (TASK 2)
+## 1.4. HUMAN REVIEW & CRITICAL AI AUDIT (TASK 2)
 
-**4.1 Comparative Analysis: AI Proposals vs. Human Corrections**
+**1.4.1 Comparative Analysis: AI Proposals vs. Human Corrections**
 
 | Scenario | Parameter | AI Proposal | Human Corrected | Engineering Rationale |
 | --- | --- | --- | --- | --- |
@@ -183,7 +183,7 @@
 | **Spike Test** | **VUs / Loop** | 500 VUs / Scheduler | **150 VUs / Loop=5** | 500 VUs triggers `ECONNREFUSED`; 150 VUs with fixed loops ensures clean, concurrent E2E runs.|
 | **Listeners** | **Scoping** | Heavy Trees / Global Auth | **Scoped Reports** | Prevents JMeter `OutOfMemoryError` and avoids sending uninitialized JWT tokens on login.|
 
-**4.2 Critical AI Flaws & Root Causes**
+**1.4.2 Critical AI Flaws & Root Causes**
 
 * **Overestimating Hardware:** AI assumed enterprise cloud capacity, ignoring Node.js's single-threaded event loop and SQLite's single-writer limitation.
 
@@ -196,9 +196,9 @@
 
 ---
 
-## 5. ENDURANCE / SOAK TEST & HARDWARE THRESHOLD DETERMINATION
+## 1.5. ENDURANCE / SOAK TEST & HARDWARE THRESHOLD DETERMINATION
 
-**5.1 Test Objective**
+**1.5.1 Test Objective**
 
 * **Purpose:** Evaluate system endurance, memory leak potential, and long-term operational stability over a sustained 15-minute execution period at a steady baseline load (50 VUs), establishing concrete empirical hardware limits.
 
@@ -209,7 +209,7 @@
 
 ---
 
-**5.2 Test Scenario Configuration**
+**1.5.2 Test Scenario Configuration**
 
 * **Test Plan File:** `23127168_Endurance_20260809.jmx`
 * **Raw Result Log File:** `23127168_Endurance_20260809.jtl`
@@ -226,7 +226,7 @@
 
 ---
 
-**5.3 Execution Results & Metrics Summary**
+**1.5.3 Execution Results & Metrics Summary**
 
 | Request Label | Samples | Avg RT (ms) | Min (ms) | Max (ms) | Std. Dev. | Error % | Throughput (RPS) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -237,6 +237,8 @@
 | **TOTAL** | **28,816** | **3** | **0** | **584** | **9.30** | **0.00%** | **32.1 / sec** |
 
 ---
+
+[Youtube link](https://youtu.be/_VBcHjcosdo)
 
 # TASK 2
 
