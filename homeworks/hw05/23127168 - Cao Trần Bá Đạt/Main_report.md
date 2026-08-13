@@ -74,7 +74,7 @@
 | **04_Checkout**<br> | 1,336 | 5 | 2 | 33 | 1.96 | 0.00% | 4.6 / sec |
 | **TOTAL** | **5,406** | **2** | **0** | **49** | **2.25** | **0.00%** | **18.2 / sec** |
 
-![](./evidence/evidence_load.png)
+![](./images/evidence/evidence_load.png)
 
 ---
 
@@ -124,7 +124,7 @@
 | **04_Checkout** | 8,371 | 5.69 | 2.00 | 102.00 | 3.21 | 0.00% | 28.24 / sec |
 | **TOTAL** | **33,646** | **2.62** | **0.00** | **102.00** | **2.68** | **0.00%** | **112.43 / sec** |
 
-![](./evidence/evidence_stress.png)
+![](./images/evidence/evidence_stress.png)
 
 ---
 
@@ -174,7 +174,7 @@
 | **04_Checkout** | 750 | 4.83 | 2.00 | 32.00 | 2.89 | 0.00% | 74.31 / sec |
 | **TOTAL** | **3,000** | **2.78** | **0.00** | **45.00** | **2.21** | **0.00%** | **274.20 / sec** |
 
-![](./evidence/evidence_spike.png)
+![](./images/evidence/evidence_spike.png)
 
 ---
 
@@ -242,7 +242,7 @@
 | **04_Checkout** | 7,186 | 6 | 2 | 584 | 12.44 | 0.00% | 8.0 / sec |
 | **TOTAL** | **28,816** | **3** | **0** | **584** | **9.30** | **0.00%** | **32.1 / sec** |
 
-![](./evidence/evidence_endurance.png)
+![](./images/evidence/evidence_endurance.png)
 
 ---
 

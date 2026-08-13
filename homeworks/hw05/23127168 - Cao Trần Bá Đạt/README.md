@@ -36,6 +36,6 @@
   * **Max Response Time:** 584 ms
 
 * **Number of Bugs / Performance Issues:** 0 Bugs
-  * **Functional Bugs:** 0 (0.00% Error Rate across 70,868 total requests)[cite: 3]
+  * **Functional Bugs:** 0 (0.00% Error Rate across 70,868 total requests)
 
 * **Demo Video Link:** [Youtube Link](https://youtu.be/_VBcHjcosdo)
