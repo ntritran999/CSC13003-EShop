@@ -86,6 +86,8 @@ For the Listeners(report view), I did not strictly follow the AI's suggestions b
 
 ## Demo video
 
+[Youtube link](https://youtu.be/PWLLhrYgbjA)
+
 # Task 2
 
 [AI's analysis, suggested performance thresholds and optimization proposals](./ai-generated/jtl-logs-analysis.md)
