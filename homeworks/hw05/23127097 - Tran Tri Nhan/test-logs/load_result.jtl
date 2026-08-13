@@ -1,0 +1,501 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1786376911129,15,01_POST_Login,200,OK,Checkout_Flow_Users 1-1,text,true,,651,236,1,1,http://localhost:3000/api/login,15,0,10
+1786376912087,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-2,text,true,,651,236,2,2,http://localhost:3000/api/login,5,0,2
+1786376913085,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-3,text,true,,651,236,3,3,http://localhost:3000/api/login,3,0,1
+1786376914087,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-4,text,true,,651,236,4,4,http://localhost:3000/api/login,4,0,2
+1786376915082,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-5,text,true,,651,236,5,5,http://localhost:3000/api/login,3,0,1
+1786376916084,6,01_POST_Login,200,OK,Checkout_Flow_Users 1-6,text,true,,651,236,6,6,http://localhost:3000/api/login,5,0,3
+1786376917085,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-7,text,true,,651,236,7,7,http://localhost:3000/api/login,3,0,2
+1786376918083,7,01_POST_Login,200,OK,Checkout_Flow_Users 1-8,text,true,,654,236,8,8,http://localhost:3000/api/login,6,0,3
+1786376919083,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-9,text,true,,654,236,9,9,http://localhost:3000/api/login,4,0,2
+1786376911159,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-1,,true,,975,1125,9,9,null,0,8656,0
+1786376913314,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-1,text,true,,267,309,3,3,http://localhost:3000/api/cart,3,0,0
+1786376916401,9,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-1,text,true,,396,406,6,6,http://localhost:3000/api/apply-coupon,9,0,0
+1786376919826,5,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-1,text,true,,312,410,9,9,http://localhost:3000/api/checkout,5,0,0
+1786376919832,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-1,text,true,,655,237,9,9,http://localhost:3000/api/login,1,0,0
+1786376920082,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-10,text,true,,655,237,10,10,http://localhost:3000/api/login,5,0,2
+1786376921080,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-11,text,true,,655,237,11,11,http://localhost:3000/api/login,2,0,1
+1786376913089,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-3,,true,,975,1125,11,11,null,0,8002,0
+1786376915944,4,02_GET_Cart,200,OK,Checkout_Flow_Users 1-3,text,true,,267,309,5,5,http://localhost:3000/api/cart,4,0,0
+1786376918592,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-3,text,true,,396,406,8,8,http://localhost:3000/api/apply-coupon,5,0,0
+1786376921100,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-3,text,true,,312,410,11,11,http://localhost:3000/api/checkout,3,0,0
+1786376921104,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-3,text,true,,655,237,11,11,http://localhost:3000/api/login,1,0,0
+1786376912094,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-2,,true,,975,1125,11,11,null,0,9085,0
+1786376914248,4,02_GET_Cart,200,OK,Checkout_Flow_Users 1-2,text,true,,267,309,4,4,http://localhost:3000/api/cart,4,0,0
+1786376917522,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-2,text,true,,396,406,7,7,http://localhost:3000/api/apply-coupon,5,0,0
+1786376921188,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-2,text,true,,312,410,11,11,http://localhost:3000/api/checkout,4,0,0
+1786376921192,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-2,text,true,,655,237,11,11,http://localhost:3000/api/login,1,0,0
+1786376922084,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-12,text,true,,655,237,12,12,http://localhost:3000/api/login,5,0,2
+1786376914093,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-4,,true,,975,1125,12,12,null,0,8193,0
+1786376916870,5,02_GET_Cart,200,OK,Checkout_Flow_Users 1-4,text,true,,267,309,6,6,http://localhost:3000/api/cart,5,0,0
+1786376919239,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-4,text,true,,396,406,9,9,http://localhost:3000/api/apply-coupon,2,0,0
+1786376922293,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-4,text,true,,312,410,12,12,http://localhost:3000/api/checkout,4,0,0
+1786376922297,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-4,text,true,,655,237,12,12,http://localhost:3000/api/login,2,0,0
+1786376923080,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-13,text,true,,655,237,13,13,http://localhost:3000/api/login,3,0,1
+1786376916091,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-6,,true,,975,1125,13,13,null,0,7550,0
+1786376917971,5,02_GET_Cart,200,OK,Checkout_Flow_Users 1-6,text,true,,267,309,7,7,http://localhost:3000/api/cart,5,0,0
+1786376920456,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-6,text,true,,396,406,10,10,http://localhost:3000/api/apply-coupon,2,0,0
+1786376923648,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-6,text,true,,312,410,13,13,http://localhost:3000/api/checkout,11,0,0
+1786376923660,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-6,text,true,,655,237,13,13,http://localhost:3000/api/login,4,0,0
+1786376915085,19,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-5,,true,,975,1125,13,13,null,0,8755,0
+1786376917505,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-5,text,true,,267,309,7,7,http://localhost:3000/api/cart,1,0,0
+1786376920193,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-5,text,true,,396,406,10,10,http://localhost:3000/api/apply-coupon,6,0,0
+1786376923847,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-5,text,true,,312,410,13,13,http://localhost:3000/api/checkout,12,0,0
+1786376923861,6,01_POST_Login,200,OK,Checkout_Flow_Users 1-5,text,true,,655,237,13,13,http://localhost:3000/api/login,6,0,0
+1786376924082,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-14,text,true,,655,237,14,14,http://localhost:3000/api/login,5,0,3
+1786376917089,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-7,,true,,975,1125,14,14,null,0,7501,0
+1786376919169,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-7,text,true,,267,309,9,9,http://localhost:3000/api/cart,3,0,0
+1786376921552,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-7,text,true,,396,406,11,11,http://localhost:3000/api/apply-coupon,1,0,0
+1786376924595,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-7,text,true,,312,410,14,14,http://localhost:3000/api/checkout,10,0,0
+1786376924608,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-7,text,true,,651,236,14,14,http://localhost:3000/api/login,1,0,0
+1786376925083,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-15,text,true,,651,236,15,15,http://localhost:3000/api/login,5,0,2
+1786376918092,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-8,,true,,975,1132,15,15,null,0,7198,0
+1786376919254,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-8,text,true,,267,311,9,9,http://localhost:3000/api/cart,2,0,0
+1786376922435,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-8,text,true,,396,409,12,12,http://localhost:3000/api/apply-coupon,1,0,0
+1786376925293,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-8,text,true,,312,412,15,15,http://localhost:3000/api/checkout,11,0,0
+1786376925306,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-8,text,true,,651,236,15,15,http://localhost:3000/api/login,5,0,0
+1786376926080,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-16,text,true,,651,236,16,16,http://localhost:3000/api/login,2,0,1
+1786376920088,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-10,,true,,975,1133,16,16,null,0,6148,0
+1786376921199,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-10,text,true,,267,311,11,11,http://localhost:3000/api/cart,1,0,0
+1786376923695,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-10,text,true,,396,409,13,13,http://localhost:3000/api/apply-coupon,1,0,0
+1786376926238,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-10,text,true,,312,413,16,16,http://localhost:3000/api/checkout,12,0,0
+1786376926253,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-10,text,true,,651,236,16,16,http://localhost:3000/api/login,2,0,0
+1786376919088,19,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-9,,true,,976,1132,16,16,null,0,7915,0
+1786376921448,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-9,text,true,,267,311,11,11,http://localhost:3000/api/cart,1,0,0
+1786376924396,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-9,text,true,,396,409,14,14,http://localhost:3000/api/apply-coupon,5,0,0
+1786376927011,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-9,text,true,,313,412,16,16,http://localhost:3000/api/checkout,12,0,0
+1786376927025,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-9,text,true,,651,236,16,16,http://localhost:3000/api/login,4,0,0
+1786376927081,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-17,text,true,,651,236,17,17,http://localhost:3000/api/login,5,0,2
+1786376919833,10,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-1,,true,,976,1133,17,17,null,0,7597,0
+1786376921005,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-1,text,true,,267,311,10,10,http://localhost:3000/api/cart,1,0,0
+1786376923969,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-1,text,true,,396,409,13,13,http://localhost:3000/api/apply-coupon,6,0,0
+1786376927438,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-1,text,true,,313,413,17,17,http://localhost:3000/api/checkout,3,0,0
+1786376927441,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-1,text,true,,654,236,17,17,http://localhost:3000/api/login,2,0,0
+1786376922299,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-4,,true,,976,1133,17,17,null,0,5447,0
+1786376923753,4,02_GET_Cart,200,OK,Checkout_Flow_Users 1-4,text,true,,267,311,13,13,http://localhost:3000/api/cart,4,0,0
+1786376925413,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-4,text,true,,396,409,15,15,http://localhost:3000/api/apply-coupon,5,0,0
+1786376927754,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-4,text,true,,313,413,17,17,http://localhost:3000/api/checkout,3,0,0
+1786376927758,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-4,text,true,,654,236,17,17,http://localhost:3000/api/login,1,0,0
+1786376928079,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-18,text,true,,655,237,18,18,http://localhost:3000/api/login,2,0,1
+1786376921082,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-11,,true,,976,1133,18,18,null,0,7337,0
+1786376923493,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-11,text,true,,267,311,13,13,http://localhost:3000/api/cart,1,0,0
+1786376925824,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-11,text,true,,396,409,15,15,http://localhost:3000/api/apply-coupon,1,0,0
+1786376928422,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-11,text,true,,313,413,18,18,http://localhost:3000/api/checkout,3,0,0
+1786376928425,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-11,text,true,,655,237,18,18,http://localhost:3000/api/login,1,0,0
+1786376921105,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-3,,true,,976,1133,18,18,null,0,7647,0
+1786376923605,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-3,text,true,,267,311,13,13,http://localhost:3000/api/cart,1,0,0
+1786376925689,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-3,text,true,,396,409,15,15,http://localhost:3000/api/apply-coupon,2,0,0
+1786376928755,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-3,text,true,,313,413,18,18,http://localhost:3000/api/checkout,3,0,0
+1786376928758,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-3,text,true,,655,237,18,18,http://localhost:3000/api/login,1,0,0
+1786376929078,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-19,text,true,,655,237,19,19,http://localhost:3000/api/login,2,0,1
+1786376921194,8,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-2,,true,,976,1133,19,19,null,0,8040,0
+1786376923492,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-2,text,true,,267,311,13,13,http://localhost:3000/api/cart,2,0,0
+1786376926925,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-2,text,true,,396,409,16,16,http://localhost:3000/api/apply-coupon,2,0,0
+1786376929238,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-2,text,true,,313,413,19,19,http://localhost:3000/api/checkout,3,0,0
+1786376929242,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-2,text,true,,655,237,19,19,http://localhost:3000/api/login,1,0,0
+1786376922090,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-12,,true,,976,1133,19,19,null,0,7554,0
+1786376924419,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-12,text,true,,267,311,14,14,http://localhost:3000/api/cart,3,0,0
+1786376926505,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-12,text,true,,396,409,16,16,http://localhost:3000/api/apply-coupon,6,0,0
+1786376929653,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-12,text,true,,313,413,19,19,http://localhost:3000/api/checkout,4,0,0
+1786376929657,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-12,text,true,,655,237,19,19,http://localhost:3000/api/login,2,0,0
+1786376930079,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-20,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376924089,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-14,,true,,976,1133,20,20,null,0,6704,0
+1786376926030,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-14,text,true,,267,311,15,15,http://localhost:3000/api/cart,1,0,0
+1786376928030,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-14,text,true,,396,409,17,17,http://localhost:3000/api/apply-coupon,2,0,0
+1786376930796,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-14,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376930800,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-14,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376923665,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-6,,true,,976,1133,20,20,null,0,7355,0
+1786376925186,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-6,text,true,,267,311,15,15,http://localhost:3000/api/cart,3,0,0
+1786376927451,0,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-6,text,true,,396,409,17,17,http://localhost:3000/api/apply-coupon,0,0,0
+1786376931023,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-6,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376931027,0,01_POST_Login,200,OK,Checkout_Flow_Users 1-6,text,true,,655,237,20,20,http://localhost:3000/api/login,0,0,0
+1786376923083,8,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-13,,true,,976,1133,20,20,null,0,8219,0
+1786376925262,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-13,text,true,,267,311,15,15,http://localhost:3000/api/cart,3,0,0
+1786376928699,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-13,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,1,0,0
+1786376931306,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-13,text,true,,313,413,20,20,http://localhost:3000/api/checkout,4,0,0
+1786376931310,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-13,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376925312,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-8,,true,,976,1125,20,20,null,0,6159,0
+1786376926996,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-8,text,true,,267,309,16,16,http://localhost:3000/api/cart,3,0,0
+1786376929266,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-8,text,true,,396,406,19,19,http://localhost:3000/api/apply-coupon,1,0,0
+1786376931475,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-8,text,true,,313,410,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376931478,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-8,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376923869,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-5,,true,,976,1133,20,20,null,0,7672,0
+1786376926071,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-5,text,true,,267,311,15,15,http://localhost:3000/api/cart,2,0,0
+1786376929321,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-5,text,true,,396,409,19,19,http://localhost:3000/api/apply-coupon,1,0,0
+1786376931544,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-5,text,true,,313,413,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376931547,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-5,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376924610,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-7,,true,,976,1125,20,20,null,0,7165,0
+1786376927355,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-7,text,true,,267,309,17,17,http://localhost:3000/api/cart,1,0,0
+1786376929403,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-7,text,true,,396,406,19,19,http://localhost:3000/api/apply-coupon,2,0,0
+1786376931778,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-7,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376931782,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-7,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376927088,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-17,,true,,976,1125,20,20,null,0,5043,0
+1786376928323,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-17,text,true,,267,309,18,18,http://localhost:3000/api/cart,1,0,0
+1786376930004,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-17,text,true,,396,406,19,19,http://localhost:3000/api/apply-coupon,1,0,0
+1786376932133,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-17,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376932137,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-17,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376926256,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-10,,true,,976,1125,20,20,null,0,6559,0
+1786376927584,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-10,text,true,,267,309,17,17,http://localhost:3000/api/cart,1,0,0
+1786376929343,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-10,text,true,,396,406,19,19,http://localhost:3000/api/apply-coupon,1,0,0
+1786376932816,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-10,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376932820,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-10,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376928081,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-18,,true,,976,1133,20,20,null,0,5651,0
+1786376929665,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-18,text,true,,267,311,19,19,http://localhost:3000/api/cart,1,0,0
+1786376931631,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-18,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376933733,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-18,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376933737,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-18,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376925089,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-15,,true,,976,1125,20,20,null,0,8766,0
+1786376927077,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-15,text,true,,267,309,17,17,http://localhost:3000/api/cart,2,0,0
+1786376930247,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-15,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376933858,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-15,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376933861,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-15,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376926083,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-16,,true,,976,1125,20,20,null,0,7832,0
+1786376928066,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-16,text,true,,267,309,17,17,http://localhost:3000/api/cart,1,0,0
+1786376930501,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-16,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376933918,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-16,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376933921,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-16,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376927443,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-1,,true,,976,1132,20,20,null,0,6987,0
+1786376929761,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-1,text,true,,267,311,19,19,http://localhost:3000/api/cart,1,0,0
+1786376932192,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-1,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376934433,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-1,text,true,,313,412,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376934436,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-1,text,true,,654,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376927030,4,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-9,,true,,976,1125,20,20,null,0,8458,0
+1786376929803,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-9,text,true,,267,309,19,19,http://localhost:3000/api/cart,1,0,0
+1786376933168,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-9,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376935489,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-9,text,true,,313,410,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376935492,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-9,text,true,,654,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376929243,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-2,,true,,976,1133,20,20,null,0,7124,0
+1786376930821,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-2,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376933270,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-2,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376936370,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-2,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376936374,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-2,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376929080,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-19,,true,,976,1133,20,20,null,0,7452,0
+1786376930616,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-19,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376933264,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-19,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376936534,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-19,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376936537,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-19,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376927759,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-4,,true,,976,1132,20,20,null,0,9039,0
+1786376930501,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-4,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376933110,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-4,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376936800,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-4,text,true,,313,412,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376936804,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-4,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376928427,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-11,,true,,976,1133,20,20,null,0,8552,0
+1786376929727,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-11,text,true,,267,311,19,19,http://localhost:3000/api/cart,1,0,0
+1786376932992,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-11,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376936981,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-11,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376936984,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-11,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376928759,7,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-3,,true,,976,1133,20,20,null,0,8480,0
+1786376931698,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-3,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376933418,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-3,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376937242,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-3,text,true,,313,413,20,20,http://localhost:3000/api/checkout,4,0,0
+1786376937246,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-3,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376930801,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-14,,true,,976,1133,20,20,null,0,7279,0
+1786376932742,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-14,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376934452,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-14,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376938082,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-14,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376938085,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-14,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376931479,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-8,,true,,976,1133,20,20,null,0,6606,0
+1786376934332,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-8,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376936002,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-8,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376938088,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-8,text,true,,313,413,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376938090,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-8,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376931311,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-13,,true,,976,1133,20,20,null,0,6851,0
+1786376932574,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-13,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376934847,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-13,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376938165,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-13,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376938168,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-13,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376929659,4,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-12,,true,,976,1133,20,20,null,0,8564,0
+1786376932390,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-12,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376934666,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-12,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376938225,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-12,text,true,,313,413,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376938228,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-12,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376930081,4,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-20,,true,,976,1133,20,20,null,0,8145,0
+1786376932598,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-20,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376935634,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-20,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376938228,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-20,text,true,,313,413,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376938230,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-20,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376931548,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-5,,true,,976,1125,20,20,null,0,6702,0
+1786376932649,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-5,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376935320,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-5,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376938253,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-5,text,true,,313,410,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376938256,0,01_POST_Login,200,OK,Checkout_Flow_Users 1-5,text,true,,655,237,20,20,http://localhost:3000/api/login,0,0,0
+1786376931028,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-6,,true,,976,1133,20,20,null,0,7359,0
+1786376932903,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-6,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376935469,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-6,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376938389,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-6,text,true,,313,413,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376938392,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-6,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376931783,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-7,,true,,976,1125,20,20,null,0,7324,0
+1786376932973,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-7,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376935478,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-7,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376939110,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-7,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376939114,0,01_POST_Login,200,OK,Checkout_Flow_Users 1-7,text,true,,651,236,20,20,http://localhost:3000/api/login,0,0,0
+1786376932138,4,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-17,,true,,976,1125,20,20,null,0,8655,0
+1786376934720,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-17,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376937695,0,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-17,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,0,0,0
+1786376940794,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-17,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376940797,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-17,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376932821,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-10,,true,,976,1125,20,20,null,0,8053,0
+1786376934335,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-10,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376936908,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-10,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376940876,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-10,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376940879,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-10,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376934437,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-1,,true,,976,1132,20,20,null,0,6816,0
+1786376936501,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-1,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376938967,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-1,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376941255,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-1,text,true,,313,412,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376941258,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-1,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376933922,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-16,,true,,976,1125,20,20,null,0,7751,0
+1786376936002,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-16,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376938231,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-16,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376941675,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-16,text,true,,313,410,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376941678,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-16,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376936539,5,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-19,,true,,976,1133,20,20,null,0,5310,0
+1786376937848,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-19,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376939430,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-19,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376941851,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-19,text,true,,313,413,20,20,http://localhost:3000/api/checkout,3,0,0
+1786376941854,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-19,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376933863,8,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-15,,true,,976,1125,20,20,null,0,8509,0
+1786376935648,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-15,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376939028,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-15,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376942375,5,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-15,text,true,,313,410,20,20,http://localhost:3000/api/checkout,5,0,0
+1786376942381,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-15,text,true,,654,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376935493,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-9,,true,,976,1132,20,20,null,0,7018,0
+1786376936736,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-9,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376939072,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-9,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376942514,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-9,text,true,,313,412,20,20,http://localhost:3000/api/checkout,11,0,0
+1786376942525,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-9,text,true,,654,236,20,20,http://localhost:3000/api/login,3,0,0
+1786376936375,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-2,,true,,976,1133,20,20,null,0,6188,0
+1786376937690,0,02_GET_Cart,200,OK,Checkout_Flow_Users 1-2,text,true,,267,311,20,20,http://localhost:3000/api/cart,0,0,0
+1786376939767,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-2,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376942564,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-2,text,true,,313,413,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376942575,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-2,text,true,,655,237,20,20,http://localhost:3000/api/login,4,0,0
+1786376936805,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-4,,true,,976,1133,20,20,null,0,6163,0
+1786376938658,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-4,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376940171,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-4,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376942970,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-4,text,true,,313,413,20,20,http://localhost:3000/api/checkout,9,0,0
+1786376942980,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-4,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376933738,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-18,,true,,976,1125,20,20,null,0,9545,0
+1786376936356,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-18,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376939426,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-18,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376943285,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-18,text,true,,313,410,20,20,http://localhost:3000/api/checkout,9,0,0
+1786376943294,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-18,text,true,,655,237,20,20,http://localhost:3000/api/login,1,0,0
+1786376937247,6,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-3,,true,,976,1133,20,20,null,0,6883,0
+1786376939791,0,02_GET_Cart,200,OK,Checkout_Flow_Users 1-3,text,true,,267,311,20,20,http://localhost:3000/api/cart,0,0,0
+1786376941342,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-3,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376944131,4,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-3,text,true,,313,413,20,20,http://localhost:3000/api/checkout,4,0,0
+1786376944136,0,01_POST_Login,200,OK,Checkout_Flow_Users 1-3,text,true,,655,237,20,20,http://localhost:3000/api/login,0,0,0
+1786376938231,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-20,,true,,976,1133,20,20,null,0,6502,0
+1786376939495,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-20,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376941710,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-20,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376944735,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-20,text,true,,313,413,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376944747,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-20,text,true,,655,237,20,20,http://localhost:3000/api/login,3,0,0
+1786376938393,7,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-6,,true,,976,1125,20,20,null,0,6575,0
+1786376939977,0,02_GET_Cart,200,OK,Checkout_Flow_Users 1-6,text,true,,267,309,20,20,http://localhost:3000/api/cart,0,0,0
+1786376942300,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-6,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376944969,6,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-6,text,true,,313,410,20,20,http://localhost:3000/api/checkout,6,0,0
+1786376944975,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-6,text,true,,655,237,20,20,http://localhost:3000/api/login,2,0,0
+1786376938256,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-5,,true,,976,1133,20,20,null,0,7129,0
+1786376941092,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-5,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376943075,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-5,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,6,0,0
+1786376945392,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-5,text,true,,313,413,20,20,http://localhost:3000/api/checkout,11,0,0
+1786376945404,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-5,text,true,,655,237,20,20,http://localhost:3000/api/login,4,0,0
+1786376938229,10,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-12,,true,,976,1133,20,20,null,0,7234,0
+1786376939748,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-12,text,true,,267,311,20,20,http://localhost:3000/api/cart,0,0,0
+1786376942304,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-12,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376945464,8,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-12,text,true,,313,413,20,20,http://localhost:3000/api/checkout,8,0,0
+1786376945473,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-12,text,true,,655,237,20,20,http://localhost:3000/api/login,3,0,0
+1786376936985,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-11,,true,,976,1133,20,20,null,0,8593,0
+1786376939346,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-11,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376941979,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-11,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376945580,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-11,text,true,,313,413,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376945591,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-11,text,true,,655,237,20,20,http://localhost:3000/api/login,3,0,0
+1786376938170,7,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-13,,true,,976,1133,20,20,null,0,7517,0
+1786376939713,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-13,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376941735,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-13,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376945689,5,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-13,text,true,,313,413,20,20,http://localhost:3000/api/checkout,5,0,0
+1786376945694,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-13,text,true,,655,237,20,20,http://localhost:3000/api/login,2,0,0
+1786376939114,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-7,,true,,976,1125,20,20,null,0,6631,0
+1786376940332,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-7,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376942095,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-7,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,1,0,0
+1786376945747,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-7,text,true,,313,410,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376945758,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-7,text,true,,655,237,20,20,http://localhost:3000/api/login,2,0,0
+1786376938086,16,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-14,,true,,976,1133,20,20,null,0,7853,0
+1786376940856,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-14,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376943336,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-14,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,5,0,0
+1786376945945,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-14,text,true,,313,413,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376945957,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-14,text,true,,651,236,20,20,http://localhost:3000/api/login,3,0,0
+1786376940799,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-17,,true,,976,1125,20,20,null,0,5278,0
+1786376941931,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-17,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376943605,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-17,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,6,0,0
+1786376946084,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-17,text,true,,313,410,20,20,http://localhost:3000/api/checkout,11,0,0
+1786376946096,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-17,text,true,,651,236,20,20,http://localhost:3000/api/login,3,0,0
+1786376938092,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-8,,true,,976,1133,20,20,null,0,9329,0
+1786376940878,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-8,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376943517,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-8,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,4,0,0
+1786376947425,7,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-8,text,true,,313,413,20,20,http://localhost:3000/api/checkout,7,0,0
+1786376947433,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-8,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376941855,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-19,,true,,976,1125,20,20,null,0,5915,0
+1786376943805,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-19,text,true,,267,309,20,20,http://localhost:3000/api/cart,3,0,0
+1786376945342,6,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-19,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,6,0,0
+1786376947778,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-19,text,true,,313,410,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376947781,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-19,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376942382,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-15,,true,,976,1132,20,20,null,0,6507,0
+1786376944590,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-15,text,true,,267,311,20,20,http://localhost:3000/api/cart,3,0,0
+1786376946745,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-15,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376948893,8,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-15,text,true,,313,412,20,20,http://localhost:3000/api/checkout,8,0,0
+1786376948902,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-15,text,true,,651,236,20,20,http://localhost:3000/api/login,1,0,0
+1786376942528,7,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-9,,true,,976,1132,20,20,null,0,6375,0
+1786376944713,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-9,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376946530,3,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-9,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376948908,2,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-9,text,true,,313,412,20,20,http://localhost:3000/api/checkout,2,0,0
+1786376948911,0,01_POST_Login,200,OK,Checkout_Flow_Users 1-9,text,true,,651,236,20,20,http://localhost:3000/api/login,0,0,0
+1786376941259,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-1,,true,,976,1125,20,20,null,0,7808,0
+1786376942939,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-1,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376945964,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-1,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376949070,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-1,text,true,,313,410,20,20,http://localhost:3000/api/checkout,10,0,0
+1786376942581,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-2,,true,,976,1133,19,19,null,0,6648,0
+1786376943988,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-2,text,true,,267,311,20,20,http://localhost:3000/api/cart,3,0,0
+1786376947068,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-2,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,4,0,0
+1786376949235,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-2,text,true,,313,413,19,19,http://localhost:3000/api/checkout,10,0,0
+1786376940880,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-10,,true,,976,1125,18,18,null,0,8588,0
+1786376943514,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-10,text,true,,267,309,20,20,http://localhost:3000/api/cart,3,0,0
+1786376945685,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-10,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,2,0,0
+1786376949473,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-10,text,true,,313,410,18,18,http://localhost:3000/api/checkout,12,0,0
+1786376949486,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-10,text,true,,651,236,18,18,http://localhost:3000/api/login,3,0,0
+1786376941679,9,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-16,,true,,976,1125,18,18,null,0,8004,0
+1786376944061,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-16,text,true,,267,309,20,20,http://localhost:3000/api/cart,1,0,0
+1786376947113,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-16,text,true,,396,406,20,20,http://localhost:3000/api/apply-coupon,5,0,0
+1786376949689,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-16,text,true,,313,410,18,18,http://localhost:3000/api/checkout,3,0,0
+1786376949692,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-16,text,true,,654,236,18,18,http://localhost:3000/api/login,1,0,0
+1786376942981,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-4,,true,,976,1133,18,18,null,0,7806,0
+1786376944081,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-4,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376947114,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-4,text,true,,396,409,20,20,http://localhost:3000/api/apply-coupon,4,0,0
+1786376950794,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-4,text,true,,313,413,18,18,http://localhost:3000/api/checkout,11,0,0
+1786376943295,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-18,,true,,976,1133,17,17,null,0,8329,0
+1786376946221,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-18,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376949550,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-18,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,1,0,0
+1786376951626,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-18,text,true,,313,413,17,17,http://localhost:3000/api/checkout,9,0,0
+1786376951636,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-18,text,true,,654,236,17,17,http://localhost:3000/api/login,2,0,0
+1786376945408,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-5,,true,,976,1133,17,17,null,0,6758,0
+1786376946986,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-5,text,true,,267,311,20,20,http://localhost:3000/api/cart,3,0,0
+1786376949103,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-5,text,true,,396,409,19,19,http://localhost:3000/api/apply-coupon,4,0,0
+1786376952172,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-5,text,true,,313,413,17,17,http://localhost:3000/api/checkout,11,0,0
+1786376944137,10,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-3,,true,,976,1133,16,16,null,0,8109,0
+1786376946530,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-3,text,true,,267,311,20,20,http://localhost:3000/api/cart,1,0,0
+1786376949668,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-3,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,4,0,0
+1786376952251,5,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-3,text,true,,313,413,16,16,http://localhost:3000/api/checkout,5,0,0
+1786376944750,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-20,,true,,976,1133,15,15,null,0,7850,0
+1786376946200,4,02_GET_Cart,200,OK,Checkout_Flow_Users 1-20,text,true,,267,311,20,20,http://localhost:3000/api/cart,4,0,0
+1786376949341,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-20,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,4,0,0
+1786376952608,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-20,text,true,,313,413,15,15,http://localhost:3000/api/checkout,9,0,0
+1786376952617,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-20,text,true,,655,237,15,15,http://localhost:3000/api/login,1,0,0
+1786376945696,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-13,,true,,976,1133,15,15,null,0,6990,0
+1786376948031,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-13,text,true,,267,311,20,20,http://localhost:3000/api/cart,3,0,0
+1786376950194,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-13,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,1,0,0
+1786376952689,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-13,text,true,,313,413,15,15,http://localhost:3000/api/checkout,10,0,0
+1786376952700,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-13,text,true,,655,237,15,15,http://localhost:3000/api/login,3,0,0
+1786376944977,15,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-6,,true,,976,1133,15,15,null,0,8335,0
+1786376947654,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-6,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376950146,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-6,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,2,0,0
+1786376953316,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-6,text,true,,313,413,15,15,http://localhost:3000/api/checkout,11,0,0
+1786376947434,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-8,,true,,976,1125,14,14,null,0,6049,0
+1786376948439,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-8,text,true,,267,309,20,20,http://localhost:3000/api/cart,2,0,0
+1786376950889,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-8,text,true,,396,406,17,17,http://localhost:3000/api/apply-coupon,4,0,0
+1786376953490,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-8,text,true,,313,410,14,14,http://localhost:3000/api/checkout,10,0,0
+1786376945594,15,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-11,,true,,976,1133,13,13,null,0,7956,0
+1786376947762,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-11,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376951013,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-11,text,true,,396,409,17,17,http://localhost:3000/api/apply-coupon,5,0,0
+1786376953557,8,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-11,text,true,,313,413,13,13,http://localhost:3000/api/checkout,8,0,0
+1786376953566,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-11,text,true,,655,237,13,13,http://localhost:3000/api/login,1,0,0
+1786376945761,11,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-7,,true,,976,1133,13,13,null,0,7810,0
+1786376948194,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-7,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376951244,3,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-7,text,true,,396,409,17,17,http://localhost:3000/api/apply-coupon,3,0,0
+1786376953576,6,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-7,text,true,,313,413,13,13,http://localhost:3000/api/checkout,6,0,0
+1786376946100,15,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-17,,true,,976,1125,12,12,null,0,7498,0
+1786376948040,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-17,text,true,,267,309,20,20,http://localhost:3000/api/cart,3,0,0
+1786376950002,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-17,text,true,,396,406,18,18,http://localhost:3000/api/apply-coupon,4,0,0
+1786376953604,8,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-17,text,true,,313,410,12,12,http://localhost:3000/api/checkout,8,0,0
+1786376953613,2,01_POST_Login,200,OK,Checkout_Flow_Users 1-17,text,true,,655,237,12,12,http://localhost:3000/api/login,2,0,0
+1786376945960,15,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-14,,true,,976,1125,12,12,null,0,7994,0
+1786376948133,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-14,text,true,,267,309,20,20,http://localhost:3000/api/cart,3,0,0
+1786376950204,1,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-14,text,true,,396,406,18,18,http://localhost:3000/api/apply-coupon,1,0,0
+1786376953957,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-14,text,true,,313,410,12,12,http://localhost:3000/api/checkout,11,0,0
+1786376953969,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-14,text,true,,655,237,12,12,http://localhost:3000/api/login,4,0,0
+1786376945476,15,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-12,,true,,976,1133,12,12,null,0,8879,0
+1786376947721,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-12,text,true,,267,311,20,20,http://localhost:3000/api/cart,2,0,0
+1786376950365,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-12,text,true,,396,409,18,18,http://localhost:3000/api/apply-coupon,2,0,0
+1786376954358,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-12,text,true,,313,413,12,12,http://localhost:3000/api/checkout,11,0,0
+1786376954370,5,01_POST_Login,200,OK,Checkout_Flow_Users 1-12,text,true,,655,237,12,12,http://localhost:3000/api/login,4,0,0
+1786376947782,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-19,,true,,976,1125,12,12,null,0,7325,0
+1786376949386,0,02_GET_Cart,200,OK,Checkout_Flow_Users 1-19,text,true,,267,309,18,18,http://localhost:3000/api/cart,0,0,0
+1786376952465,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-19,text,true,,396,406,15,15,http://localhost:3000/api/apply-coupon,4,0,0
+1786376955110,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-19,text,true,,313,410,12,12,http://localhost:3000/api/checkout,10,0,0
+1786376955121,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-19,text,true,,655,237,12,12,http://localhost:3000/api/login,4,0,0
+1786376949693,16,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-16,,true,,976,1132,12,12,null,0,6236,0
+1786376951757,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-16,text,true,,267,311,17,17,http://localhost:3000/api/cart,3,0,0
+1786376953377,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-16,text,true,,396,409,14,14,http://localhost:3000/api/apply-coupon,4,0,0
+1786376955936,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-16,text,true,,313,412,12,12,http://localhost:3000/api/checkout,9,0,0
+1786376955946,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-16,text,true,,655,237,12,12,http://localhost:3000/api/login,3,0,0
+1786376948903,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-15,,true,,976,1125,12,12,null,0,7702,0
+1786376950894,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-15,text,true,,267,309,17,17,http://localhost:3000/api/cart,2,0,0
+1786376953545,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-15,text,true,,396,406,13,13,http://localhost:3000/api/apply-coupon,4,0,0
+1786376956610,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-15,text,true,,313,410,12,12,http://localhost:3000/api/checkout,11,0,0
+1786376956622,4,01_POST_Login,200,OK,Checkout_Flow_Users 1-15,text,true,,655,237,12,12,http://localhost:3000/api/login,4,0,0
+1786376949490,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-10,,true,,976,1125,12,12,null,0,7482,0
+1786376951608,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-10,text,true,,267,309,17,17,http://localhost:3000/api/cart,2,0,0
+1786376953778,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-10,text,true,,396,406,12,12,http://localhost:3000/api/apply-coupon,5,0,0
+1786376956977,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-10,text,true,,313,410,12,12,http://localhost:3000/api/checkout,11,0,0
+1786376948912,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-9,,true,,976,1125,11,11,null,0,8701,0
+1786376951446,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-9,text,true,,267,309,17,17,http://localhost:3000/api/cart,1,0,0
+1786376954452,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-9,text,true,,396,406,12,12,http://localhost:3000/api/apply-coupon,5,0,0
+1786376957617,8,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-9,text,true,,313,410,11,11,http://localhost:3000/api/checkout,8,0,0
+1786376952618,16,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-20,,true,,976,1133,10,10,null,0,6603,0
+1786376954956,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-20,text,true,,267,311,12,12,http://localhost:3000/api/cart,2,0,0
+1786376956654,3,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-20,text,true,,396,409,12,12,http://localhost:3000/api/apply-coupon,3,0,0
+1786376959225,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-20,text,true,,313,413,10,10,http://localhost:3000/api/checkout,11,0,0
+1786376959237,3,01_POST_Login,200,OK,Checkout_Flow_Users 1-20,text,true,,655,237,10,10,http://localhost:3000/api/login,3,0,0
+1786376951639,10,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-18,,true,,976,1132,10,10,null,0,7687,0
+1786376953418,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-18,text,true,,267,311,14,14,http://localhost:3000/api/cart,2,0,0
+1786376955897,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-18,text,true,,396,409,12,12,http://localhost:3000/api/apply-coupon,5,0,0
+1786376959332,3,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-18,text,true,,313,412,10,10,http://localhost:3000/api/checkout,3,0,0
+1786376959335,1,01_POST_Login,200,OK,Checkout_Flow_Users 1-18,text,true,,655,237,10,10,http://localhost:3000/api/login,1,0,0
+1786376953567,18,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-11,,true,,976,1133,10,10,null,0,6881,0
+1786376954953,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-11,text,true,,267,311,12,12,http://localhost:3000/api/cart,2,0,0
+1786376958261,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-11,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,4,0,0
+1786376960453,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-11,text,true,,313,413,10,10,http://localhost:3000/api/checkout,12,0,0
+1786376952703,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-13,,true,,976,1133,9,9,null,0,8098,0
+1786376954724,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-13,text,true,,267,311,12,12,http://localhost:3000/api/cart,1,0,0
+1786376957824,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-13,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,5,0,0
+1786376960806,11,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-13,text,true,,313,413,9,9,http://localhost:3000/api/checkout,11,0,0
+1786376953974,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-14,,true,,976,1133,8,8,null,0,7019,0
+1786376955965,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-14,text,true,,267,311,12,12,http://localhost:3000/api/cart,2,0,0
+1786376958074,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-14,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,5,0,0
+1786376960998,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-14,text,true,,313,413,8,8,http://localhost:3000/api/checkout,10,0,0
+1786376953616,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-17,,true,,976,1133,7,7,null,0,7833,0
+1786376955294,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-17,text,true,,267,311,12,12,http://localhost:3000/api/cart,2,0,0
+1786376958710,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-17,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,5,0,0
+1786376961454,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-17,text,true,,313,413,7,7,http://localhost:3000/api/checkout,10,0,0
+1786376955949,16,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-16,,true,,976,1133,6,6,null,0,5628,0
+1786376957102,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-16,text,true,,267,311,11,11,http://localhost:3000/api/cart,2,0,0
+1786376959300,4,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-16,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,4,0,0
+1786376961582,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-16,text,true,,313,413,6,6,http://localhost:3000/api/checkout,10,0,0
+1786376954375,12,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-12,,true,,976,1133,5,5,null,0,7268,0
+1786376956413,0,02_GET_Cart,200,OK,Checkout_Flow_Users 1-12,text,true,,267,311,12,12,http://localhost:3000/api/cart,0,0,0
+1786376958413,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-12,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,2,0,0
+1786376961644,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-12,text,true,,313,413,5,5,http://localhost:3000/api/checkout,10,0,0
+1786376955125,14,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-19,,true,,976,1133,4,4,null,0,7489,0
+1786376956514,2,02_GET_Cart,200,OK,Checkout_Flow_Users 1-19,text,true,,267,311,12,12,http://localhost:3000/api/cart,2,0,0
+1786376959536,2,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-19,text,true,,396,409,10,10,http://localhost:3000/api/apply-coupon,2,0,0
+1786376962616,10,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-19,text,true,,313,413,4,4,http://localhost:3000/api/checkout,10,0,0
+1786376956626,13,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-15,,true,,976,1133,3,3,null,0,6274,0
+1786376958853,1,02_GET_Cart,200,OK,Checkout_Flow_Users 1-15,text,true,,267,311,10,10,http://localhost:3000/api/cart,1,0,0
+1786376960502,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-15,text,true,,396,409,9,9,http://localhost:3000/api/apply-coupon,5,0,0
+1786376962906,7,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-15,text,true,,313,413,3,3,http://localhost:3000/api/checkout,7,0,0
+1786376959241,17,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-20,,true,,976,1133,2,2,null,0,5491,0
+1786376960993,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-20,text,true,,267,311,8,8,http://localhost:3000/api/cart,3,0,0
+1786376962526,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-20,text,true,,396,409,4,4,http://localhost:3000/api/apply-coupon,5,0,0
+1786376964740,9,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-20,text,true,,313,413,2,2,http://localhost:3000/api/checkout,9,0,0
+1786376959336,20,Checkout_Journey_Authenticated,200,"Number of samples in transaction : 3, number of failing samples : 0",Checkout_Flow_Users 1-18,,true,,977,1133,1,1,null,0,7778,0
+1786376961229,3,02_GET_Cart,200,OK,Checkout_Flow_Users 1-18,text,true,,267,311,7,7,http://localhost:3000/api/cart,3,0,0
+1786376964295,5,03_POST_ApplyCoupon,200,OK,Checkout_Flow_Users 1-18,text,true,,396,409,2,2,http://localhost:3000/api/apply-coupon,5,0,0
+1786376967122,12,04_POST_Checkout,200,OK,Checkout_Flow_Users 1-18,text,true,,314,413,1,1,http://localhost:3000/api/checkout,12,0,0
