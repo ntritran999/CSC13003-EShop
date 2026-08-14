@@ -187,6 +187,84 @@ The end screenshot directly shows the backend `Node.js JavaScript Runtime` at 69
 - [End screenshot](./test-plan-human-corrected/evidence/endurance_end.png)
 
 
+# 2. Task 2 - AI analysis and misinterpretation hunt
+
+## 2.1 AI analysis source and human verification method
+
+I gave the three raw JTL files to AI and preserved its response in [AI Analysis of Load, Stress and Spike](./analysis_result_ai/AI_Analysis.md). I then independently parsed every JTL row, grouped samples by endpoint label, recalculated percentiles with JMeter's legacy interpolation rule, rebuilt 30-second Stress and Spike time buckets, and compared the results with each dashboard's `statistics.json`.
+
+The raw JTL is authoritative for row-level calculations. Load and Spike overall percentiles, and all nine endpoint p95/p99 pairs, exactly match the dashboard. Stress has one important reporting discrepancy: direct calculation across all 26,699 raw rows gives overall p95/p99 of **3,831/6,370 ms**, while the dashboard's synthetic `Total` row gives **4,172/6,651.99 ms**. Stress endpoint values match exactly in both sources. I preserve both totals rather than hiding the difference.
+
+## 2.2 Verified scenario and endpoint results
+
+| Scenario | Samples | Errors | Average | Raw overall p95 | Raw overall p99 | Total requests/s | Completed journeys/s |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Load | 4,956 | 0 | 8.21 ms | 14 ms | 26.43 ms | 13.77 | 4.65 |
+| Stress | 26,699 | 0 | 834.96 ms | 3,831 ms | 6,370 ms | 44.45 | 14.83 |
+| Spike | 14,261 | 0 | 110.21 ms | 446 ms | 1,346 ms | 47.63 | 15.88 |
+
+`Completed journeys/s` is the JMeter throughput for successful `03_Create_Product` samples. It is not total HTTP throughput divided blindly by three because some threads had incomplete iterations at the test boundaries.
+
+| Scenario | Endpoint | Samples | p95 | p99 | Human verification |
+|---|---|---:|---:|---:|---|
+| Load | Login | 1,664 | 10 ms | 18.70 ms | Raw JTL = dashboard |
+| Load | GET products | 1,648 | 10 ms | 22.53 ms | Raw JTL = dashboard |
+| Load | Create product | 1,644 | 16 ms | 97.20 ms | Raw JTL = dashboard |
+| Stress | Login | 8,992 | 1,396 ms | 3,139.70 ms | Raw JTL = dashboard |
+| Stress | GET products | 8,874 | 4,315.25 ms | 6,720 ms | Raw JTL = dashboard |
+| Stress | Create product | 8,833 | 4,278.30 ms | 6,687.98 ms | Raw JTL = dashboard |
+| Spike | Login | 4,829 | 415 ms | 695.70 ms | Raw JTL = dashboard |
+| Spike | GET products | 4,755 | 466.40 ms | 1,511.32 ms | Raw JTL = dashboard |
+| Spike | Create product | 4,677 | 445 ms | 1,287.30 ms | Raw JTL = dashboard |
+
+## 2.3 Verified Stress breaking point and Spike recovery
+
+The decisive Stress buckets are:
+
+| Stress interval | Maximum threads | Requests/s | Journeys/s | p95 | Errors |
+|---|---:|---:|---:|---:|---:|
+| 300-330 s | 111 | **66.40** | **22.20** | 650.7 ms | 0 |
+| 330-360 s | 121 | 62.53 | 20.80 | **1,492.4 ms** | 0 |
+| 360-390 s | 131 | 55.63 | 18.23 | 2,247.0 ms | 0 |
+
+At 111 threads, p95 was still below 800 ms and throughput reached its highest 30-second value. At 121 threads, throughput fell by 5.8% while p95 more than doubled, and later buckets remained degraded. I therefore verify the AI's **approximately 120-user breaking point**, more precisely a latency/throughput knee between **111 and 121 concurrent users**. No error-based breaking point was reached.
+
+For Spike, the pre-spike p95 was 16 ms, making the frozen 20%-above-baseline recovery limit **19.2 ms**. The post-spike result was:
+
+| Time after nominal surge end | Maximum threads | Requests/s | p95 | p99 | Errors |
+|---|---:|---:|---:|---:|---:|
+| 0-30 s | 14 while final samples drained | 7.53 | 28.00 ms | 470.38 ms | 0 |
+| 30-60 s | 10 | 7.10 | 22.00 ms | 35.86 ms | 0 |
+| 60-90 s | 10 | 7.47 | 23.75 ms | 44.50 ms | 0 |
+| 90-120 s | 10 | 7.40 | 23.85 ms | 41.77 ms | 0 |
+
+Concurrency, request rate and error-free operation recovered operationally, but p95 never returned to 19.2 ms or lower. Thus the backend continued serving traffic, while the strict latency-recovery criterion **failed** within both the 60-second target and the full recorded recovery window.
+
+## 2.4 Human review of AI statements
+
+| AI statement | AI value | Correct JTL value | Why AI was wrong |
+|---|---:|---:|---|
+| “System recovered immediately” | AI qualified this as operational recovery in about 0.56 s, but explicitly said strict latency recovery failed. | Pre-spike p95 = 16 ms; recovery limit = 19.2 ms; post buckets = 28.00, 22.00, 23.75 and 23.85 ms. | **The unqualified quote is wrong.** Thread count and error-free throughput recovered quickly, but the declared p95 criterion never recovered. The AI's qualified conclusion is correct. |
+| “Normal local concurrency should be at most 70 users” | Suggested 70 users. | The formal Load and Endurance runs verify 20 sustained users. Stress only passed through approximately 70 users during a short ramp bucket; the sustained knee is 111-121 users. | **Unsupported AI extrapolation.** A brief Stress ramp interval cannot establish a stable normal-load threshold. A dedicated sustained calibration/soak is required before claiming 70 users. |
+| “Stress overall p95/p99 are 3,831/6,370 ms” | 3,831/6,370 ms from direct raw-JTL calculation. | Direct raw JTL = 3,831/6,370 ms; dashboard `Total` = 4,172/6,651.99 ms; all endpoint percentiles match. | **Not numerically wrong, but it needs source qualification.** The AI correctly exposed an unresolved aggregate-report discrepancy and did not substitute the dashboard total silently. |
+
+## 2.5 Potential optimization assessment
+
+| Recommendation | Preliminary classification | Reason |
+|---|---|---|
+| Pagination for `GET /api/products` | Feasible | The current unfiltered route runs `SELECT * FROM products` and returns every row. Pagination directly limits the demonstrated response growth, although clients and the API contract must also be updated. |
+| SQLite WAL mode | Feasible, must benchmark | `database.js` does not configure `PRAGMA journal_mode=WAL`. WAL may improve read/write concurrency, but this workload showed no SQLite error and the benefit cannot be inferred from latency alone. |
+| Move to PostgreSQL | Feasible but expensive | It may provide better concurrent-write scaling, but requires a new driver, schema/data migration, deployment changes and regression testing. Pagination and controlled SQLite experiments should come first. |
+| Cache entire product list | Questionable | Every journey inserts a product, so the complete-list cache would be invalidated constantly and would still store an increasingly large response. |
+| Add index for unfiltered `GET /api/products` | Mostly ineffective | The tested query has no filter or order and must read and return every product. An index cannot remove the full-response cost. |
+| SQLite connection pool | Possibly hallucinated | The application currently uses one `sqlite3.Database` handle. A generic pool does not remove SQLite file locking and may increase write contention; no JTL or lock-time evidence demonstrates that pooling is the remedy. |
+| Require admin middleware | Feasible | `POST /api/products` currently has neither `authenticateToken` nor an admin-role guard. Adding both fixes a verified authorization defect, but it is a security correction rather than the primary performance optimization. |
+
+## 2.6 Human conclusion
+
+The AI analysis is largely correct and avoids the five common interpretation traps. I verified all nine endpoint p95/p99 pairs, the approximately 120-user Stress knee, the maximum 30-second Stress rate of 66.40 req/s and the failure of the strict Spike latency-recovery rule. Its main unsupported claim is the proposed 70-user normal concurrency threshold, because no 70-user sustained test was run. I also retain the documented Stress `Total` percentile discrepancy instead of treating either the raw or dashboard aggregate as silently interchangeable.
+
+The strongest evidence-backed optimization is pagination for `GET /api/products`. CPU saturation, a backend memory leak, SQLite locking and injector saturation remain unproven because no synchronized resource time series was captured. Those hypotheses require a controlled rerun with backend and injector monitoring before they can be accepted.
 
 
 # Appendices
