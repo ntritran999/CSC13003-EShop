@@ -267,6 +267,68 @@ The AI analysis is largely correct and avoids the five common interpretation tra
 The strongest evidence-backed optimization is pagination for `GET /api/products`. CPU saturation, a backend memory leak, SQLite locking and injector saturation remain unproven because no synchronized resource time series was captured. Those hypotheses require a controlled rerun with backend and injector monitoring before they can be accepted.
 
 
+# 3. Task 3 - Continuous Performance Testing proposal (Disrupt)
+
+## 3.1 Proposed model and why it was selected
+
+I propose a GitHub Actions pipeline that watches commits and pull requests, checks whether performance-relevant files changed, and runs the smallest appropriate JMeter test. Changes to backend, the JMX plans, test data or the performance workflow trigger the gate; documentation-only changes can skip it. Scheduled runs always execute.
+
+This model was selected because it provides four practical advantages:
+
+- **Fast feedback:** ordinary pull requests run only a 1-2 minute smoke/Load gate.
+- **Lower cost:** expensive Stress, Spike and Endurance tests run on schedules instead of every commit.
+- **More reliable decisions:** each run starts from a fresh database, and a suspected regression is repeated to reduce false alarms.
+- **Traceable failures:** the pipeline retains the JTL, HTML dashboard, backend log and environment information.
+
+## 3.2 Proposed flow
+
+```mermaid
+flowchart TD
+    A["Commit, pull request or scheduled run"] --> B{"Performance-relevant change or scheduled run?"}
+    B -- "No" --> C["Skip performance test and record reason"]
+    B -- "Yes" --> D["Start freshly seeded eShop"]
+    D --> E["Run one-user smoke workflow"]
+    E --> F{"Smoke passes?"}
+    F -- "No" --> G["Fail and archive evidence"]
+    F -- "Yes" --> H["Run selected non-GUI JMeter gate"]
+    H --> I["Compare p95, errors and throughput with baseline"]
+    I --> J{"SLO or regression breached?"}
+    J -- "No" --> K["Pass and archive summary"]
+    J -- "Yes" --> L["Reset database and repeat twice"]
+    L --> M{"Median of three still breaches?"}
+    M -- "Yes" --> G
+    M -- "No" --> N["Pass with flaky-run warning"]
+```
+
+A fresh database is required before every repetition because each journey creates a product and `GET /api/products` returns the entire growing table. Reusing the database would make later runs unfairly slower.
+
+## 3.3 Schedule and regression rules
+
+| When | Run |
+|---|---|
+| Relevant pull request | Short Smoke and Load test |
+| Every night | Full Load and Spike tests |
+| Every week | Stress and Endurance tests |
+| Before release | All tests |
+
+A result is suspicious when p95 exceeds its SLO, is over 15% slower than the baseline, the error rate reaches 1%, or journey throughput drops by more than 15%. Run the same test two more times with a fresh database. Fail the build only if the median of all three runs still breaks a rule. Crashes and functional failures fail immediately.
+
+## 3.4 Short example
+
+Assume the approved GET-products p95 baseline is 100 ms. A pull request produces 120 ms, which is 20% slower and exceeds the 15% regression rule. The pipeline resets the database and repeats the test, producing 118 ms and 121 ms. The median is 120 ms, still above the allowed 115 ms, so the pull request fails. The JTL and HTML report are attached so the developer can investigate the regression.
+
+## 3.5 Advantages and trade-offs
+
+| Advantage | Why it matters | Main trade-off and mitigation |
+|---|---|---|
+| Selective execution | Backend changes are checked without delaying documentation-only commits. | Path filtering can miss an indirect API change, so scheduled and manually forced runs remain available. |
+| Repeated median decision | Reduces false alarms from one noisy CI run. | Repetition costs more time, so it runs only after a suspected breach. |
+| Tiered schedule | Keeps PR feedback short while still testing Stress and Endurance. | Heavy scheduled tests consume runner minutes; run them nightly or weekly on a pinned runner. |
+| Fresh database and saved evidence | Makes comparisons reproducible and failures auditable. | JTL/HTML artifacts use storage; keep green PR artifacts briefly and retain failures/releases longer. |
+
+This approach is suitable for eShop because it balances speed, cost and confidence while directly flagging p95 regressions. It also preserves enough evidence to distinguish a real backend regression from database growth, cold-start noise or JMeter-generator saturation.
+
+
 # Appendices
 
 ## Appendix A
