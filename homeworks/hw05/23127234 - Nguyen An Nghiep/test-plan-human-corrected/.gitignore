@@ -1,0 +1,5 @@
+# JMeter is kept locally for running the plans; do not submit its large runtime.
+/tools/apache-jmeter-*/
+
+# JMeter creates this engine log in the working directory by default.
+/jmeter.log
