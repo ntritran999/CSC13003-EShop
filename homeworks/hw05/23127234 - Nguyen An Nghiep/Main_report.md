@@ -114,8 +114,14 @@ The processor, RAM, operating system and hostname come from the captured dxdiag 
 | Endurance | [JTL](./test-plan-human-corrected/results/23127234_Endurance_20260812.jtl) | [Dashboard](./test-plan-human-corrected/reports/endurance_html/index.html) | 12,817 | 0 | [Start](./test-plan-human-corrected/evidence/endurancec_start.png), [Middle](./test-plan-human-corrected/evidence/endurance_middle.png), [End](./test-plan-human-corrected/evidence/endurance_end.png) |
 
 All four JTLs contain only the three real HTTP sampler labels because the corrected plans use a Simple Controller rather than a Transaction Controller that would emit an extra synthetic sample.
+### 1.3.3 GUI report
+I will so you the GUI when using jtl into GUI JMeter, for example:
 
-### 1.3.3 HTML dashboard sample views
+
+<p align="center"><img src="./test-plan-human-corrected/evidence/sample_summary_gui.png" width="90%" alt="Load HTML dashboard overview sample"></p>
+<p align="center"><em>Figure 1. Summary Load Report.</em></p>
+
+### 1.3.4 HTML dashboard sample views
 
 The following three screenshots are sample views from the generated **Load HTML dashboard**. They demonstrate that the submitted JTL can be converted into a readable dashboard containing an overview, a statistics table and a response-time graph. Because all three images visibly reference the Load JTL, they are presented as Load report-generation evidence and are not labelled as separate Stress or Spike results. The distinct Summary Report, Aggregate Report and Aggregate Graph assignments are verified from the JMX listener definitions described in Section 1.1.3.
 
@@ -328,7 +334,8 @@ Assume the approved GET-products p95 baseline is 100 ms. A pull request produces
 
 This approach is suitable for eShop because it balances speed, cost and confidence while directly flagging p95 regressions. It also preserves enough evidence to distinguish a real backend regression from database growth, cold-start noise or JMeter-generator saturation.
 
-
+# Demo video (Evidence):
+[Evidence](https://youtu.be/8t0OF1hpGJ4)
 # Appendices
 
 ## Appendix A
