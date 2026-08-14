@@ -4,6 +4,7 @@
 **Student ID:** 23127234  
 **System under test:** eShop REST API at `http://localhost:3000`  
 **Test tool:** Apache JMeter 5.6.3  
+**Version homework**: [2026.HW05.Performance Testing_En_2.0_HTThanh.pdf](https://drive.google.com/file/d/1vlwWvavgrgYYG3fer1Ai13XsyCGCKuUo/view?usp=drive_link) 
 
 ## Self-assessment
 
