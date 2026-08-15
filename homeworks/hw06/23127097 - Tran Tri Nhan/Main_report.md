@@ -33,7 +33,7 @@
 - Audit: All test cases are VALID, except for TC11(INVALID), TC21(INVALID) and TC34(INVALID). TC11 is INVALID because it expects error for lowercase bearer, but bearer scheme is case-insensitive. TC21 is INVALID because it tests FR08 instead of FR07. TC34 is INVALID because leading and trailing whitespaces in header values are automatically trimmed.
 - Correction: 
   - Both TC11 and TC34 must expect 200 OK. 
-  - Remove TC21 from this suite(will replace later with an extended test case)
+  - Remove TC21 from this suite
 
 ## Pool C:
 
@@ -46,150 +46,54 @@
 
 ## Pool A:
 
-**TC36 — Objective:** 
-Input: 
+**TC36 — Objective:** email field sent as non-string type (number)
 
-Expected: 
+Input: {"name":"Nguyen Van A","email":12345,"password":"Password123!"}
 
-Covers: 
+Expected: 400 Bad Request; error message indicates invalid type for email
 
+Covers: Schema validation — type constraint
 
-**TC37 — Objective:** 
 
-Input: 
+**TC37 — Objective:** SQL Injection payload in password field
 
-Expected: 
+Input: {"name":"Nguyen Van A","email":"tc37@domain.com","password":"' OR '1'='1"}
 
-Covers: 
+Expected: 400 Bad Request
 
+Covers: SEC-05 (parameterized queries — injection safely rejected at validation layer)
 
-**TC38 — Objective:** 
 
-Input: 
+**TC38 — Objective:** XSS/script payload in email field
 
-Expected: 
+Input: {"name":"Nguyen Van A","email":"<script>alert(1)</script>","password":"Password123!"}
 
-Covers: 
+Expected: 400 Bad Request; response returns as plain text in JSON
 
+Covers: SEC-04 relevance at API layer
 
-**TC39 — Objective:** 
 
-Input: 
+**TC39 — Objective:** XSS/script payload in password field
 
-Expected: 
+Input: {"name":"Nguyen Van A","email":"tc39@domain.com","password":"<script>alert(1)</script>"}
 
-Covers: 
+Expected: 400 Bad Request; response returns as plain text in JSON
 
+Covers: SEC-04 relevance at API layer
 
-**TC40 — Objective:** 
 
-Input: 
+**TC40 — Objective:** password is whitespace only
 
-Expected: 
+Input: {"name":"Nguyen Van A","email":"tc40@domain.com","password":"   "}
 
-Covers: 
+Expected: 400 Bad Request; error message indicates password cannot be whitespace only
 
+Covers: Domain partition
 
-## Pool B:
 
-**TC21(Replacement) — Objective:** 
+### Why the AI missed these test cases
 
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC36 — Objective:** 
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC37 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC38 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC39 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC40 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-## Pool C:
-
-**TC36 — Objective:** 
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC37 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC38 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC39 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
-
-**TC40 — Objective:** 
-
-Input: 
-
-Expected: 
-
-Covers: 
-
+These test cases were extended based on the test cases designed by the AI but with other fields in the request body. The AI missed these test cases because it had to cover domain partitions, state transitions, security and schema validition within 35 test cases, so it could not provide all possible combinations of the body fields and the test techniques.
 
 # Test case execution:
 
