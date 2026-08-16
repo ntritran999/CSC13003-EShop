@@ -289,7 +289,7 @@ These test cases were extended to cover deeper data integrity, parameter tamperi
 
 # Test case execution:
 
-- [GitHub repository link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw06/23127097%20-%20Tran%20Tri%20Nhan)
+- [GitHub repository link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw06/23127168%20-%20Cao%20Tr%E1%BA%A7n%20B%C3%A1%20%C4%90%E1%BA%A1t)
 - [Excel report](./test-report/test_report.xlsx)
 - [Bug report](./Bug_report.md)
 - List of Postman features used: workspace, collection, variable, pre-request scripts, postman cli(via CI).
