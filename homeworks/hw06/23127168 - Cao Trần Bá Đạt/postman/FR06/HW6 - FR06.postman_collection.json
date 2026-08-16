@@ -76,11 +76,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseURL}}api/products/2",
+          "raw": "{{baseURL}}/api/products/2",
           "host": [
-            "{{baseURL}}api"
+            "{{baseURL}}"
           ],
           "path": [
+            "api",
             "products",
             "2"
           ]
