@@ -105,10 +105,6 @@
 
 **Screenshots:** ![](./images/bugs/bug6.png)
 
-Dưới đây là các **Bug Report** chi tiết được tổng hợp từ kết quả chạy kiểm thử thực tế của chức năng Checkout (`POST /api/checkout`):
-
----
-
 ## Bug 07: Checkout succeeds with an empty cart
 
 **Description:** The checkout API does not validate if the authenticated user's cart contains any items before creating an order. It creates a valid order record even when the cart is completely empty.
