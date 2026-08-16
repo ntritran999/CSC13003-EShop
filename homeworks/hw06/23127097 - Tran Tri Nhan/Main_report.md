@@ -100,8 +100,8 @@ These test cases were extended based on the test cases designed by the AI but wi
 - [GitHub repository link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw06/23127097%20-%20Tran%20Tri%20Nhan)
 - [Excel report](./test-report/test_report.xlsx)
 - [Bug report](./Bug_report.md)
-- List of Postman features used: workspace, collection, variable, pre-request scripts.
-- CI/CD report: 
+- List of Postman features used: workspace, collection, variable, pre-request scripts, postman cli(via CI).
+- [CI/CD report](./CI_CD_report.md) 
 
 # Appendices
 
