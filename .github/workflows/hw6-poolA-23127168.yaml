@@ -1,4 +1,4 @@
-name: Automated API tests for admin CRUD products scenario
+name: Automated API tests using Postman CLI
 
 on: workflow_dispatch
 
