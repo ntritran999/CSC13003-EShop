@@ -97,7 +97,10 @@ These test cases were extended based on the test cases designed by the AI but wi
 
 # Test case execution:
 
-- List of Postman features used: 
+- GitHub repository link: 
+- Excel report: [](./test-report/test_report.xlsx)
+- Bug report: [](./Bug_report.md)
+- List of Postman features used: workspace, collection, variable, pre-request scripts.
 - CI/CD report: 
 
 # Appendices
