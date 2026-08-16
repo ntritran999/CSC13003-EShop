@@ -287,6 +287,14 @@ pm.sendRequest({
 
 These test cases were extended to cover deeper data integrity, parameter tampering, and backend-specific edge cases. The AI missed them because it was constrained to a fixed 36-test-case budget while balancing standard equivalence partitioning, boundary values, and general security checks, leaving out complex combinations such as batch transaction atomicity, soft-delete constraints, and SQLite-specific blind SQL injection.
 
+# Test case execution:
+
+- [GitHub repository link](https://github.com/ntritran999/CSC13003-EShop/tree/main/homeworks/hw06/23127097%20-%20Tran%20Tri%20Nhan)
+- [Excel report](./test-report/test_report.xlsx)
+- [Bug report](./Bug_report.md)
+- List of Postman features used: workspace, collection, variable, pre-request scripts, postman cli(via CI).
+- [CI/CD report](./CI_CD_report.md) 
+
 # Appendices
 
 ## Appendix A
