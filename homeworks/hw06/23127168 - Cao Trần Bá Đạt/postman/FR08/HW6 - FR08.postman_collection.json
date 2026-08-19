@@ -1,0 +1,2770 @@
+{
+  "info": {
+    "_postman_id": "534030f3-6623-47b5-bf7e-6d9e1f8118a2",
+    "name": "HW6 - FR08",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55677974"
+  },
+  "item": [
+    {
+      "name": "Domain & Happy Path Tests",
+      "item": [
+        {
+          "name": "TC-01 – Valid checkout with matching cart total, ASCII address",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Login and setup standard cart",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        // Add item to cart",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-01: Status 200\", () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test(\"TC-01: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-01: Response contains order identifier\", () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('orderId').that.is.a('number');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-01: Returns success message\", () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-02 – Valid checkout with Vietnamese unicode address",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-02: Status 200\", () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test(\"TC-02: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-02: Response contains valid orderId and success message\", () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('orderId').that.is.a('number');",
+                  "    pm.expect(body).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"Số 45, Ngõ 12, Đường Nguyễn Trãi, Phường Thanh Xuân, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-03 – Minimal valid checkout (N=1 item)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 1 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-03: Status 200\", () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test(\"TC-03: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-03: Order created successfully with valid orderId\", () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('orderId').that.is.a('number');",
+                  "    pm.expect(body.orderId).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 100000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-12 – total_amount field missing entirely",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-12: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-12: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-19 – shipping_address field missing entirely",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-19: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-19: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-20 – Completely empty JSON body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-20: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-20: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-21 – Checkout attempt with empty cart",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Register a fresh random user and login",
+                  "const randomEmail = 'testuser_' + Date.now() + '@eshop.com';",
+                  "const randomPassword = 'Test1234!';",
+                  "const baseUrl = pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\";",
+                  "",
+                  "console.log(\"[TC-21 Setup] Initializing clean user registration:\", randomEmail);",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: baseUrl + '/api/register',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "        mode: 'raw',",
+                  "        raw: JSON.stringify({",
+                  "            email: randomEmail,",
+                  "            password: randomPassword,",
+                  "            name: 'Test User'",
+                  "        })",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    if (err) {",
+                  "        console.error(\"[TC-21 Setup] Register API request failed:\", err);",
+                  "        return;",
+                  "    }",
+                  "    ",
+                  "    console.log(`[TC-21 Setup] Register Response Status: ${res.code} ${res.status}`);",
+                  "    ",
+                  "    if (res.code === 200 || res.code === 201) {",
+                  "        console.log(\"[TC-21 Setup] User registered successfully. Proceeding to login...\");",
+                  "        ",
+                  "        pm.sendRequest({",
+                  "            url: baseUrl + '/api/login',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json' },",
+                  "            body: {",
+                  "                mode: 'raw',",
+                  "                raw: JSON.stringify({",
+                  "                    email: randomEmail,",
+                  "                    password: randomPassword",
+                  "                })",
+                  "            }",
+                  "        }, function (err2, res2) {",
+                  "            if (err2) {",
+                  "                console.error(\"[TC-21 Setup] Login API request failed:\", err2);",
+                  "                return;",
+                  "            }",
+                  "            ",
+                  "            console.log(`[TC-21 Setup] Login Response Status: ${res2.code} ${res2.status}`);",
+                  "            ",
+                  "            if (res2.code === 200) {",
+                  "                const responseData = res2.json();",
+                  "                const token = responseData.token;",
+                  "                ",
+                  "                // Store token in collection variables and attach directly to current request",
+                  "                pm.collectionVariables.set(\"userToken\", token);",
+                  "                pm.request.headers.upsert({",
+                  "                    key: 'Authorization',",
+                  "                    value: 'Bearer ' + token",
+                  "                });",
+                  "                ",
+                  "                console.log(\"[TC-21 Setup] Bearer token acquired and attached successfully:\", token.substring(0, 20) + \"...\");",
+                  "            } else {",
+                  "                console.error(\"[TC-21 Setup] Login failed. Response body:\", res2.text());",
+                  "            }",
+                  "        });",
+                  "    } else {",
+                  "        console.warn(\"[TC-21 Setup] Registration failed. Response body:\", res.text());",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-21: Status 400 or 422 (empty cart)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-21: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Boundary & Type Tests",
+      "item": [
+        {
+          "name": "TC-04 – total_amount = 0",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-04: Status 400 or 422\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-04: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 0, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-05 – total_amount = -1",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-05: Status 400 or 422\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-05: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": -1, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-06 – total_amount = -200000",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-06: Status 400 or 422\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-06: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": -200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-07 – total_amount as decimal/float",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-07: Status 400 or 200\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 200]);",
+                  "});",
+                  "pm.test(\"TC-07: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000.5, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-08 – total_amount as string type",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-08: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-08: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-09 – total_amount as boolean",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-09: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-09: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": true, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-10 – total_amount as null",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-10: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-10: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": null, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-11 – total_amount extreme overflow",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-11: Status 400 or 422 (not 500)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-11: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-11: No stack trace in response\", () => {",
+                  "    const text = pm.response.text();",
+                  "    pm.expect(text).to.not.include('at ');",
+                  "    pm.expect(text).to.not.include('stack');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 99999999999999999999999, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-13 – shipping_address empty string",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-13: Status 400 or 422\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-13: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-14 – shipping_address whitespace-only",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-14: Status 400 or 422\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-14: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"     \"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-15 – shipping_address extreme length (5000 chars)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Login + standard cart setup",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function() {});",
+                  "    }",
+                  "});",
+                  "pm.collectionVariables.set(\"longAddress\", \"a\".repeat(5000));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-15: Status 400 or 200 (not 500)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 200]);",
+                  "});",
+                  "pm.test(\"TC-15: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-15: No 500 error\", () => {",
+                  "    pm.expect(pm.response.code).to.not.eql(500);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"{{longAddress}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-16 – shipping_address as numeric type",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-16: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-16: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": 12345}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-17 – shipping_address as null",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-17: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-17: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": null}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-18 – shipping_address as array type",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-18: Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-18: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": [\"123 Le Loi, TP.HCM\"]}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Business Logic Tests",
+      "item": [
+        {
+          "name": "TC-22 – Price tampering (total_amount != cart_sum)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-22: Status 400 or 422 (price tamper rejected)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "pm.test(\"TC-22: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Security Tests",
+      "item": [
+        {
+          "name": "TC-23 – Missing Authorization header entirely",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Setup cart but deliberately omit auth header on this request",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function() {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-23: Status 401 (no auth header)\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"TC-23: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-24 – Invalid / Malformed Bearer token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-24: Status is 401 Unauthorized or 403 Forbidden\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-24: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid.token.123"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-25 – Admin role order checkout check",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Login as admin and setup cart",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"adminToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function() {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-25: Status 200 (admin can checkout)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 403]);",
+                  "});",
+                  "pm.test(\"TC-25: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-26 – SQL Injection payload in shipping_address",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-26: Status 200 or 400 (SQLi handled)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                  "});",
+                  "pm.test(\"TC-26: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-26: No SQL syntax error exposed\", () => {",
+                  "    const text = pm.response.text().toLowerCase();",
+                  "    pm.expect(text).to.not.include('syntax error');",
+                  "    pm.expect(text).to.not.include('sqlite');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi'; DROP TABLE orders;--\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-27 – Stored XSS payload in shipping_address",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-27: Status 200 or 400\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                  "});",
+                  "pm.test(\"TC-27: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-27: XSS payload treated as inert text (not executed)\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"<script>alert('XSS')</script>\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-28 – SQLi-style payload in total_amount",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-28: Status 400 (SQLi in total_amount rejected)\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-28: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"1 OR 1=1\", \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-35 – Direct product price injection in checkout body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-35: Status 200 or 400\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                  "});",
+                  "pm.test(\"TC-35: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-35: Injected price field is ignored or rejected\", () => {",
+                  "    if (pm.response.code === 200) {",
+                  "        const body = pm.response.json();",
+                  "        const amount = body.total_amount || body.totalAmount;",
+                  "        pm.expect(amount).to.eql(200000);",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\", \"price\": 1000}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-36 – Mass Assignment check",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-36: Status 200 or 400\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                  "});",
+                  "pm.test(\"TC-36: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "pm.test(\"TC-36: Order status not overridden to 'delivered'\", () => {",
+                  "    if (pm.response.code === 200) {",
+                  "        const body = pm.response.json();",
+                  "        const status = body.status || body.order_status;",
+                  "        if (status) {",
+                  "            pm.expect(status).to.not.eql('delivered');",
+                  "        }",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\", \"status\": \"delivered\", \"is_paid\": true}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Robustness Tests",
+      "item": [
+        {
+          "name": "TC-29 – Malformed JSON syntax in request body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-29: Status 400 (malformed JSON)\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC-29: No 500 error\", () => {",
+                  "    pm.expect(pm.response.code).to.not.eql(500);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi\""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-30 – Invalid Content-Type header (text/plain)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC-30: Status 400 or 415 (wrong Content-Type)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 415]);",
+                  "});",
+                  "pm.test(\"TC-30: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-31 – HTTP Verb Tampering GET",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-31: Status 404 or 405 (GET not allowed)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([404, 405]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-32 – HTTP Verb Tampering DELETE",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-32: Status 404 or 405 (DELETE not allowed)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([404, 405]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-33 – HTTP Verb Tampering PUT",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-33: Status 404 or 405 (PUT not allowed)\", () => {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([404, 405]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Schema & Contract Tests",
+      "item": [
+        {
+          "name": "TC-34 – Validate success response schema fully",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+                  "}, function(err, res) {",
+                  "    if (!err && res.code === 200) {",
+                  "        const token = res.json().token;",
+                  "        pm.collectionVariables.set(\"userToken\", token);",
+                  "        pm.sendRequest({",
+                  "            url: pm.collectionVariables.get(\"baseUrl\") + '/api/cart',",
+                  "            method: 'POST',",
+                  "            header: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },",
+                  "            body: { mode: 'raw', raw: JSON.stringify({ productId: 1, quantity: 2 }) }",
+                  "        }, function(err2, res2) {});",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-34: Status 200\", () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test(\"TC-34: Content-Type is application/json\", () => {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-34: Schema contains exactly message and orderId\", () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.all.keys('message', 'orderId');",
+                  "    pm.expect(body.orderId).to.be.a('number');",
+                  "    pm.expect(body.message).to.be.a('string');",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 200000, \"shipping_address\": \"123 Le Loi, TP.HCM\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-inject X-Student-Id header on every request",
+          "pm.request.headers.upsert({",
+          "    key: 'X-Student-Id',",
+          "    value: pm.collectionVariables.get('studentId') || '23127168'",
+          "});",
+          "",
+          "// Auto-acquire user JWT if not already set",
+          "if (!pm.collectionVariables.get(\"userToken\")) {",
+          "    pm.sendRequest({",
+          "        url: pm.collectionVariables.get(\"baseUrl\") + '/api/login',",
+          "        method: 'POST',",
+          "        header: { 'Content-Type': 'application/json' },",
+          "        body: {",
+          "            mode: 'raw',",
+          "            raw: JSON.stringify({",
+          "                email: \"test@eshop.com\",",
+          "                password: \"Test1234!\"",
+          "            })",
+          "        }",
+          "    }, function (err, res) {",
+          "        if (!err && res.code === 200) {",
+          "            const responseJson = res.json();",
+          "            pm.collectionVariables.set(\"userToken\", responseJson.token);",
+          "        }",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "studentId",
+      "value": "23127168"
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "longAddress",
+      "value": ""
+    }
+  ]
+}

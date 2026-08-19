@@ -1,0 +1,1642 @@
+{
+  "info": {
+    "_postman_id": "441f25de-5358-47ab-85f4-54d5bcfe0424",
+    "name": "HW6 - FR06",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55677974"
+  },
+  "item": [
+    {
+      "name": "TC-01 – Domain – Get existing product by valid ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-01: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-01: Response is JSON\", () => pm.response.to.be.json);",
+              "pm.test(\"TC-01: Schema has exactly 6 keys\", () => {",
+              "    const body = pm.response.json();",
+              "    const keys = Object.keys(body);",
+              "    pm.expect(keys).to.include.members(['id','name','price','description','imageUrl','category_id']);",
+              "    pm.expect(keys.length).to.eql(6);",
+              "});",
+              "pm.test(\"TC-01: id == 1\", () => pm.expect(pm.response.json().id).to.eql(1));",
+              "pm.test(\"TC-01: price > 0\", () => pm.expect(pm.response.json().price).to.be.above(0));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-02 – Boundary – Get product at ID = min + 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-02: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-02: id == 2\", () => pm.expect(pm.response.json().id).to.eql(2));",
+              "pm.test(\"TC-02: Schema valid\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.all.keys('id','name','price','description','imageUrl','category_id');",
+              "});",
+              "pm.test(\"TC-02: All fields non-null\", () => {",
+              "    const body = pm.response.json();",
+              "    Object.values(body).forEach(v => pm.expect(v).to.not.be.null);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/2\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-03 – Boundary – Get product at max existing ID (5)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-03: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-03: id == 5\", () => pm.expect(pm.response.json().id).to.eql(5));",
+              "pm.test(\"TC-03: Schema valid\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.all.keys('id','name','price','description','imageUrl','category_id');",
+              "});",
+              "pm.test(\"TC-03: category_id >= 1\", () => pm.expect(pm.response.json().category_id).to.be.at.least(1));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/5",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "5"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/50\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-04 – Boundary – Get product at N-1 (4)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-04: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-04: id == 4\", () => pm.expect(pm.response.json().id).to.eql(4));",
+              "pm.test(\"TC-04: Schema valid\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.all.keys('id','name','price','description','imageUrl','category_id');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/4",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "4"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/49\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-05 – Boundary – Get product at N+1 (6)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-05: Status 404\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-05: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/6",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "6"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/51\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-06 – Boundary – Get product at lower bound ID = 0",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-06: Status 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-06: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/0",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "0"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/0\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-07 – Boundary – Negative ID value",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-07: Status 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-07: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/-1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "-1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/-1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-08 – Domain – Non-existent positive integer ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-08: Status 404\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-08: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/99999",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "99999"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/99999\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-12 – Domain – Decimal float ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-12: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-12: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1.5",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1.5"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1.5\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-13 – Domain – Non-numeric alphabetic ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-13: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-13: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/abc",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "abc"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/abc\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-14 – Domain – Alphanumeric mixed ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-14: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-14: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/12abc",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "12abc"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/12abc\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-15 – Domain – Leading zeros ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-15: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "",
+              "pm.test(\"TC-15: If 200, id == 1\", function () {",
+              "    if (pm.response.code !== 200) {",
+              "        return this.skip();",
+              "    }",
+              "    pm.expect(pm.response.json().id).to.eql(1);",
+              "});",
+              "",
+              "// pm.test(\"TC-15: If 400, response has error message\", function () {",
+              "//     if (pm.response.code !== 400) {",
+              "//         return this.skip();",
+              "//     }",
+              "//     pm.expect(pm.response.json()).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/0001",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "0001"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/0001\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-16 – Domain – Scientific notation ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-16: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-16: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1e5",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1e5"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1e5\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-17 – Domain – Hexadecimal representation ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-17: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-17: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/0x1A",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "0x1A"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/0x1A\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-18 – Domain – Full-width Unicode digit ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-18: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-18: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/１",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "１"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/１\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-19 – Domain – Boolean literal string ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-19: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-19: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/true",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "true"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/true\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-20 – Domain – Null literal string ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-20: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-20: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/null",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "null"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/null\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-21 – Domain – Whitespace encoded ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-21: Status 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-21: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/%20",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "%20"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/%20\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-09 – Boundary – ID at INT32 max (2147483647)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-09: Status 404\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-09: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-09: Response time < 2000ms\", () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2147483647",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2147483647"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/2147483647\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-10 – Boundary – ID at INT32 overflow (2147483648)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-10: Status 400 or 404 (not 500)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-10: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2147483648",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2147483648"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/2147483648\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-11 – Boundary – Extreme overflow beyond 64-bit",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-11: Status 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-11: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-11: No stack trace in response\", () => {",
+              "    const text = pm.response.text();",
+              "    pm.expect(text).to.not.include('at ');",
+              "    pm.expect(text).to.not.include('stack');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/99999999999999999999",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "99999999999999999999"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/99999999999999999999\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-22 – Robustness – Missing ID segment (trailing slash)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-22: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-22: Response is an array (product list)\", () => {",
+              "    pm.expect(pm.response.json()).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-23 – Robustness – Double-slash route path",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-23: Status 400 or 404 (not 500)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "pm.test(\"TC-23: No 500 error\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products//1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products//1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-24 – Robustness – Nested sub-path after ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-24: Status 404\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-24: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1/1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-25 – Robustness – Unexpected query string ignored",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-25: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-25: id == 1 (query string ignored)\", () => pm.expect(pm.response.json().id).to.eql(1));",
+              "pm.test(\"TC-25: Schema valid\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.all.keys('id','name','price','description','imageUrl','category_id');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1?foo=bar",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "foo",
+              "value": "bar"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1?foo=bar\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-26 – Security – SQLi Boolean-based payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-26: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-26: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-26: No full table dump (response is not array)\", () => {",
+              "    pm.expect(pm.response.json()).to.not.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1%20OR%201=1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1%20OR%201=1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1%20OR%201=1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-27 – Security – SQLi Quote-break payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-27: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-27: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-27: No SQLite error exposed\", () => {",
+              "    const text = pm.response.text();",
+              "    pm.expect(text.toLowerCase()).to.not.include('sqlite');",
+              "    pm.expect(text.toLowerCase()).to.not.include('syntax error');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1'%20OR%20'1'='1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1'%20OR%20'1'='1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1'%20OR%20'1'='1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-28 – Security – SQLi Stacked query / comment payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-28: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-28: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1;--",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1;--"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1;--\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-29 – Security – Reflected XSS script tag",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-29: Status is 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "",
+              "pm.test(\"TC-29: Response is JSON and does not execute script\", () => {",
+              "    pm.response.to.be.header(\"Content-Type\", /application\\/json/);",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an(\"object\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/%3Cscript%3Ealert(1)%3C/script%3E",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "%3Cscript%3Ealert(1)%3C",
+            "script%3E"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/%3Cscript%3Ealert(1)%3C/script%3E\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-30 – Security – Directory Traversal payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-30: Status 400 or 404\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+              "});",
+              "// pm.test(\"TC-30: No system file content exposed\", () => {",
+              "//     const text = pm.response.text();",
+              "//     pm.expect(text).to.not.include('root:');",
+              "//     pm.expect(text).to.not.include('/bin/bash');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/../../etc/passwd",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "..",
+            "..",
+            "etc",
+            "passwd"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/../../etc/passwd\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-31 – Security – Public endpoint auth check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-31: Status 200 (public endpoint, no auth required)\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-31: Returns product schema (not 401)\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(401);",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.all.keys('id','name','price','description','imageUrl','category_id');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-33 – Security – HTTP Verb Tampering (Unauthorized Delete)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-33: Status 401 or 403 (unauthorized delete)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+              "});",
+              "// pm.test(\"TC-33: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const baseUrl = pm.collectionVariables.get('baseURL') || 'http://localhost:3000';\r",
+              "\r",
+              "const loginRequest = {\r",
+              "    url: `${baseUrl}/api/login`,\r",
+              "    method: 'POST',\r",
+              "    header: {\r",
+              "        'Content-Type': 'application/json'\r",
+              "    },\r",
+              "    body: {\r",
+              "        mode: 'raw',\r",
+              "        raw: JSON.stringify({\r",
+              "            email: 'test@eshop.com',\r",
+              "            password: 'Test1234!'\r",
+              "        })\r",
+              "    }\r",
+              "};\r",
+              "\r",
+              "pm.sendRequest(loginRequest, (err, res) => {\r",
+              "    if (err) {\r",
+              "        console.error(\"Login failed in TC-33 pre-request script:\", err);\r",
+              "        return;\r",
+              "    }\r",
+              "    \r",
+              "    const responseJson = res.json();\r",
+              "    const userToken = responseJson.token;\r",
+              "    \r",
+              "    pm.request.headers.upsert({\r",
+              "        key: 'Authorization',\r",
+              "        value: `Bearer ${userToken}`\r",
+              "    });\r",
+              "    \r",
+              "    console.log(\"TC-33: Successfully acquired regular user token and set Authorization header.\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-38 – Security – Blind Time-Based SQLi",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-38: Status 400\", () => pm.response.to.have.status(400));",
+              "// pm.test(\"TC-38: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-38: Response time < 500ms (no time-based delay)\", () => {",
+              "    pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/1%20AND%201=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(50000000))))",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1%20AND%201=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(50000000))))"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1%20AND%201=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(50000000))))\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-34 – Schema – Full schema & keys presence check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-34: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-34: Exactly 6 keys in response\", () => {",
+              "    const body = pm.response.json();",
+              "    const keys = Object.keys(body);",
+              "    pm.expect(keys.length).to.eql(6);",
+              "    pm.expect(keys).to.have.members(['id','name','price','description','imageUrl','category_id']);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-35 – Schema – Error schema structure on 404",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-35: Status 404\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-35: Error body has 'error' string key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });",
+              "pm.test(\"TC-35: No product keys in error response\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.not.have.any.keys('id','name','price','description','imageUrl','category_id');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/99999",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "99999"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/99999\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-36 – Schema – Validate price field type and bound",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-36: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-36: price is a number\", () => {",
+              "    pm.expect(typeof pm.response.json().price).to.eql('number');",
+              "});",
+              "pm.test(\"TC-36: price > 0\", () => {",
+              "    pm.expect(pm.response.json().price).to.be.above(0);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-37 – State/Integrity – Get Soft-Deleted / Inactive Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-37: Status 404 (inactive product not exposed)\", () => pm.response.to.have.status(404));",
+              "// pm.test(\"TC-37: Error body has 'error' key\", () => {",
+              "//     const body = pm.response.json();",
+              "//     pm.expect(body).to.have.property('error').that.is.a('string');",
+              "// });"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const baseUrl = pm.collectionVariables.get('baseUrl') || 'http://localhost:3000';\r",
+              "\r",
+              "const adminLoginRequest = {\r",
+              "    url: `${baseUrl}/api/login`,\r",
+              "    method: 'POST',\r",
+              "    header: { 'Content-Type': 'application/json' },\r",
+              "    body: {\r",
+              "        mode: 'raw',\r",
+              "        raw: JSON.stringify({\r",
+              "            email: 'admin@eshop.com',\r",
+              "            password: 'Admin123!'\r",
+              "        })\r",
+              "    }\r",
+              "};\r",
+              "\r",
+              "pm.sendRequest(adminLoginRequest, (err, res) => {\r",
+              "    if (err || res.code !== 200) {\r",
+              "        console.error(\"Admin login failed in TC-37:\", err || res.json());\r",
+              "        return;\r",
+              "    }\r",
+              "    const adminToken = res.json().token;\r",
+              "\r",
+              "    const updateRequest = {\r",
+              "        url: `${baseUrl}/api/admin/products/5`,\r",
+              "        method: 'PUT',\r",
+              "        header: {\r",
+              "            'Content-Type': 'application/json',\r",
+              "            'Authorization': `Bearer ${adminToken}`\r",
+              "        },\r",
+              "        body: {\r",
+              "            mode: 'raw',\r",
+              "            raw: JSON.stringify({\r",
+              "                is_active: 0\r",
+              "            })\r",
+              "        }\r",
+              "    };\r",
+              "\r",
+              "    pm.sendRequest(updateRequest, (updateErr, updateRes) => {\r",
+              "        if (updateErr) {\r",
+              "            console.error(\"Failed to soft-delete product 5:\", updateErr);\r",
+              "        } else {\r",
+              "            console.log(\"TC-37: Product 5 is set to inactive successfully.\");\r",
+              "        }\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/api/products/5",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "5"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/5\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-32 – Security – Ignore invalid Authorization header",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"TC-32: Status 200 (invalid token ignored on public endpoint)\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-32: Returns product data\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.have.property('id').that.eqls(2);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/api/products/2",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "2"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/products/1\""
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "pm.request.headers.upsert({",
+          "    key: 'X-Student-Id',",
+          "    value: pm.collectionVariables.get('studentId') || '23127168'",
+          "});",
+          "console.log(\"X-Student-Id header set:\", pm.collectionVariables.get('studentId') || '23127168');"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "authToken",
+      "value": "abcxyz"
+    }
+  ]
+}

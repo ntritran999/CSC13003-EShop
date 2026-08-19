@@ -1,0 +1,2792 @@
+{
+  "info": {
+    "_postman_id": "a72add88-49ec-4612-8bc6-e6d3774351f1",
+    "name": "HW6 - FR16",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55677974"
+  },
+  "item": [
+    {
+      "name": "TC-01 – Domain/Happy Path – Valid import of a single well-formed product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-01: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-01: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-01: Response contains success confirmation\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.satisfy(b =>",
+              "        b.message !== undefined || b.success !== undefined || b.imported !== undefined || Array.isArray(b)",
+              "    );",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"Sản phẩm A\", \"price\": 100000, \"description\": \"Mô tả\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"Sản phẩm A\\\", \\\"price\\\": 100000, \\\"description\\\": \\\"Mô tả\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-02 – Domain/Happy Path – Valid bulk import of multiple products (3 items)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-02: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-02: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-02: Bulk import confirmed\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.satisfy(b =>",
+              "        b.message !== undefined || b.success !== undefined || b.imported !== undefined || Array.isArray(b)",
+              "    );",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP1\", \"price\": 10000, \"description\": \"Desc 1\", \"imageUrl\": \"http://example.com/1.png\", \"category_id\": 1},{\"name\": \"SP2\", \"price\": 20000, \"description\": \"Desc 2\", \"imageUrl\": \"http://example.com/2.png\", \"category_id\": 1},{\"name\": \"SP3\", \"price\": 30000, \"description\": \"Desc 3\", \"imageUrl\": \"http://example.com/3.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP1\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Desc 1\\\", \\\"imageUrl\\\": \\\"http://example.com/1.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP2\\\", \\\"price\\\": 20000, \\\"description\\\": \\\"Desc 2\\\", \\\"imageUrl\\\": \\\"http://example.com/2.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP3\\\", \\\"price\\\": 30000, \\\"description\\\": \\\"Desc 3\\\", \\\"imageUrl\\\": \\\"http://example.com/3.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-03 – Domain/Happy Path – Valid import with Vietnamese unicode in name/description",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-03: Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-03: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-03: Unicode characters handled without corruption\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"Điện thoại Samsung Galaxy Ω\", \"price\": 15000000, \"description\": \"Mô tả sản phẩm cao cấp\", \"imageUrl\": \"http://example.com/samsung.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"Điện thoại Samsung Galaxy Ω\\\", \\\"price\\\": 15000000, \\\"description\\\": \\\"Mô tả sản phẩm cao cấp\\\", \\\"imageUrl\\\": \\\"http://example.com/samsung.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-05 – Boundary – Completely empty JSON body",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-05: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-05: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-06 – Domain – Missing 'products' key (unrelated key sent)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-06: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-06: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"items\": [{\"name\": \"SP Test\", \"price\": 10000, \"description\": \"Desc\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"items\\\": [{\\\"name\\\": \\\"SP Test\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Desc\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-04 – Boundary – Empty products array",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-04: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-04: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": []}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": []}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-07 – Business Logic – Batch atomicity with invalid FK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-07: Status 400 or 422 (transaction aborted)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-07: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Valid\", \"price\": 10000, \"description\": \"Valid product\", \"imageUrl\": \"http://example.com/valid.png\", \"category_id\": 1},{\"name\": \"SP Invalid FK\", \"price\": 20000, \"description\": \"Invalid FK\", \"imageUrl\": \"http://example.com/invalid.png\", \"category_id\": 99999}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Valid\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Valid product\\\", \\\"imageUrl\\\": \\\"http://example.com/valid.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP Invalid FK\\\", \\\"price\\\": 20000, \\\"description\\\": \\\"Invalid FK\\\", \\\"imageUrl\\\": \\\"http://example.com/invalid.png\\\", \\\"category_id\\\": 99999}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-08 – Domain – Product missing 'name' field",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-08: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-08: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"price\": 10000, \"description\": \"No name\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"price\\\": 10000, \\\"description\\\": \\\"No name\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-09 – Domain – Product missing 'price' field",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-09: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-09: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP No Price\", \"description\": \"No price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP No Price\\\", \\\"description\\\": \\\"No price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-10 – Domain – Product missing 'category_id' field",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-10: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-10: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP No Category\", \"price\": 10000, \"description\": \"No category\", \"imageUrl\": \"http://example.com/a.png\"}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP No Category\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"No category\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\"}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-11 – Boundary – Product 'name' as empty string",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-11: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-11: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"\", \"price\": 10000, \"description\": \"Empty name\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Empty name\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-13 – Boundary – Product 'price' = 0",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-13: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-13: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Free\", \"price\": 0, \"description\": \"Free product\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Free\\\", \\\"price\\\": 0, \\\"description\\\": \\\"Free product\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-14 – Boundary – Product 'price' = -1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-14: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-14: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Negative\", \"price\": -1, \"description\": \"Negative price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Negative\\\", \\\"price\\\": -1, \\\"description\\\": \\\"Negative price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-19 – Boundary – Product 'price' extreme overflow",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-19: Status 400 or 422 (not 500)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-19: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-19: No 500 error\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Overflow\", \"price\": 99999999999999999999999, \"description\": \"Overflow price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Overflow\\\", \\\"price\\\": 99999999999999999999999, \\\"description\\\": \\\"Overflow price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-23 – Boundary – Product 'name' extremely long string (5000 chars)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-23: Status 400 or 200 (not 500)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 200]);",
+              "});",
+              "pm.test(\"TC-23: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-23: No 500 error\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set(\"longProductName\", \"a\".repeat(5000));",
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: { mode: 'raw', raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" }) }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"{{longProductName}}\", \"price\": 10000, \"description\": \"Long name test\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"{{longProductName}}\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Long name test\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-25 – Boundary – Product 'imageUrl' field missing entirely",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-25: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-25: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP NoImage\", \"price\": 10000, \"description\": \"Mô tả\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP NoImage\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Mô tả\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-12 – Type – Product 'name' as numeric type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-12: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-12: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": 12345, \"price\": 10000, \"description\": \"Numeric name\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": 12345, \\\"price\\\": 10000, \\\"description\\\": \\\"Numeric name\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-15 – Type – Product 'price' as decimal/float",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-15: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-15: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Float\", \"price\": 99999.99, \"description\": \"Float price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Float\\\", \\\"price\\\": 99999.99, \\\"description\\\": \\\"Float price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-16 – Type – Product 'price' as string type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-16: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-16: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP String Price\", \"price\": \"10000\", \"description\": \"String price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP String Price\\\", \\\"price\\\": \\\"10000\\\", \\\"description\\\": \\\"String price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-17 – Type – Product 'price' as null",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-17: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-17: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Null Price\", \"price\": null, \"description\": \"Null price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Null Price\\\", \\\"price\\\": null, \\\"description\\\": \\\"Null price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-18 – Type – Product 'price' as boolean",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-18: Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-18: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Bool Price\", \"price\": true, \"description\": \"Bool price\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Bool Price\\\", \\\"price\\\": true, \\\"description\\\": \\\"Bool price\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-21 – Type – Product 'category_id' as string type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-21: Status 400 or 200\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 200]);",
+              "});",
+              "pm.test(\"TC-21: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP CatString\", \"price\": 10000, \"description\": \"String category_id\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": \"1\"}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP CatString\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"String category_id\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": \\\"1\\\"}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-22 – Type – Product 'category_id' as null",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-22: Status 400 or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+              "});",
+              "pm.test(\"TC-22: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP CatNull\", \"price\": 10000, \"description\": \"Null category_id\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": null}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP CatNull\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Null category_id\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": null}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-24 – Type – Product 'imageUrl' is a malformed non-URL string",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-24: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-24: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP BadUrl\", \"price\": 10000, \"description\": \"Bad URL\", \"imageUrl\": \"not-a-valid-url\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP BadUrl\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Bad URL\\\", \\\"imageUrl\\\": \\\"not-a-valid-url\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-20 – Business Logic – Non-existent category_id (invalid FK)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-20: Status 400, 404, or 422\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 404, 422]);",
+              "});",
+              "pm.test(\"TC-20: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Ghost Category\", \"price\": 10000, \"description\": \"Ghost category\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 99999}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Ghost Category\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Ghost category\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 99999}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-26 – Business Logic – Duplicate product names within same batch",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-26: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-26: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Duplicate\", \"price\": 10000, \"description\": \"First duplicate\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1},{\"name\": \"SP Duplicate\", \"price\": 20000, \"description\": \"Second duplicate\", \"imageUrl\": \"http://example.com/b.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Duplicate\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"First duplicate\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP Duplicate\\\", \\\"price\\\": 20000, \\\"description\\\": \\\"Second duplicate\\\", \\\"imageUrl\\\": \\\"http://example.com/b.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-27 – Business Logic – Batch atomicity with one invalid item",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-27: Status 400, 422, or 207\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 207]);",
+              "});",
+              "pm.test(\"TC-27: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Valid 1\", \"price\": 10000, \"description\": \"Valid\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1},{\"name\": \"SP Invalid Price\", \"price\": -500, \"description\": \"Invalid price\", \"imageUrl\": \"http://example.com/b.png\", \"category_id\": 1},{\"name\": \"SP Valid 2\", \"price\": 30000, \"description\": \"Valid\", \"imageUrl\": \"http://example.com/c.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Valid 1\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Valid\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP Invalid Price\\\", \\\"price\\\": -500, \\\"description\\\": \\\"Invalid price\\\", \\\"imageUrl\\\": \\\"http://example.com/b.png\\\", \\\"category_id\\\": 1},{\\\"name\\\": \\\"SP Valid 2\\\", \\\"price\\\": 30000, \\\"description\\\": \\\"Valid\\\", \\\"imageUrl\\\": \\\"http://example.com/c.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-28 – Security – Missing Authorization header entirely",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-28: Status 401 (no auth header)\", () => pm.response.to.have.status(401));",
+              "pm.test(\"TC-28: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Auth Test\", \"price\": 10000, \"description\": \"No auth\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Auth Test\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"No auth\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-29 – Security – Invalid / Malformed Bearer token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-29: Status 401 or 403\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+              "});",
+              "pm.test(\"TC-29: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer garbage.invalid.token123",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Invalid Token\", \"price\": 10000, \"description\": \"Invalid token\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer garbage.invalid.token123\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Invalid Token\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Invalid token\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-30 – Security – Regular user token attempts admin-only import",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-30: Status 403 (regular user forbidden)\", () => pm.response.to.have.status(403));",
+              "pm.test(\"TC-30: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: { mode: 'raw', raw: JSON.stringify({ email: \"test@eshop.com\", password: \"Test1234!\" }) }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"userToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{userToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP User Attempt\", \"price\": 10000, \"description\": \"User trying admin\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{userToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP User Attempt\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"User trying admin\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-31 – Security – SQL injection payload in product 'name'",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-31: Status 200 or 400 (SQLi handled safely)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-31: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-31: No SQL error exposed\", () => {",
+              "    const text = pm.response.text().toLowerCase();",
+              "    pm.expect(text).to.not.include('syntax error');",
+              "    pm.expect(text).to.not.include('sqlite');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP'; DROP TABLE products;--\", \"price\": 10000, \"description\": \"SQLi test\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP'; DROP TABLE products;--\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"SQLi test\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-32 – Security – Stored XSS payload in product 'description'",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-32: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-32: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-32: XSS payload treated as inert text\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP XSS Test\", \"price\": 10000, \"description\": \"<script>alert(document.cookie)</script>\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP XSS Test\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"<script>alert(document.cookie)</script>\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-33 – Robustness – Malformed JSON syntax in request body",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-33: Status 400 (malformed JSON)\", () => pm.response.to.have.status(400));",
+              "pm.test(\"TC-33: Not 500 Internal Server Error\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Malformed\", \"price\": 10000, \"description\": \"Malformed JSON\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Malformed\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Malformed JSON\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-34 – Robustness – Invalid Content-Type header (text/plain)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-34: Status 400 or 415 (wrong Content-Type)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 415]);",
+              "});",
+              "pm.test(\"TC-34: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "text/plain",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Plain Text\", \"price\": 10000, \"description\": \"Wrong content type\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1}]}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: text/plain\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Plain Text\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Wrong content type\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-35 – Robustness – Mass assignment with extra unexpected fields",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-35: Status 200 or 400\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+              "});",
+              "pm.test(\"TC-35: Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "pm.test(\"TC-35: Unauthorized fields safely ignored or rejected\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(500);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\": [{\"name\": \"SP Mass Assign\", \"price\": 10000, \"description\": \"Mass assignment test\", \"imageUrl\": \"http://example.com/a.png\", \"category_id\": 1, \"id\": 9999, \"is_admin\": true, \"created_at\": \"2000-01-01\"}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\" -H \"Content-Type: application/json\" -d \"{\\\"products\\\": [{\\\"name\\\": \\\"SP Mass Assign\\\", \\\"price\\\": 10000, \\\"description\\\": \\\"Mass assignment test\\\", \\\"imageUrl\\\": \\\"http://example.com/a.png\\\", \\\"category_id\\\": 1, \\\"id\\\": 9999, \\\"is_admin\\\": true, \\\"created_at\\\": \\\"2000-01-01\\\"}]}\""
+      },
+      "response": []
+    },
+    {
+      "name": "TC-36 – Robustness – HTTP verb tampering (GET method)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"TC-36: Status 404 or 405 (GET not allowed)\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([404, 405]);",
+              "});",
+              "pm.test(\"TC-36: GET method rejected, import not executed\", () => {",
+              "    pm.expect(pm.response.code).to.not.eql(200);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+              "    method: 'POST',",
+              "    header: { 'Content-Type': 'application/json' },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ email: \"admin@eshop.com\", password: \"Admin123!\" })",
+              "    }",
+              "}, function(err, res) {",
+              "    if (!err && res.code === 200) {",
+              "        pm.collectionVariables.set(\"adminToken\", res.json().token);",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"{{baseUrl}}/api/admin/import-products\" -H \"Authorization: Bearer {{adminToken}}\""
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "// Auto-inject X-Student-Id header on every request",
+          "pm.request.headers.upsert({",
+          "    key: 'X-Student-Id',",
+          "    value: pm.collectionVariables.get('studentId') || '23127168'",
+          "});",
+          "",
+          "// Auto-acquire Admin JWT if not already set",
+          "if (!pm.collectionVariables.get(\"adminToken\")) {",
+          "    pm.sendRequest({",
+          "        url: (pm.collectionVariables.get(\"baseUrl\") || \"http://localhost:3000\") + '/api/login',",
+          "        method: 'POST',",
+          "        header: { 'Content-Type': 'application/json' },",
+          "        body: {",
+          "            mode: 'raw',",
+          "            raw: JSON.stringify({",
+          "                email: \"admin@eshop.com\",",
+          "                password: \"Admin123!\"",
+          "            })",
+          "        }",
+          "    }, function (err, res) {",
+          "        if (!err && res.code === 200) {",
+          "            const responseJson = res.json();",
+          "            pm.collectionVariables.set(\"adminToken\", responseJson.token);",
+          "        }",
+          "    });",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "adminToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg2ODkxMjMwfQ.fYAWs5llu0AgYFBhVrgTGWDX4rDO-KoR316eZ9SKEkU"
+    },
+    {
+      "key": "longProductName",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "key": "userToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODY4OTEyMjl9.M4ER1hs7z3GyxxrLZM8FAxGq6cL4M_IKcBjoQcsru20"
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
