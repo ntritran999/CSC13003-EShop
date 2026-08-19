@@ -2,8 +2,6 @@
 
 Base URL: [http://localhost:3000](http://localhost:3000)  
 Primary API: `GET /api/products`  
-Source: corrected final fields from the paired Audit sheet in `test-cases/23127234_HW06_API_Test_Cases.xlsx`.  
-Final set: **35 testcases**. 13 invalid/incomplete AI designs were corrected; 22 valid designs were preserved.
 
 ## Header profiles used by this pool
 

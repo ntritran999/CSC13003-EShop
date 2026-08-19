@@ -2,8 +2,6 @@
 
 Base URL: [http://localhost:3000](http://localhost:3000)  
 Primary API: `POST /api/products`  
-Source: corrected final fields from the paired Audit sheet in `test-cases/23127234_HW06_API_Test_Cases.xlsx`, plus a student-added extension test case.  
-Final set: **36 testcases**. The original corrected AI set contains 35 cases; one student-added case is included below.
 
 ## Header profiles used by this pool
 

@@ -1,0 +1,9 @@
+# AI Critique
+
+I used Claude in four interactions: three step-by-step testcase-generation tasks for FR-05, FR-10, and FR-15, followed by a review of my AI-driven test-generator flow. Claude generated 105 candidate cases quickly and covered the main required techniques, but only 78 were valid without semantic correction. Twelve were invalid and fifteen were incomplete.
+
+The main weakness was oracle invention. For example, TC-A-32 treated `POST /api/products` as an unsupported FR-05 method even though it is the valid FR-15 creation endpoint. I corrected the request to an actually unsupported `PATCH /api/products`. TC-B-29 incorrectly allowed `canceled → delivered`, contradicting the rule that canceled is final, so I changed the expected status to 400 and required the state to remain canceled. TC-C-16 assumed that prices must be integers, although the requirement only says that price is a positive number. I changed that case to accept a positive decimal while keeping the policy open for confirmation.
+
+The AI also missed five important combinations: an expired JWT, two untested backward/final-state transitions, an admin-confirmation versus owner-cancellation race, and a normal-user role-escalation request combined with `__proto__` injection. These omissions occurred because my prompts requested broad categories but did not require a complete state matrix, token lifecycle, or combined threats.
+
+The fourth interaction showed how to reduce these problems. The proposed flow separates specification loading, normalization, coverage generation, oracle construction, fixtures, deduplication, audit, and human review. I added a direct requirement-evidence path from the normalized model to the Oracle Builder. My main lesson is that AI is useful for coverage brainstorming, but every expected result must remain traceable to the specification and defensible after human review and execution.

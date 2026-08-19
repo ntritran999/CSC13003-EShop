@@ -1,0 +1,1697 @@
+{
+  "info": {
+    "_postman_id": "1bb23d9a-a708-4957-94ae-642b3cb91081",
+    "name": "HW06 23127234 - Pool A - FR-05 Product Listing and Search",
+    "description": "Executable Postman collection generated from pool_A_FR05_final_testcases.md. Contains 35 testcase requests plus one runtime baseline request.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const studentId = pm.environment.get('studentId') || pm.collectionVariables.get('studentId');",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: String(studentId) });",
+          "console.log(`[HW06][${pm.info.requestName}] X-Student-Id: ${studentId}`);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Required X-Student-Id header is attached', function () {",
+          "  const expected = String(pm.environment.get('studentId') || pm.collectionVariables.get('studentId'));",
+          "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(expected);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "studentId",
+      "value": "23127234",
+      "type": "string"
+    },
+    {
+      "key": "searchValueEncoded",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "baselineProductCount",
+      "value": "0",
+      "type": "string"
+    },
+    {
+      "key": "baselineProductNames",
+      "value": "[]",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Runtime setup",
+      "item": [
+        {
+          "name": "Capture FR-05 baseline",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Setup only; not counted as a testcase. Stores the seeded product count and names for security and integrity comparisons."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Baseline request returns a JSON array', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.be.an('array');",
+                  "  pm.collectionVariables.set('baselineProductCount', String(body.length));",
+                  "  pm.collectionVariables.set('baselineProductNames', JSON.stringify(body.map(p => p.name)));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 - Domain partitions",
+      "item": [
+        {
+          "name": "TC-A-01 | List all products when search is omitted.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-01\n\nTechnique / Tag: Domain partition — Positive/list\n\nObjective: List all products when search is omitted.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: JSON array; each item follows the approved product schema; no sensitive fields; GET causes no mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-01 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-01 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-01 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-01 - product items satisfy the reviewed minimum schema', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  pm.response.json().forEach(function (p) {",
+                  "    pm.expect(p.id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.name).to.be.a('string').and.not.empty;",
+                  "    pm.expect(p.price).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.category_id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.description === null || typeof p.description === 'string').to.be.true;",
+                  "    pm.expect(p.imageUrl === null || typeof p.imageUrl === 'string').to.be.true;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-02 | Search by an exact full product name.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-02\n\nTechnique / Tag: Domain partition — Equivalence/exact\n\nObjective: Search by an exact full product name.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Array contains the exact named product and no product whose name does not contain the keyword."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"iPhone%2015%20Pro%20Max\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-02 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-02 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-02 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-02 - every result matches the search text', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  const expected = \"iphone 15 pro max\";",
+                  "  pm.response.json().forEach(function (product) { pm.expect(String(product.name).toLowerCase()).to.include(expected); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-03 | Search with a product-name prefix.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-03\n\nTechnique / Tag: Domain partition — Equivalence/prefix\n\nObjective: Search with a product-name prefix.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Every returned product name contains the prefix under the observed matching policy; expected seeded iPhone is included."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"iPhone\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-03 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-03 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-03 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-03 - every result matches the search text', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  const expected = \"iphone\";",
+                  "  pm.response.json().forEach(function (product) { pm.expect(String(product.name).toLowerCase()).to.include(expected); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-04 | Search with a middle token from a product name.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-04\n\nTechnique / Tag: Domain partition — Equivalence/middle\n\nObjective: Search with a middle token from a product name.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Every result name contains Galaxy; Samsung Galaxy seed product is included."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"Galaxy\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-04 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-04 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-04 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-04 - every result matches the search text', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  const expected = \"galaxy\";",
+                  "  pm.response.json().forEach(function (product) { pm.expect(String(product.name).toLowerCase()).to.include(expected); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-05 | Search with a suffix token.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-05\n\nTechnique / Tag: Domain partition — Equivalence/suffix\n\nObjective: Search with a suffix token.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Every returned name contains Ultra; no unrelated product is returned."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"Ultra\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-05 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-05 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-05 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-05 - every result matches the search text', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  const expected = \"ultra\";",
+                  "  pm.response.json().forEach(function (product) { pm.expect(String(product.name).toLowerCase()).to.include(expected); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-06 | Observe lowercase search behavior without imposing an unstated case-sensitivity rule.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-06\n\nTechnique / Tag: Domain partition — Case sensitivity\n\nObjective: Observe lowercase search behavior without imposing an unstated case-sensitivity rule.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Record whether the seeded product matches; response must be valid JSON, contain only name-filter-consistent results under the observed policy, expose no internals, and not mutate data."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"iphone\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-06 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-06 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-06 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-07 | Observe uppercase search collation while checking API safety invariants.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-07\n\nTechnique / Tag: Domain partition — Case sensitivity\n\nObjective: Observe uppercase search collation while checking API safety invariants.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Record result set and compare with exact case as an observation; require JSON, no internal leakage, and no mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"IPHONE\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-07 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-07 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-07 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-08 | Search using exact Vietnamese diacritics.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-08\n\nTechnique / Tag: Domain partition — Unicode/diacritics\n\nObjective: Search using exact Vietnamese diacritics.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Valid JSON array; any result must contain the exact Vietnamese keyword under the observed matching policy; no encoding corruption."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%C4%90i%E1%BB%87n%20tho%E1%BA%A1i\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-08 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-08 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-08 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-09 | Compare NFC and NFD search behavior as an exploratory Unicode-normalization check.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-09\n\nTechnique / Tag: Domain partition — Unicode normalization\n\nObjective: Compare NFC and NFD search behavior as an exploratory Unicode-normalization check.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Both requests must be safely processed as JSON without 5xx/internal leakage or mutation; result-set equivalence is recorded, not graded."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%C4%90i%E1%BB%87n%20tho%E1%BA%A1i\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-09 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-09 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-09 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "const nfd = 'Điện thoại'.normalize('NFD');",
+                  "pm.sendRequest({ url: pm.variables.replaceIn('{{baseUrl}}/api/products?search=') + encodeURIComponent(nfd), method: 'GET', header: { 'X-Student-Id': pm.variables.get('studentId') } }, function (err, response) {",
+                  "  pm.test('TC-A-09 - NFD comparison request is processed safely', function () { pm.expect(err).to.equal(null); pm.expect(response.code).to.eql(200); pm.expect(response.json()).to.be.an('array'); });",
+                  "  console.log('[HW06][TC-A-09] NFC count / NFD count:', pm.response.json().length, response.json().length);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-10 | Search with a one-character keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-10\n\nTechnique / Tag: Domain partition — Boundary/minimal text\n\nObjective: Search with a one-character keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: JSON array; each result name contains the keyword under the observed policy; no unrelated schema fields or mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"a\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-10 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-10 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-10 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-10 - every result matches the search text', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  const expected = \"a\";",
+                  "  pm.response.json().forEach(function (product) { pm.expect(String(product.name).toLowerCase()).to.include(expected); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-12 | Observe empty-search semantics and compare them with omitted search without a strict equality oracle.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-12\n\nTechnique / Tag: Domain partition — Empty input\n\nObjective: Observe empty-search semantics and compare them with omitted search without a strict equality oracle.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Valid JSON response with no 5xx/internal leakage or mutation; equality/order difference is documented."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-12 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-12 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-12 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-13 | Verify whitespace search is handled safely and document whether it is trimmed or treated literally.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-13\n\nTechnique / Tag: Domain partition — Whitespace partition\n\nObjective: Verify whitespace search is handled safely and document whether it is trimmed or treated literally.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: No 5xx, SQL/internal leakage, or mutation; return JSON and record the result-set behavior as exploratory."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%20%20%20\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-13 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-13 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-13 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-14 | Search for a guaranteed non-matching keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-14\n\nTechnique / Tag: Domain partition — Negative/no match\n\nObjective: Search for a guaranteed non-matching keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Empty JSON array; response is not an error and no data changes."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"__NO_PRODUCT_23127234__\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-14 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-14 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-14 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-14 - no-match search returns an empty array', function () { pm.expect(pm.response.json()).to.eql([]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-15 | Search using numeric text as a name keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-15\n\nTechnique / Tag: Domain partition — Numeric text\n\nObjective: Search using numeric text as a name keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: JSON array, normally empty unless a name contains the digits; no conversion error or mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"123456789\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-15 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-15 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-15 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-16 | Search using punctuation/hyphen text.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-16\n\nTechnique / Tag: Domain partition — Punctuation\n\nObjective: Search using punctuation/hyphen text.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Safe JSON response; any result is consistent with literal/observed name matching; no internal leakage."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"Pro-Max\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-16 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-16 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-16 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-17 | Verify encoded plus is parsed safely.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-17\n\nTechnique / Tag: Domain partition — URL encoding\n\nObjective: Verify encoded plus is parsed safely.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: JSON response; decoded plus does not corrupt query parsing, execute code, or leak internals."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"A%2BB\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-17 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-17 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-17 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-18 | Verify encoded ampersand remains within the search value.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-18\n\nTechnique / Tag: Domain partition — URL encoding\n\nObjective: Verify encoded ampersand remains within the search value.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: JSON response; encoded ampersand does not create an unintended parameter or internal error."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"A%26B\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-18 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-18 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-18 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-21 | Search using an emoji keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-21\n\nTechnique / Tag: Domain partition — Unicode robustness\n\nObjective: Search using an emoji keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Valid UTF-8 JSON, no encoding/internal error, and no mutation; normally empty unless a name contains the emoji."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%F0%9F%93%B1\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-21 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-21 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-21 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-22 | Search with a 255-character keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-22\n\nTechnique / Tag: Domain partition — Boundary/long text\n\nObjective: Search with a 255-character keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Safe JSON response, normally empty; no truncation-related 5xx, internal leakage, or mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-22 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-22 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-22 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-23 | Verify a controlled 10,000-character query fails safely or succeeds without internal leakage; record latency as a baseline.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-23\n\nTechnique / Tag: Domain partition — Extreme length/performance\n\nObjective: Verify a controlled 10,000-character query fails safely or succeeds without internal leakage; record latency as a baseline.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or documented client 4xx; never unhandled 5xx\n\nExpected result: No crash, SQL/stack leakage, or mutation. Record response time as OBSERVATION, not pass/fail."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-23 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-23 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-23 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "console.log('[HW06][TC-A-23] Observed response time (ms):', pm.response.responseTime);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-24 | Observe duplicate search-key handling and ensure it cannot trigger leakage, crash, or mutation.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search=iPhone&search=Galaxy",
+            "description": "Testcase: TC-A-24\n\nTechnique / Tag: Domain partition — HTTP parameter pollution\n\nObjective: Observe duplicate search-key handling and ensure it cannot trigger leakage, crash, or mutation.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or documented client 4xx; never 5xx\n\nExpected result: Valid JSON or documented client 4xx; no 5xx/internal leakage/mutation. Record whether first, last, array, or combined semantics occur."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-24 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-24 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-24 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-25 | Observe unknown-query handling while enforcing API safety invariants.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?unknown=value",
+            "description": "Testcase: TC-A-25\n\nTechnique / Tag: Domain partition — Unknown parameter\n\nObjective: Observe unknown-query handling while enforcing API safety invariants.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or documented client 4xx; never 5xx\n\nExpected result: Valid JSON or documented client 4xx; no 5xx/internal leakage or mutation. Baseline equality is observational."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-25 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-25 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-25 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-32 | Verify an unsupported method is rejected without mutating products.",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-32\n\nTechnique / Tag: Domain partition — Unsupported method\n\nObjective: Verify an unsupported method is rejected without mutating products.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record the product-list baseline. 2. Send PATCH /api/products with the student header and no body. 3. Assert 404 or 405 with a non-leaking response. 4. Repeat GET /api/products and verify no product changed.\n\nExpected status: 404 or 405\n\nExpected result: Client error; no product mutation; no internal leakage. Record the router's status policy."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [404,405];",
+                  "pm.test('TC-A-32 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-32 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.replaceIn('{{baseUrl}}/api/products'), method: 'GET',",
+                  "  header: { 'X-Student-Id': pm.variables.get('studentId') }",
+                  "}, function (err, response) {",
+                  "  pm.test('TC-A-32 - product service remains available and unmodified', function () {",
+                  "    pm.expect(err).to.equal(null);",
+                  "    pm.expect(response.code).to.eql(200);",
+                  "    pm.expect(response.json()).to.have.length(Number(pm.collectionVariables.get('baselineProductCount')));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Security",
+      "item": [
+        {
+          "name": "TC-A-11 | Verify the public product list does not require a valid JWT.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer deliberately.invalid.token",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-11\n\nTechnique / Tag: Security — Public access/auth independence\n\nObjective: Verify the public product list does not require a valid JWT.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Product list is returned as JSON without an authentication challenge; no internal token-parser details or mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-11 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-11 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-11 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-19 | Probe percent wildcard handling for safe parameterization and document matching behavior.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-19\n\nTechnique / Tag: Security — SEC-05: Wildcard semantics\n\nObjective: Probe percent wildcard handling for safe parameterization and document matching behavior.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Valid JSON; no SQL error/leakage or mutation. Record whether percent acts literally or as wildcard and assess against SEC-05 after human oracle approval."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%25\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-19 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-19 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-19 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-20 | Probe underscore wildcard handling without imposing an unstated literal-search rule.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-20\n\nTechnique / Tag: Security — SEC-05: Wildcard semantics\n\nObjective: Probe underscore wildcard handling without imposing an unstated literal-search rule.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Valid JSON, no SQL/internal leakage or mutation; observed wildcard/literal behavior is documented."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"_\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-20 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-20 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-20 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-26 | Send a single quote and verify it is handled as data.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-26\n\nTechnique / Tag: Security — SEC-05: SQL injection/quote\n\nObjective: Send a single quote and verify it is handled as data.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: No SQL syntax/internal error, HTML diagnostic, mutation, or secret leakage; baseline smoke call remains available."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"'\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-26 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-26 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-26 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.replaceIn('{{baseUrl}}/api/products'), method: 'GET',",
+                  "  header: { 'X-Student-Id': pm.variables.get('studentId') }",
+                  "}, function (err, response) {",
+                  "  pm.test('TC-A-26 - product service remains available and unmodified', function () {",
+                  "    pm.expect(err).to.equal(null);",
+                  "    pm.expect(response.code).to.eql(200);",
+                  "    pm.expect(response.json()).to.have.length(Number(pm.collectionVariables.get('baselineProductCount')));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-27 | Attempt boolean-based SQL injection through search.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-27\n\nTechnique / Tag: Security — SEC-05: SQL injection/boolean\n\nObjective: Attempt boolean-based SQL injection through search.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: Injection must not broaden results by executing SQL, expose internals, or mutate data; payload is treated as text."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"'%20OR%201%3D1%20--\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-27 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-27 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-27 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-27 - injection does not broaden the result set', function () {",
+                  "  if (pm.response.code === 200) pm.expect(pm.response.json()).to.have.length(0);",
+                  "});",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.replaceIn('{{baseUrl}}/api/products'), method: 'GET',",
+                  "  header: { 'X-Student-Id': pm.variables.get('studentId') }",
+                  "}, function (err, response) {",
+                  "  pm.test('TC-A-27 - product service remains available and unmodified', function () {",
+                  "    pm.expect(err).to.equal(null);",
+                  "    pm.expect(response.code).to.eql(200);",
+                  "    pm.expect(response.json()).to.have.length(Number(pm.collectionVariables.get('baselineProductCount')));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-28 | Attempt UNION-style SQL injection.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-28\n\nTechnique / Tag: Security — SEC-05: SQL injection/UNION\n\nObjective: Attempt UNION-style SQL injection.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: No injected columns/rows, database error details, HTML diagnostics, or mutation."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"'%20UNION%20SELECT%201%2C2%2C3%2C4%2C5%2C6%20--\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-28 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-28 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-28 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-28 - injection does not broaden the result set', function () {",
+                  "  if (pm.response.code === 200) pm.expect(pm.response.json()).to.have.length(0);",
+                  "});",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.replaceIn('{{baseUrl}}/api/products'), method: 'GET',",
+                  "  header: { 'X-Student-Id': pm.variables.get('studentId') }",
+                  "}, function (err, response) {",
+                  "  pm.test('TC-A-28 - product service remains available and unmodified', function () {",
+                  "    pm.expect(err).to.equal(null);",
+                  "    pm.expect(response.code).to.eql(200);",
+                  "    pm.expect(response.json()).to.have.length(Number(pm.collectionVariables.get('baselineProductCount')));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-29 | Attempt destructive-looking stacked SQL input safely on the local fixture database.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-29\n\nTechnique / Tag: Security — SEC-05: SQL injection/destructive\n\nObjective: Attempt destructive-looking stacked SQL input safely on the local fixture database.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: Products remain queryable and unchanged; no command executes; no internal leakage."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"'%3B%20DROP%20TABLE%20products%3B%20--\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-29 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-29 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-29 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.replaceIn('{{baseUrl}}/api/products'), method: 'GET',",
+                  "  header: { 'X-Student-Id': pm.variables.get('studentId') }",
+                  "}, function (err, response) {",
+                  "  pm.test('TC-A-29 - product service remains available and unmodified', function () {",
+                  "    pm.expect(err).to.equal(null);",
+                  "    pm.expect(response.code).to.eql(200);",
+                  "    pm.expect(response.json()).to.have.length(Number(pm.collectionVariables.get('baselineProductCount')));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-30 | Submit an XSS payload as the search keyword.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-30\n\nTechnique / Tag: Security — SEC-04: XSS/error handling\n\nObjective: Submit an XSS payload as the search keyword.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: Response remains JSON/plain data, contains no executable HTML page, and leaks no internals; API/UI execution is not claimed."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%3Cscript%3Ealert(1)%3C%2Fscript%3E\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-30 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-30 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-30 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-31 | Submit encoded NUL/newline/control characters.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products?search={{searchValueEncoded}}",
+            "description": "Testcase: TC-A-31\n\nTechnique / Tag: Security — Control character\n\nObjective: Submit encoded NUL/newline/control characters.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200 or safe client 4xx\n\nExpected result: No crash, header splitting, HTML/internal leakage, or mutation; response follows declared content type."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('searchValueEncoded', \"%00%0A%0D\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200,400,401,403,404,409,413,414,415,422];",
+                  "pm.test('TC-A-31 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-31 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-31 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Schema validation",
+      "item": [
+        {
+          "name": "TC-A-33 | Verify successful product list declares JSON content type.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-33\n\nTechnique / Tag: Schema validation — SCHEMA-01: Header/contract\n\nObjective: Verify successful product list declares JSON content type.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Content-Type contains application/json and body parses as JSON array."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-33 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-33 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-33 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-33 - product items satisfy the reviewed minimum schema', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  pm.response.json().forEach(function (p) {",
+                  "    pm.expect(p.id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.name).to.be.a('string').and.not.empty;",
+                  "    pm.expect(p.price).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.category_id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.description === null || typeof p.description === 'string').to.be.true;",
+                  "    pm.expect(p.imageUrl === null || typeof p.imageUrl === 'string').to.be.true;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-34 | Validate the reviewed minimum product item schema and flag schema drift separately.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-34\n\nTechnique / Tag: Schema validation — SCHEMA-01: Strict schema\n\nObjective: Validate the reviewed minimum product item schema and flag schema drift separately.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: Array; every item has integer id/category_id, non-empty name, positive numeric price, and string/null description/imageUrl. Extra fields are recorded pending A-006 approval."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-34 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-34 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-34 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-34 - product items satisfy the reviewed minimum schema', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  pm.response.json().forEach(function (p) {",
+                  "    pm.expect(p.id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.name).to.be.a('string').and.not.empty;",
+                  "    pm.expect(p.price).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.category_id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.description === null || typeof p.description === 'string').to.be.true;",
+                  "    pm.expect(p.imageUrl === null || typeof p.imageUrl === 'string').to.be.true;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-A-35 | Validate product-list data integrity and confidentiality.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/products",
+            "description": "Testcase: TC-A-35\n\nTechnique / Tag: Schema validation — SCHEMA-01: Data integrity\n\nObjective: Validate product-list data integrity and confidentiality.\n\nPreconditions: Backend is running with known seed products; baseline product list is available.\n\nDesign steps: 1. Record a baseline list/hash. 2. Set searchValue to the stated input. 3. Send GET with the student header. 4. Assert status, JSON/content-type, values/schema, and no internal leakage. 5. For hostile/extreme input, repeat the baseline smoke call and confirm data remains available.\n\nExpected status: 200\n\nExpected result: IDs are positive and unique within response; names non-empty; prices positive numbers; categories positive IDs; no password/token/reset/role fields."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const allowedStatus = [200];",
+                  "pm.test('TC-A-35 - status follows the reviewed oracle', function () {",
+                  "  pm.expect(allowedStatus, `Actual status: ${pm.response.code}`).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('TC-A-35 - response does not leak server internals', function () {",
+                  "  const body = pm.response.text();",
+                  "  pm.expect(body).not.to.match(/super_secret|SQLITE_(ERROR|CONSTRAINT)|Database Error|at [A-Za-z0-9_.$]+ \\([^)]*server\\.js:\\d+/i);",
+                  "});",
+                  "pm.test('TC-A-35 - successful response is a JSON array', function () {",
+                  "  if (pm.response.code === 200) {",
+                  "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "  }",
+                  "});",
+                  "pm.test('TC-A-35 - product items satisfy the reviewed minimum schema', function () {",
+                  "  if (pm.response.code !== 200) return;",
+                  "  pm.response.json().forEach(function (p) {",
+                  "    pm.expect(p.id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.name).to.be.a('string').and.not.empty;",
+                  "    pm.expect(p.price).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.category_id).to.be.a('number').and.above(0);",
+                  "    pm.expect(p.description === null || typeof p.description === 'string').to.be.true;",
+                  "    pm.expect(p.imageUrl === null || typeof p.imageUrl === 'string').to.be.true;",
+                  "  });",
+                  "});",
+                  "pm.test('TC-A-35 - IDs are unique and sensitive fields are absent', function () {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(new Set(body.map(p => p.id)).size).to.eql(body.length);",
+                  "  body.forEach(function (p) { ['password','token','reset_token','role'].forEach(k => pm.expect(p).not.to.have.property(k)); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

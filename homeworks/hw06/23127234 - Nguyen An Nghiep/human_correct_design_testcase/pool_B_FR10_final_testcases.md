@@ -2,8 +2,6 @@
 
 Base URL: [http://localhost:3000](http://localhost:3000)  
 Primary API: `PUT /api/orders/:id/cancel`  
-Source: corrected final fields from the paired Audit sheet in `test-cases/23127234_HW06_API_Test_Cases.xlsx`, plus student-added extension test cases.  
-Final set: **39 testcases**. The original corrected AI set contains 35 cases; four student-added cases are included below.
 
 ## Header profiles used by this pool
 
